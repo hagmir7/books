@@ -16,7 +16,7 @@ Route::get('/', function () {
 
 Route::controller(PostController::class)->prefix('blog')->group(function(){
     Route::get('', 'index')->name("blog.index");
-    Route::get('{post::slug}', 'index')->name("blog.show");
+    Route::get('{post:slug}', 'show')->name("blog.show");
 });
 
 
