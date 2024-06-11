@@ -186,7 +186,7 @@
 
     @yield('content')
     <x-footer />
-    {!! $site->footer !!}
+    <div class="d-none">{!! $site->footer !!}</div>
 
 
     {{-- Langauge menu --}}

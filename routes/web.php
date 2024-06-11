@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookCategoryController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PostController;
 use App\Models\Book;
 use Illuminate\Support\Facades\Route;
 
@@ -13,12 +14,16 @@ Route::get('/', function () {
     ]);
 });
 
+Route::controller(PostController::class)->prefix('blog')->group(function(){
+    Route::get('', 'index')->name("blog.index");
+    Route::get('{post::slug}', 'index')->name("blog.show");
+});
+
+
 // Books
-
-
-Route::prefix('books')->group(function () {
-    Route::get('', [BookController::class, "index"])->name('books.index');
-    Route::get("{book}", [BookController::class,"show"])->name("book.show");
+Route::controller(BookController::class)->prefix('books')->group(function () {
+    Route::get('', 'index')->name('books.index');
+    Route::get("{book}", 'show')->name("book.show");
 });
 
 
