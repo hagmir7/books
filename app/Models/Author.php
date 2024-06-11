@@ -11,6 +11,10 @@ class Author extends Model
     use HasFactory;
     protected $fillable = ['full_name', 'description', "image", 'slug'];
 
+    public function books(){
+        return $this->hasMany(Book::class);
+    }
+
 
     protected static function boot()
     {

@@ -47,17 +47,14 @@ class CommentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('book_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('book.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('full_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('stars')
+                    ->badge()
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('deleted_at')

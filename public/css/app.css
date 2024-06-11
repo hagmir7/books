@@ -1,6 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,500,600,700|Poppins:300,400,400i,500,600,700);
 
 
+.cover {
+    object-fit: cover !important;
+}
+
 .m-0 {
     margin: 0
 }
@@ -777,6 +781,15 @@
     transform: translate(0, 5px);
     -webkit-transform: translate(0, 5px);
     border-bottom: 1px solid
+}
+
+.star {
+    font-size: 1.5rem;
+    color: gold;
+}
+
+.empty-star {
+    color: lightgray;
 }
 
 .btn-primary:hover {
@@ -2443,7 +2456,7 @@ h6 {
 .single-book .user-mark,
 .single-book .whole-rating {
     color: #9C9C9C;
-    font-size: .8rem;
+    font-size: 1rem;
     margin-left: 10px;
     display: inline-block
 }
@@ -2484,9 +2497,9 @@ h6 {
 }
 
 .single-book .book-links a {
-    font-size: .6rem;
+    /* font-size: .6rem; */
     font-family: Montserrat, sans-serif;
-    color: #575D66;
+    /* color: #575D66; */
     text-transform: uppercase;
     font-weight: 500;
     display: block
@@ -2640,7 +2653,7 @@ h6 {
     transform: rotate(45deg)
 }
 
-.social-btns .btn i {
+.social-btns .btn svg {
     -webkit-transition: all .35s;
     transition: all .35s;
     -webkit-transition-timing-function: cubic-bezier(.31, -.105, .43, 1.59);
@@ -2654,7 +2667,7 @@ h6 {
     background-color: #3B5998
 }
 
-.social-btns .btn.facebook i {
+.social-btns .btn.facebook svg {
     color: #3B5998
 }
 
@@ -2662,7 +2675,7 @@ h6 {
     background-color: #3CF
 }
 
-.social-btns .btn.twitter i {
+.social-btns .btn.twitter svg {
     color: #3CF
 }
 
@@ -2674,7 +2687,7 @@ h6 {
     background-color: #4C75A3
 }
 
-.social-btns .btn.vk i {
+.social-btns .btn.vk svg {
     color: #4C75A3
 }
 
@@ -2682,7 +2695,7 @@ h6 {
     background-color: #DC4A38
 }
 
-.social-btns .btn.google i {
+.social-btns .btn.google svg {
     color: #DC4A38
 }
 
@@ -2690,7 +2703,7 @@ h6 {
     background-color: #AA2529
 }
 
-.social-btns .btn.pinterest i {
+.social-btns .btn.pinterest svg {
     color: #AA2529
 }
 
@@ -2698,7 +2711,7 @@ h6 {
     background-color: #059BF3
 }
 
-.social-btns .btn.email i {
+.social-btns .btn.email svg {
     color: #059BF3
 }
 
@@ -2707,7 +2720,7 @@ h6 {
     left: -10%
 }
 
-.social-btns .btn:focus i {
+.social-btns .btn:focus svg {
     color: #FFF;
     -webkit-transform: scale(1);
     transform: scale(1)
@@ -2718,7 +2731,7 @@ h6 {
     left: -10%
 }
 
-.social-btns .btn:hover i {
+.social-btns .btn:hover svg {
     color: #FFF;
     -webkit-transform: scale(1);
     transform: scale(1)
@@ -3040,7 +3053,6 @@ h6 {
 .top-filter .layout-settings .view-type {
     display: inline-block;
     vertical-align: top;
-    background-image: url(../img/view-type.png);
     margin: 12px 4px 0;
     padding: 0;
     height: 18px;
@@ -4092,3 +4104,4 @@ button.back-to-top.show:active {
         font-size: .8rem
     }
 }
+

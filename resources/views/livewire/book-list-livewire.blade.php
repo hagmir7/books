@@ -1,23 +1,18 @@
-@extends('layouts.base')
-
-
-@section('content')
-{{-- Book Cover --}}
-@livewire('books-cover-livewire')
-
-<section class="home-book-list">
-    <div class="container">
-        <div class="row book-list">
-            {{-- Boooks --}}
-            <div class="col-lg-9">
-                <div class="row">
-                    <div class="col-lg-12 p-0">
-                        <div class="section-title">
-                            <h1 class="h3">{{ __("Popular, Free PDF Books") }}</h1>
-                        </div>
+<section class="books-listing">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12" id="book-list">
+                <div class="top-filter row">
+                    <div class="col-lg-7 p-0">
+                        <h1 class="h4">{{ $category->name }}</h1>
                     </div>
+                    <div class="col-lg-5 text">
+                        Found <span>{{ $total }} books</span> in total
+                    </div>
+                </div>
+                <div class="row book-grid">
                     @forelse ($books as $book)
-                        <div class="col-lg-6 col-md-6">
+                        <div class="col-lg-6 col-md-6 col-xl-4">
                             <div class="row book">
                                 <div class="book-cover col-lg-3 col-3">
                                     <a href="{{ route('book.show', $book->slug) }}">
@@ -33,6 +28,7 @@
                                         <span class="book-author">{{ $book->author->full_name }} </span>
                                     </div>
                                     <div class="book-rating">
+                                        <x-stars />
                                         <x-stars />
                                         <x-stars />
                                         <x-stars />
@@ -55,9 +51,24 @@
                     </div>
                     @endforelse
                 </div>
+                @if ($total >= $amount)
+                    <div class="books-per-page d-flex">
+                        <nav class="m-auto">
+                            <ul class="pagination">
+                                <li class="page-item">
+
+                                    <button wire:click='loadMore' class="page-link px-5" wire:loading.attr="disabled">
+                                        <div class="loader" wire:loading></div>
+                                        <div>{{ __("Load More") }}</div>
+                                    </button>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                @endif
+
             </div>
-            @livewire('authors-list-livewire')
         </div>
     </div>
 </section>
-@endsection
