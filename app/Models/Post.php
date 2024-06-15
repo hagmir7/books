@@ -22,6 +22,10 @@ class Post extends Model
         'language_id'
     ];
 
+    public function language(){
+        return $this->belongsTo(Language::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

@@ -27,59 +27,81 @@ class BookResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label("Name")
-                    ->unique(ignoreRecord: true)
-                    ->required(),
 
-                Forms\Components\TextInput::make('title')
-                    ->label("Title"),
+            Forms\Components\Grid::make(3)
+                ->schema([
+                    Forms\Components\Section::make()
+                        ->schema([
 
-                Forms\Components\Select::make('author_id')
-                    ->relationship('author', 'full_name')
-                    ->label("Author")
-                    ->native(false)
-                    ->createOptionForm(self::AuthorForm())
-                    ->createOptionModalHeading("Create new author")
-                    ->createOptionUsing(function (array $data): int {
-                        $author = Author::create($data);
-                        Notification::make()
-                            ->success()
-                            ->title("Author created successfully")
-                            ->send();
-                        return $author->getKey();
-                    }),
+                            Forms\Components\TextInput::make('name')
+                                ->label("Name")
+                                ->unique(ignoreRecord: true)
+                                ->required(),
 
-                Forms\Components\Select::make('book_category_id')
-                    ->relationship('category', 'name')
-                    ->searchable()
-                    ->preload()
-                    ->createOptionForm(self::CategoryForm())
-                    ->createOptionModalHeading("Create category")
-                    ->createOptionUsing(function (array $data): int {
-                        $category = BookCategory::create($data);
-                        Notification::make()
-                            ->success()
-                            ->title("Category created successfully")
-                            ->send();
-                        return $category->getKey();
-                    })
-                    ->native(false),
+                            Forms\Components\Select::make('author_id')
+                                ->relationship('author', 'full_name')
+                                ->label("Author")
+                                ->native(false)
+                                ->createOptionForm(self::AuthorForm())
+                                ->createOptionModalHeading("Create new author")
+                                ->createOptionUsing(function (array $data): int {
+                                    $author = Author::create($data);
+                                    Notification::make()
+                                    ->success()
+                                    ->title("Author created successfully")
+                                    ->send();
+                                    return $author->getKey();
+                                }),
 
-                Forms\Components\Select::make('language_id')
-                    ->native(false)
-                    ->relationship('language', 'name'),
+                            Forms\Components\Select::make('book_category_id')
+                                ->relationship('category', 'name')
+                                ->searchable()
+                                ->preload()
+                                ->createOptionForm(self::CategoryForm())
+                                ->createOptionModalHeading("Create category")
+                                ->createOptionUsing(function (array $data): int {
+                                    $category = BookCategory::create($data);
+                                    Notification::make()
+                                    ->success()
+                                    ->title("Category created successfully")
+                                    ->send();
+                                    return $category->getKey();
+                                })
+                                    ->native(false),
 
-                Forms\Components\TextInput::make('tags'),
+                            Forms\Components\Select::make('language_id')
+                                ->native(false)
+                                ->relationship('language', 'name'),
 
-                Forms\Components\FileUpload::make('image')
-                     ->directory('book_images')
-                    ->image(),
+                            Forms\Components\TagsInput::make('tags')
+                                ->color('info')
+                                ->label(__("Keywords"))
+                                ->placeholder(__("New keyword"))
+                                ->separator(',')
+                                ->splitKeys(['Tab', ' '])
+                                ->required()
+                                ->columnSpanFull()
 
-                Forms\Components\FileUpload::make('file')
-                    ->directory('book_files'),
+                        ])
+                        ->columns(2)
+                        ->columnSpan(2),
+
+                    Forms\Components\Section::make()
+                        ->schema([
+                                Forms\Components\FileUpload::make('image')
+                                    ->directory('book_images')
+                                    ->image(),
+
+                                Forms\Components\FileUpload::make('file')
+                                    ->directory('book_files'),
+                            ])
+                        ->columnSpan(1)
+
+                ])
+                ->columnSpan(2),
 
                 Forms\Components\Textarea::make('description')
+                    ->rows(5)
                     ->columnSpanFull(),
                 Forms\Components\RichEditor::make('body')
                     ->columnSpanFull(),
@@ -153,13 +175,10 @@ class BookResource extends Resource
                         ->label(false)
                         ->alignment(Alignment::Center)
                         ->columnSpanFull()
-                        ->directory('author_images')
-                        ->required(),
+                        ->directory('author_images'),
                     Forms\Components\TextInput::make('full_name')
-                        ->columnSpanFull()
-                        ->required(),
+                        ->columnSpanFull(),
                     Forms\Components\RichEditor::make('description')
-                        ->required()
                         ->columnSpanFull(),
                 ])->columns(2)
         ];
@@ -174,10 +193,8 @@ class BookResource extends Resource
                         ->required(),
                     Forms\Components\FileUpload::make('image')
                         ->image()
-                        ->directory('category_images')
-                        ->required(),
+                        ->directory('category_images'),
                     Forms\Components\RichEditor::make('description')
-                        ->required()
                         ->columnSpanFull(),
                 ])
         ];

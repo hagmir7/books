@@ -5,8 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Post;
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -24,26 +26,76 @@ class PostResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required(),
-                Forms\Components\FileUpload::make('image')
-                    ->image(),
-                Forms\Components\TextInput::make('tags')
-                    ->required(),
-                Forms\Components\Textarea::make('description')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('body')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('slug')
-                    ->required(),
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('language_id')
-                    ->required()
-                    ->numeric(),
+
+                Forms\Components\Grid::make(3)
+                    ->schema([
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\TextInput::make('title')
+                                    ->label(__("Title"))
+                                    ->required(),
+                                Forms\Components\Select::make('language_id')
+                                    ->native(false)
+                                    ->label(__("Language"))
+                                    ->relationship('language', "name")
+                                    ->required(),
+                                Forms\Components\TagsInput::make('tags')
+                                    ->color('info')
+                                    ->label(__("Keywords"))
+                                    ->placeholder(__("New keyword"))
+                                    ->separator(',')
+                                    ->splitKeys(['Tab', ' '])
+                                    ->required()
+                                    ->columnSpanFull()
+                                ])
+                                ->columns(2)
+                                ->columnSpan(2),
+
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\FileUpload::make('image')
+                                    ->label(false)
+                                    ->label(__("Image"))
+                                    ->maxSize(100048576)
+                                    ->columnSpanFull()
+                                    ->acceptedFileTypes(['image/*'])
+                                    ->downloadable()
+                                    ->image(),
+                            ])
+                            ->columnSpan(1)
+
+                    ])->columnSpan(2),
+
+                Forms\Components\Section::make()
+                    ->schema([
+
+                        Forms\Components\Textarea::make('description')
+                            ->label(__("Description"))
+                            ->required()
+                            ->rows(5)
+                            ->columnSpanFull(),
+                        Forms\Components\Toggle::make('markdown')
+                            ->live()
+                            ->label('Markdown'),
+
+                        Forms\Components\RichEditor::make('body')
+                            ->label(__('Content'))
+                            ->required()
+                            ->hidden(fn (Get $get): bool => $get('markdown'))
+                            ->columnSpanFull(),
+
+                        Forms\Components\Textarea::make('body')
+                            ->label(__('Content'))
+                            ->required()
+                            ->rows(10)
+                            ->hidden(fn (Get $get): bool => !$get('markdown'))
+                            ->columnSpanFull(),
+
+
+                    ])->columns(2),
+
+
+
             ]);
     }
 
