@@ -14,7 +14,18 @@ class SiteSeeder extends Seeder
     public function run(): void
     {
         Site::create([
-            'domain' => 'freedaz.com',
+            'domain' => '127.0.0.1',
+            'name' => 'Example Site',
+            'footer' => 'Footer content',
+            'header' => 'Header content',
+            'keywords' => 'example, site, keywords',
+            'description' => 'This is an example site',
+            'email' => 'info@example.com',
+            'language_id' => 1
+        ]);
+
+        Site::create([
+            'domain' => 'localhost',
             'name' => 'Example Site',
             'footer' => 'Footer content',
             'header' => 'Header content',

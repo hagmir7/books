@@ -10,15 +10,23 @@ use Illuminate\Support\Facades\View;
 
 class SiteMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+
     public function handle(Request $request, Closure $next): Response
     {
         $domain = $request->getHost();
         $site = Site::where('domain', $domain)->firstOrFail();
+
+        $currentUrl = request()->getSchemeAndHttpHost();
+
+        config(['app.url' => $currentUrl]);
+
+        $response = $next($request);
+
+        $sessionCookie = cookie('laravel_session');
+        //$token = $request->session()->token();
+        //$response->withCookie(cookie('XSRF-TOKEN', $token));
+        $response->withCookie($sessionCookie);
+
         View::share('site', $site);
         return $next($request, compact('site'));
     }
