@@ -9,9 +9,11 @@
     <meta itemprop="image" content="{{ isset($image) ? Storage::url($image)  : Storage::url($site->image) }}">
     <link rel='canonical' href='{{ request()->url() }}' />
     <meta name=viewport content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/carousel.min.css') }}">
+
     @yield('head')
    {!! $site->header !!}
 </head>
@@ -50,55 +52,11 @@
                 </div>
                 <div class="col-6 col-lg-3 col-md-6">
                     <div class="menu-icons d-flex text-right align-items-center justify-content-end">
-                        <div class="search-box">
-                            <a href="#" class="search-open">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="icon icon-tabler icons-tabler-outline icon-tabler-search">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                                    <path d="M21 21l-6 -6" />
-                                </svg>
-                            </a>
-                        </div>
                         <div class="user-dropdown">
-                            <a href="#" data-toggle="modal" data-target="#login-box" class="open-login-box">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="icon icon-tabler icons-tabler-outline icon-tabler-login">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M15 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
-                                    <path d="M21 12h-13l3 -3" />
-                                    <path d="M11 15l-3 -3" />
-                                </svg>
-                            </a>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#login">
+                                {{ __("Join us") }}
+                            </button>
                         </div>
-                        <div class="languages">
-                            <a href="#" class="lang-select" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                aria-expanded="false">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="icon icon-tabler icons-tabler-outline icon-tabler-language">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M4 5h7" />
-                                    <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
-                                    <path d="M5 9c0 2.144 2.952 3.908 6.7 4" />
-                                    <path d="M12 20l4 -9l4 9" />
-                                    <path d="M19.1 18h-6.2" />
-                                </svg>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item active" href="/languageChange/en_US">
-                                         English
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="menu-toggler" data-toggle="collapse" data-target="#header-menu" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <div class="bar"></div>
                     </div>
                 </div>
 
@@ -133,56 +91,8 @@
         <!--HeaderCode-->
     </header>
 
-    <div class="modal login-box" id="login-box" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="card card-no-border">
-                        <div class="card-body">
-                            <img width="50px" src="{{ Storage::url($site->logo) }}"
-                                class="d-flex ml-auto mr-auto mb-4 mt-2 img-fluid" alt="Login">
-                            <div class="social-login">
-                            </div>
-                            <form action="/login" method="post" class="form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-xs-12">
-                                        <input name="login" class="form-control" placeholder="Login" value=""
-                                            type="text" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-xs-12">
-                                        <input name="password" class="form-control" placeholder="Password"
-                                            type="password" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-8 col-xs-8 text-left">
-                                            <div class="custom-control custom-checkbox mt-2">
-                                                <input type="checkbox" name="rememberMe" class="custom-control-input"
-                                                    id="rememberMe">
-                                                <label class="custom-control-label" for="rememberMe">Remember me</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 col-xs-4">
-                                            <button class="btn btn-primary shadow btn-block">Login</button>
-                                        </div>
-                                        <div class="col-md-12 mt-3 additional-text text-center">
-                                            <a href="/password-recovery">Forgot password?</a>
-                                        </div>
-                                    </div>
-                                    <div class="text-black-50 mt-3 additional-text text-center">Do not have an account?
-                                        <a href="/registration">Sign Up</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    @livewire('auth-livewire')
 
     @yield('content')
     <x-footer />
@@ -232,6 +142,9 @@
         });
     </script>
     @yield('footer')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

@@ -1357,9 +1357,6 @@ h6 {
     -webkit-animation: fadeIn .8s
 }
 
-.login-box .modal-dialog {
-    max-width: 400px
-}
 
 .login-box .modal-content {
     border: 0;

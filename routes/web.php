@@ -12,7 +12,7 @@ Route::get('/', function () {
     return view('home', [
         'books' => Book::with(['author', 'category'])->paginate(30)
     ]);
-});
+})->name('home');
 
 Route::controller(PostController::class)->prefix('blog')->group(function(){
     Route::get('', 'index')->name("blog.index");
