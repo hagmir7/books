@@ -18,6 +18,7 @@ class SiteMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $domain = $request->getHost();
+        dd($domain);
         $site = Site::where('domain', $domain)->firstOrFail();
         View::share('site', $site);
         return $next($request, compact('site'));
