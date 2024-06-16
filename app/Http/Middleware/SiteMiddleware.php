@@ -20,12 +20,6 @@ class SiteMiddleware
 
         config(['app.url' => $currentUrl]);
 
-        $response = $next($request);
-
-        $sessionCookie = cookie('laravel_session');
-        //$token = $request->session()->token();
-        //$response->withCookie(cookie('XSRF-TOKEN', $token));
-        $response->withCookie($sessionCookie);
 
         View::share('site', $site);
         return $next($request, compact('site'));
