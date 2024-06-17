@@ -27,7 +27,7 @@ class SiteMiddleware
         if (!Cookie::has($cookieName)) {
             $cookieValue = Str::random(32);
             $minutes = 60;
-            Cookie::queue($cookieName, $cookieValue, $minutes);
+            Cookie::queue($cookieName, $cookieValue);
         }
 
 
