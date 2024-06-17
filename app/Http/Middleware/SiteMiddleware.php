@@ -25,15 +25,9 @@ class SiteMiddleware
         $cookieName = 'o2s-chl';
 
         if (!Cookie::has($cookieName)) {
-            $cookieValue = Str::random(32); // Generate a random 32-character string
-            $minutes = 60; // Cookie duration in minutes
-
-            // Set the cookie
+            $cookieValue = Str::random(32);
+            $minutes = 60;
             Cookie::queue($cookieName, $cookieValue, $minutes);
-
-            session()->flash('message', 'Cookie has been set.');
-        } else {
-            session()->flash('message', 'Cookie already exists.');
         }
 
 
