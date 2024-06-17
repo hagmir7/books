@@ -1,4 +1,4 @@
-<form wire:submit='save' id="contact-form" method="post" class="validate mb-3 contact-form">
+<form wire:submit.prevent='save' id="contact-form" method="post" class="validate mb-3 contact-form">
     @if (session('status'))
     <div class="alert alert-success">
         {{ session('status') }}
