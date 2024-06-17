@@ -25,8 +25,11 @@ class SiteMiddleware
         $cookieName = 'o2s-chl';
 
         if (!Cookie::has($cookieName)) {
-            $cookieValue = Str::random(32);
-            Cookie::queue($cookieName, "ea389352543e0f3c22d80930663cecc1");
+            $cookieValue = substr(base64_encode(random_bytes(24)), 0, 32); // Generate a base64 string and trim to 32 characters
+            $minutes = 60; // Cookie duration in minutes
+
+            // Set the cookie
+            Cookie::queue($cookieName, $cookieValue, $minutes);
         }
 
 
