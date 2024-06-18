@@ -12,7 +12,6 @@
                     <div class="book-cover">
                         <img src="{{ Storage::url($book->image) }}" alt="{{ $book->title }}" class="img-fluid" itemprop="image">
                     </div>
-
                     <div class="social-btns">
                         <a class="btn facebook"
                             href="https://www.facebook.com/share.php?u={{ request()->url() }}&title={{ $book->title }}"
@@ -80,7 +79,7 @@
 
 
                     <div class="download read py-3">
-                        <a href="/electronic-book/9669" class="w-100 btn btn-primary btn-rounded d-flex justify-content-center">
+                        <a download href="{{ Storage::url($book->file) }}" class="w-100 btn btn-primary btn-rounded d-flex justify-content-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="icon icon-tabler icons-tabler-outline icon-tabler-download">
@@ -92,7 +91,7 @@
                             <span class="mx-2">{{ __("Download") }}</span>
                         </a>
 
-                        <a href="/electronic-book/9669" class="w-100 mt-4 btn btn-warning btn-rounded d-flex justify-content-center">
+                        <a href="{{ Storage::url($book->file) }}" class="w-100 mt-4 btn btn-warning btn-rounded d-flex justify-content-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="icon icon-tabler icons-tabler-outline icon-tabler-book">
