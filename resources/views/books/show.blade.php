@@ -79,7 +79,7 @@
                     <!-- ads before download -->
 
 
-                    <div class="download read">
+                    <div class="download read py-3">
                         <a href="/electronic-book/9669" class="w-100 btn btn-primary btn-rounded d-flex justify-content-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div class="col-lg-9">
-                <h1 itemprop="name" class="h3">{{ $book->title }}</h1>
+                <h1 itemprop="name" class="h3" dir="auto">{{ $book->title }}</h1>
                 <div class="book-rating general" itemprop="aggregateRating" itemscope
                     itemtype="http://schema.org/AggregateRating">
                     <div class="d-flex align-items-center gap-2">
@@ -123,7 +123,7 @@
                     <meta itemprop="ratingValue" content="{{ $rating ? $rating : 0 }}" />
                     <meta itemprop="ratingCount" content="{{ $book->comments->count() }}" />
                 </div>
-                <table class="table book-meta">
+                <table class="table book-meta" style="--bs-body-bg: none;">
                     <tbody>
                         <tr>
                             <td>{{ __("Book name") }}:</td>

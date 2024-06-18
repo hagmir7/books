@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\BookResource\Pages;
 
 use App\Filament\Resources\BookResource;
+use App\Models\Language;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Notifications\Notification;
@@ -34,6 +35,19 @@ class CreateBook extends CreateRecord
         $data['type'] = "PDF";
         $data['size'] = $this->formatFileSize($file_size);
 
+        $language = Language::find($data['language_id']);
+
+        switch($language->code){
+            case "en":
+                $data['title'] = "Download {$data['name']}  for Free (PDF)";
+                break;
+            case "fr":
+                $data['title'] = "Télécharger {$data['name']} gratuit (PDF)";
+                break;
+            case "ar":
+                $data['title'] = "تحميل كتاب {$data['name']} مجانا (PDF)";
+                break;
+        }
         return $data;
     }
 

@@ -3444,18 +3444,18 @@ h6 {
     vertical-align: middle !important
 }
 
-.table.no-border tbody td {
+.book-meta.no-border tbody td {
     border: 0
 }
 
-.table td {
+.book-meta td {
     border-color: #F3F1F1;
     vertical-align: middle;
     font-size: 14px
 }
 
-.table th,
-.table thead th {
+.book-meta th,
+.book-meta thead th {
     font-size: 11px;
     text-transform: uppercase;
     font-weight: 700;
@@ -3771,6 +3771,10 @@ button.back-to-top.show {
     padding: 5px
 }
 
+.mobile-menu {
+    display: none !important;
+}
+
 button.back-to-top.show:active {
     box-shadow: 0 4px 8px 2px rgba(0, 0, 0, .25);
     -webkit-box-shadow: 0 4px 8px 2px rgba(0, 0, 0, .25);
@@ -3918,6 +3922,10 @@ button.back-to-top.show:active {
         padding: 5px 0
     }
 
+    .mobile-menu {
+        display: block!important;
+    }
+
     .header .col-12 {
         -webkit-box-ordinal-group: 4;
         -ms-flex-order: 3;
@@ -3999,6 +4007,7 @@ button.back-to-top.show:active {
         margin: 0 auto;
         width: 120px !important
     }
+
 
     .books-listing .book-mini-list .book .book-info {
         padding: 0 5px 0 30px

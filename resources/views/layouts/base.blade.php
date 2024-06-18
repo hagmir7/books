@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-12 col-lg-6">
                     <nav class="navbar navbar-expand-lg">
-                        <div class="collapse navbar-collapse justify-content-center" id="header-menu">
+                        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                             <ul class="navbar-nav primary-menu">
                                 <li class="nav-item ">
                                     <a href="/books" title="{{ __("Books") }}"> {{ __("Books") }} </a>
@@ -51,13 +51,43 @@
                         </div>
                     </nav>
                 </div>
-                <div class="col-6 col-lg-3 col-md-6">
+                <div class="col-6 col-lg-3 col-md-6 d-flex gap-2 p-0 m-0">
                     <div class="menu-icons d-flex text-right align-items-center justify-content-end">
                         <div class="user-dropdown">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#login">
-                                {{ __("Join us") }}
-                            </button>
+                            @auth
+                                <a href="#!" class="btn btn-primary p-1 px-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-user-circle text-white">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                        <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                        <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+                                    </svg>
+                                </a>
+                            @endauth
+
+                            @guest
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#login">
+                                    {{ __("Join us") }}
+                                </button>
+                            @endguest
                         </div>
+                    </div>
+
+                    <div class="menu-icons mobile-menu d-flex text-right align-items-center justify-content-end">
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="icon icon-tabler icons-tabler-outline icon-tabler-menu-2">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M4 6l16 0" />
+                                    <path d="M4 12l16 0" />
+                                    <path d="M4 18l16 0" />
+                                </svg>
+                            </span>
+                        </button>
                     </div>
                 </div>
 

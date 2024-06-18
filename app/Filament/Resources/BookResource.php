@@ -78,7 +78,7 @@ class BookResource extends Resource
                                 ->label(__("Keywords"))
                                 ->placeholder(__("New keyword"))
                                 ->separator(',')
-                                ->splitKeys(['Tab', ' '])
+                                ->splitKeys(['Tab', ' ', ','])
                                 ->required()
                                 ->columnSpanFull()
 
@@ -93,6 +93,7 @@ class BookResource extends Resource
                                     ->image(),
 
                                 Forms\Components\FileUpload::make('file')
+                                    ->acceptedFileTypes(['application/pdf'])
                                     ->directory('book_files'),
                             ])
                         ->columnSpan(1)
