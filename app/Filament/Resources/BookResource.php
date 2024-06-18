@@ -78,7 +78,7 @@ class BookResource extends Resource
                                 ->label(__("Keywords"))
                                 ->placeholder(__("New keyword"))
                                 ->separator(',')
-                                ->splitKeys(['Tab', ' ', ','])
+                                ->splitKeys(['Tab', ','])
                                 ->required()
                                 ->columnSpanFull()
 

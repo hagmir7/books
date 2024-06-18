@@ -37,6 +37,7 @@
                                         <x-stars />
                                         <x-stars />
                                         <x-stars />
+                                        <x-stars />
                                     </div>
                                     <div class="book-short-description">{{ Str::limit($book->description, 100, '...') }}</div>
                                 </div>
