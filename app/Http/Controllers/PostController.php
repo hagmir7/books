@@ -10,7 +10,10 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::paginate(12);
-        return view('posts.index', compact('posts'));
+        return view('posts.index', [
+            'posts' => $posts,
+            'title' => __("Book News and Literary Delights")
+        ]);
     }
 
     public function show(Post $post)

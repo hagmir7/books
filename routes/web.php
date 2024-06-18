@@ -58,7 +58,7 @@ Route::prefix('authors')->group(function () {
 
 
 
-Route::view('/contact-us', 'contact')->name('contact');
+Route::view('/contact-us', 'contact', ['title' => __("Contact us")])->name('contact');
 
 
 Route::get('{page}', [PageController::class, 'show'])->name('page.show');
