@@ -11,7 +11,7 @@ class Site extends Model
 
     protected $fillable = [
         'domain', 'name', 'footer', 'header', 'keywords', 'description', 'email', 'language_id',
-        'icon', 'image', 'logo'
+        'icon', 'image', 'logo', 'ads_txt'
     ];
 
     public function language()

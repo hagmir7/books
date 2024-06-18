@@ -6,11 +6,19 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Models\Book;
+use App\Models\Site;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/livewire/update', function () {
     return redirect()->back();
+});
+
+Route::get('/ads.txt', function (Request $request) {
+    $domain = $request->getHost();
+    $site = Site::where('domain', $domain)->firstOrFail();
+    return response($site->ads_txt, 200);
 });
 
 Route::get('/', function () {

@@ -33,17 +33,21 @@ class SiteResource extends Resource
                     ->relationship('language', 'name')
                     ->native(false)
                     ->required(),
-                Forms\Components\TextInput::make('email')
-                    ->email()
+                Forms\Components\TextInput::make('ads_txt')
                     ->maxLength(255),
+
                 Forms\Components\Textarea::make('keywords')
                     ->columnSpanFull(),
+
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull(),
-               Forms\Components\Textarea::make('footer')
-                    ->columnSpanFull(),
+
                 Forms\Components\Textarea::make('header')
                     ->columnSpanFull(),
+
+               Forms\Components\Textarea::make('footer')
+                    ->columnSpanFull(),
+
                 Forms\Components\FileUpload::make('image')
                     ->image(),
                 Forms\Components\FileUpload::make('icon')
