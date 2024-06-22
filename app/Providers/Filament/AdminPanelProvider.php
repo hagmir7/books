@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Models\Site;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -16,6 +17,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Joaopaulolndev\FilamentGeneralSettings\FilamentGeneralSettingsPlugin;
 
@@ -23,10 +25,13 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        $domain = request()->getHost();
+        $site = Site::where('domain', $domain)->firstOrFail();
         return $panel
             ->default()
             ->id('admin')
             ->path('admin')
+            ->brandLogo(Storage::url($site->logo))
             ->login()
             ->colors([
                 'primary' => Color::Amber,

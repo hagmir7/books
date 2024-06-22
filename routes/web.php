@@ -62,3 +62,9 @@ Route::view('/contact-us', 'contact', ['title' => __("Contact us")])->name('cont
 
 
 Route::get('{page}', [PageController::class, 'show'])->name('page.show');
+
+
+Route::middleware('api')->prefix('api/books')->group(function () {
+    Route::get('', [BookController::class, 'api_list']);
+    Route::get('{book:slug}', [BookController::class, 'api_show']);
+});

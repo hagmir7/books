@@ -13,6 +13,10 @@ use Illuminate\Support\Str;
 class SiteMiddleware
 {
 
+    protected $except = [
+        'book/store',
+    ];
+
     public function handle(Request $request, Closure $next): Response
     {
         $domain = $request->getHost();
@@ -31,6 +35,8 @@ class SiteMiddleware
             // Set the cookie
             Cookie::queue($cookieName, $cookieValue, $minutes);
         }
+
+
 
 
         View::share('site', $site);
