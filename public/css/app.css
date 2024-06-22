@@ -3201,6 +3201,11 @@ h6 {
     animation: spin 1s infinite linear
 }
 
+.sticky-left-column{
+    position: sticky!important;
+    top: 0!important;
+}
+
 .app-spinner.loading.loading-primary {
     border-color: rgba(119, 116, 231, .3);
     border-top-color: #7774e7
