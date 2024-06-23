@@ -34,7 +34,7 @@ class SitemapController extends Controller
         });
 
         BookCategory::all()->each(function (BookCategory $cateogry) use ($sitemap) {
-            $sitemap->add(Url::create("/blog/{$cateogry->slug}"));
+            $sitemap->add(Url::create("/category/{$cateogry->slug}"));
         });
 
         Post::all()->each(function (Post $post) use ($sitemap) {
