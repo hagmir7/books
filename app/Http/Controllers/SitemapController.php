@@ -30,7 +30,7 @@ class SitemapController extends Controller
         });
 
         Author::all()->each(function (Author $author) use ($sitemap) {
-            $sitemap->add(Url::create("/authors/{$author->slug}"));
+            $sitemap->add(Url::create("/authors/{$author->slug}/books"));
         });
 
         BookCategory::all()->each(function (BookCategory $cateogry) use ($sitemap) {
