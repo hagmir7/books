@@ -5,10 +5,16 @@ use App\Http\Controllers\BookCategoryController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SitemapController;
 use App\Models\Book;
 use App\Models\Site;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+
+
+
+Route::get('/sitemap', [SitemapController::class, 'index']);
 
 
 Route::get('/livewire/update', function () {
@@ -68,3 +74,10 @@ Route::middleware('api')->prefix('api/books')->group(function () {
     Route::get('', [BookController::class, 'api_list']);
     Route::get('{book:slug}', [BookController::class, 'api_show']);
 });
+
+
+
+
+
+
+
