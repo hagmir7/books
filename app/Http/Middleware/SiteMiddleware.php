@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class SiteMiddleware
 {
@@ -20,8 +21,15 @@ class SiteMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $domain = str_replace('www.', '', $request->getHost());
-        dd($domain);
-        $site = Site::where('domain', $domain)->firstOrFail();
+
+        try {
+            $site = Site::where('domain', $domain)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            // Handle the case when no Site is found
+            // You can log the error, redirect to an error page, or return a response
+            \Log::error("Site not found for domain: " . $domain);
+            return response()->json(['error' => 'Site not found'], 404);
+        }
 
         $currentUrl = request()->getSchemeAndHttpHost();
 
@@ -36,9 +44,6 @@ class SiteMiddleware
             // Set the cookie
             Cookie::queue($cookieName, $cookieValue, $minutes);
         }
-
-
-
 
         View::share('site', $site);
         return $next($request, compact('site'));
