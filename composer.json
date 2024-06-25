@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.9",
         "roach-php/laravel": "^3.1",
         "smalot/pdfparser": "^2.10",
+        "spatie/crawler": "^8.2",
         "spatie/laravel-sitemap": "^7.2"
     },
     "require-dev": {
