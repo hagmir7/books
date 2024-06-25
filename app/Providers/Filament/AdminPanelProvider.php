@@ -25,7 +25,7 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        $domain = request()->getHost();
+        $domain = str_replace('www.', '', request()->getHost());
         $site = Site::where('domain', $domain)->firstOrFail();
         return $panel
             ->default()
