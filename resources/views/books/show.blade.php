@@ -107,6 +107,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-9">
                 <h1 itemprop="name" class="h3" dir="auto">{{ $book->title }}</h1>
                 <div class="book-rating general" itemprop="aggregateRating" itemscope

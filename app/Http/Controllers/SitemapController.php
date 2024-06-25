@@ -41,8 +41,8 @@ class SitemapController extends Controller
             $sitemap->add(Url::create("/blog/{$post->slug}"));
         });
 
-
-        $sitemap->writeTofile(public_path('sitemap.xml'));
+        $sitemap_name = explode(".", str_replace('www.', '', request()->host()))[0];
+        $sitemap->writeTofile(public_path($sitemap_name.'.xml'));
 
         return "Sitemap generated successfully!";
     }
