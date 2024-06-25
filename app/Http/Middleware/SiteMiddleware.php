@@ -20,6 +20,7 @@ class SiteMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $domain = str_replace('www.', '', $request->getHost());
+        dd($domain);
         $site = Site::where('domain', $domain)->firstOrFail();
 
         $currentUrl = request()->getSchemeAndHttpHost();
