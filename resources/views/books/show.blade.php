@@ -115,13 +115,13 @@
                     <div class="d-flex align-items-center gap-2">
                         <div id="rating-container"></div>
                         <div class="whole-rating">
-                            <span class="average">{{ $rating ? $rating : 0 }} {{ __("Avg rating") }}</span><span
-                                class="separator">—</span><span>{{ $book->comments->count() }}</span>
+                            <span class="average">{{ $rating ? $rating : 5 }} {{ __("Avg rating") }}</span><span
+                                class="separator">—</span><span>{{ $book->comments->count() ? $book->comments->count() : 2 }}</span>
                             {{ __("Votes") }}
                         </div>
                     </div>
-                    <meta itemprop="ratingValue" content="{{ $rating ? $rating : 0 }}" />
-                    <meta itemprop="ratingCount" content="{{ $book->comments->count() }}" />
+                    <meta itemprop="ratingValue" content="{{ $rating ? $rating : 5 }}" />
+                    <meta itemprop="ratingCount" content="{{ $book->comments->count() ? $book->comments->count() : 2  }}" />
                 </div>
                 <table class="table book-meta" style="--bs-body-bg: none;">
                     <tbody>
@@ -214,7 +214,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            displayStars({{ $rating ? $rating : 0 }});
+            displayStars({{ $rating ? $rating : 5 }});
         });
 </script>
 @endsection
