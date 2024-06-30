@@ -15,7 +15,7 @@ class BookController extends Controller
         return view("books.list");
     }
     public function show(Book $book){
-        ;
+        !$book->is_public && abort(403);
         return view("books.show", [
             "book" => $book,
             "title" => $book->title,
@@ -75,7 +75,7 @@ class BookController extends Controller
 
 
     public function api_list(){
-        return BookResource::collection(Book::paginate(20));
+        return BookResource::collection(Book::where('is_public', true)->paginate(20));
     }
 
     public function api_show(Book $book)

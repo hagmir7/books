@@ -39,7 +39,10 @@ class User extends Authenticatable implements HasName, FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        if(config('app.env') == "local"){
+            return true;
+        }
+        return auth()->user()->email == "book@freewsad.com";
     }
 
     /**

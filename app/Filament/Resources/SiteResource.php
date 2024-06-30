@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use ValentinMorice\FilamentJsonColumn\FilamentJsonColumn;
 
 class SiteResource extends Resource
 {
@@ -54,6 +55,36 @@ class SiteResource extends Resource
                     ->image(),
                 Forms\Components\FileUpload::make('logo')
                     ->image(),
+
+                // Forms\Components\Textarea::make('site_options')
+                //     ->columnSpanFull()
+                //     ->rows(5),
+
+                FilamentJsonColumn::make('site_options')
+                ->columnSpanFull(),
+
+                Forms\Components\Repeater::make('urls')
+                    ->relationship('urls')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label(__("Name"))
+                            ->required(),
+                        Forms\Components\TextInput::make('url')
+                            ->label(__("Url"))
+                            ->required(),
+                        Forms\Components\Toggle::make('header')
+                            ->label(__("Header"))
+                            ->required(),
+                        Forms\Components\Toggle::make('footer')
+                            ->label(__("Fotter"))
+                            ->required(),
+                        Forms\Components\Toggle::make('new_tab')
+                            ->label(__("New tab"))
+                            ->required(),
+                    ])->columns(2)
+                    ->addActionLabel(__("Add url"))
+                    ->default(1)
+                    ->columnSpanFull()
             ]);
     }
 

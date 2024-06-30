@@ -26,7 +26,11 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         $domain = str_replace('www.', '', request()->getHost());
-        $site = Site::where('domain', $domain)->firstOrFail();
+        try {
+            $site = Site::where('domain', $domain)->firstOrFail();
+        } catch (\Throwable $th) {
+            $site = Site::query()->first();
+        }
         return $panel
             ->default()
             ->id('admin')
