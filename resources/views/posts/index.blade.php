@@ -25,7 +25,7 @@
                                 {{ $post->created_at->format('M d, Y') }}
                             </div>
                             <a href="{{ route('blog.show', $post->slug) }}" class="post-title">
-                                <h4>{{ $post->title }}</h4>
+                                <h2 class="h4 text-black">{{ $post->title }}</h2>
                             </a>
                         </div>
                     </div>

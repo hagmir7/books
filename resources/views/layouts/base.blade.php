@@ -2,8 +2,8 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>{{ isset($title) ? $title : $site->name }}</title>
-    <meta name="description" content="{{ isset($description) ? $description : $site->description }}">
+    <title>{{ isset($title) ? Str::limit($title, 160) : $site->name }}</title>
+    <meta name="description" content="{{ isset($description) ? Str::limit($description, 160) : Str::limit($site->description, 160) }}">
     <meta name="keywords" content="{{ isset($tags) ? $tags :  $site->keywords }}">
     <link rel="icon" type="image/png" href="{{ Storage::url($site->icon) }}" />
     <meta itemprop="image" content="{{ isset($image) ? Storage::url($image)  : Storage::url($site->image) }}">
@@ -44,15 +44,17 @@
                                 </li>
                                 @endif
 
-                                @if (json_decode($site->site_options, true)['contact_url'])
-                                <li class="nav-item ">
-                                        <a href="{{ route("contact") }}" title="{{ __(" Contact Us") }}"> {{ __("Contact Us") }} </a>
-                                    </li>
-                                @endif
+
 
                                 @if (json_decode($site->site_options, true)['blogs_url'])
                                     <li class="nav-item ">
                                         <a href="/blog" title="{{ __(" Blog") }}">{{ __("Blog") }} </a>
+                                    </li>
+                                @endif
+
+                                @if (json_decode($site->site_options, true)['contact_url'])
+                                    <li class="nav-item ">
+                                        <a href="{{ route(" contact") }}" title="{{ __(" Contact Us") }}"> {{ __("Contact Us") }} </a>
                                     </li>
                                 @endif
 
