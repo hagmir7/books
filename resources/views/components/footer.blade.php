@@ -3,6 +3,36 @@
         <div class="row">
             <div class="col-lg-12">
                 <p>© 2024 {{ Str::upper($site->domain) }}. -- Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})</p>
+
+                <div class="navbar">
+                    <div class="w-100">
+                        <ul class="primary-menu d-flex w-100 py-3 d-flex justify-content-center" style="list-style: none">
+                            @if (json_decode($site->site_options, true)['books_url'])
+                            <li class="nav-item">
+                                <a href="/" title="{{ __("Home") }}"> {{ __("Home") }} </a>
+                            </li>
+                            @endif
+
+
+                            @if (json_decode($site->site_options, true)['contact_url'])
+                            <li class="nav-item">
+                                <a href="{{ route("contact") }}" title="{{ __("Contact Us") }}"> {{ __("Contact Us") }} </a>
+                            </li>
+                            @endif
+
+
+                            @foreach ($site->urls as $url)
+                            @if ($url->footer)
+                            <li class="nav-item">
+                                <a href="{{ $url->url }}" @if ($url->new_tab) target="_blanck" @endif title="{{ $url->name }}">{{
+                                    $url->name }} </a>
+                            </li>
+                            @endif
+                            @endforeach
+
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
