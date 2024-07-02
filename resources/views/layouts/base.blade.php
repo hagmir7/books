@@ -54,7 +54,7 @@
 
                                 @if (json_decode($site->site_options, true)['contact_url'])
                                     <li class="nav-item ">
-                                        <a href="{{ route(" contact") }}" title="{{ __(" Contact Us") }}"> {{ __("Contact Us") }} </a>
+                                        <a href="{{ route("contact") }}" title="{{ __("Contact Us") }}"> {{ __("Contact Us") }} </a>
                                     </li>
                                 @endif
 
