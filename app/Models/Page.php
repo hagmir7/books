@@ -11,7 +11,7 @@ class Page extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'body', 'slug'];
+    protected $fillable = ['title', 'body', 'slug', 'language_id', 'site_id'];
 
 
     protected static function boot()
@@ -25,6 +25,15 @@ class Page extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function site(){
+        return $this->belongsTo(Site::class);
+    }
+
+    public function language()
+    {
+        return $this->belongsTo(Language::class);
     }
 
     public function newQuery($ordered = true)

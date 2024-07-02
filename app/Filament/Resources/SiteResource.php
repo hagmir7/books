@@ -93,9 +93,7 @@ class SiteResource extends Resource
         return $table
             ->columns([
 
-                Tables\Columns\ImageColumn::make('logo')
-                    ->circular()
-                    ->searchable(),
+                Tables\Columns\ImageColumn::make('icon'),
                 Tables\Columns\TextColumn::make('domain')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')

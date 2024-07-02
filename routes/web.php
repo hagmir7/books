@@ -7,6 +7,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SitemapController;
 use App\Models\Book;
+use App\Models\Post;
 use App\Models\Site;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,11 +28,26 @@ Route::get('/ads.txt', function (Request $request) {
     return response($site->ads_txt, 200);
 });
 
-Route::get('/', function () {
-    return view('home', [
-        'books' => Book::with(['author', 'category'])->paginate(30)
+
+Route::get('/', function (Request $request) {
+    $domain = str_replace('www.', '', $request->getHost());
+    $site = Site::where('domain', $domain)->firstOrFail();
+    $site_options = json_decode($site->site_options, true);
+    if ($site_options['home_page'] == "books") {
+        return view('home', [
+            'books' => Book::with(['author', 'category'])->paginate(30)
+        ]);
+    }
+
+    $posts = Post::paginate(12);
+    return view('posts.index', [
+        'posts' => $posts,
+        'title' => json_decode($site->site_options, true)['blog_title']
     ]);
 })->name('home');
+
+
+
 
 
 
@@ -67,7 +83,7 @@ Route::prefix('authors')->group(function () {
 Route::view('/contact-us', 'contact', ['title' => __("Contact us")])->name('contact');
 
 
-Route::get('{page}', [PageController::class, 'show'])->name('page.show');
+Route::get('page/{page}', [PageController::class, 'show'])->name('page.show');
 
 
 Route::middleware('api')->prefix('api/books')->group(function () {

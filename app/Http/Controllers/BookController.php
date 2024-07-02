@@ -14,6 +14,14 @@ class BookController extends Controller
     public function index(){
         return view("books.list");
     }
+
+    public function books(){
+         return view('home', [
+            'books' => Book::with(['author', 'category'])->paginate(30)
+        ]);
+    }
+
+
     public function show(Book $book){
         !$book->is_public && abort(403);
         return view("books.show", [

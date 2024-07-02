@@ -7,6 +7,7 @@ use App\Filament\Resources\PageResource\RelationManagers;
 use App\Models\Page;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -27,9 +28,32 @@ class PageResource extends Resource
                     ->label(__("Title"))
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('site_id')
+                    ->searchable()
+                    ->preload()
+                    ->relationship('site', 'name'),
+
+                Forms\Components\Select::make('language_id')
+                    ->searchable()
+                    ->preload()
+                    ->relationship('language', 'name'),
+
+                Forms\Components\Toggle::make('markdown')
+                    ->inline(false)
+                    ->live()
+                    ->label('Markdown'),
+
                 Forms\Components\RichEditor::make('body')
-                    ->label(__("Content"))
+                    ->label(__('Content'))
                     ->required()
+                    ->hidden(fn (Get $get): bool => $get('markdown'))
+                    ->columnSpanFull(),
+
+                Forms\Components\Textarea::make('body')
+                    ->label(__('Content'))
+                    ->required()
+                    ->rows(10)
+                    ->hidden(fn (Get $get): bool => !$get('markdown'))
                     ->columnSpanFull(),
             ]);
     }

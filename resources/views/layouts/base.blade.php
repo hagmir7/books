@@ -32,21 +32,38 @@
                     <nav class="navbar navbar-expand-lg">
                         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                             <ul class="navbar-nav primary-menu">
-                                <li class="nav-item ">
-                                    <a href="/books" title="{{ __("Books") }}"> {{ __("Books") }} </a>
-                                </li>
+                                @if (json_decode($site->site_options, true)['books_url'])
+                                    <li class="nav-item ">
+                                        <a href="/books" title="{{ __(" Books") }}"> {{ __("Books") }} </a>
+                                    </li>
+                                @endif
 
+                                @if (json_decode($site->site_options, true)['authors_url'])
                                 <li class="nav-item ">
-                                    <a href="/authors" title="{{ __("Authors") }}">{{ __("Authors") }} </a>
+                                    <a href="/authors" title="{{ __(" Authors") }}">{{ __("Authors") }} </a>
                                 </li>
+                                @endif
 
+                                @if (json_decode($site->site_options, true)['contact_url'])
                                 <li class="nav-item ">
-                                    <a href="{{ route("contact") }}" title="{{ __("Contact Us") }}"> {{ __("Contact Us") }} </a>
-                                </li>
+                                        <a href="{{ route("contact") }}" title="{{ __(" Contact Us") }}"> {{ __("Contact Us") }} </a>
+                                    </li>
+                                @endif
 
-                                <li class="nav-item ">
-                                    <a href="/blog" title="{{ __("Blog") }}">{{ __("Blog") }} </a>
-                                </li>
+                                @if (json_decode($site->site_options, true)['blogs_url'])
+                                    <li class="nav-item ">
+                                        <a href="/blog" title="{{ __(" Blog") }}">{{ __("Blog") }} </a>
+                                    </li>
+                                @endif
+
+                                @foreach ($site->urls as $url)
+                                    @if ($url->header)
+                                        <li class="nav-item ">
+                                            <a href="{{ $url->url }}" @if ($url->new_tab) target="_blanck" @endif title="{{ $url->name }}">{{ $url->name }} </a>
+                                        </li>
+                                    @endif
+                                @endforeach
+
                             </ul>
                         </div>
                     </nav>
@@ -67,11 +84,13 @@
                                 </a>
                             @endauth
 
+                            @if (json_decode($site->site_options, true)['login_url'])
                             @guest
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#login">
-                                    {{ __("Join us") }}
-                                </button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#login">
+                                {{ __("Join us") }}
+                            </button>
                             @endguest
+                            @endif
                         </div>
                     </div>
 
@@ -123,7 +142,9 @@
     </header>
 
 
-    @livewire('auth-livewire')
+    @if (json_decode($site->site_options, true)['login_url'])
+        @livewire('auth-livewire')
+    @endif
 
     @yield('content')
     <x-footer />
