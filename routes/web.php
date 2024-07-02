@@ -33,6 +33,7 @@ Route::get('/', function (Request $request) {
     $domain = str_replace('www.', '', $request->getHost());
     $site = Site::where('domain', $domain)->firstOrFail();
     $site_options = json_decode($site->site_options, true);
+    dd($site_options['home_page']);
     if ($site_options['home_page'] == "books") {
         return view('home', [
             'books' => Book::with(['author', 'category'])->paginate(30)
