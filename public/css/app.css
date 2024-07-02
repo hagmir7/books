@@ -3920,10 +3920,10 @@ button.back-to-top.show:active {
         padding: 0
     }
 
-    .blog-posts .post {
+    /* .blog-posts .post {
         max-height: 470px;
         min-height: 470px
-    }
+    } */
 
     .books-listing .book-list .book .book-short-description,
     .books-listing .book-mini-list .book .book-short-description {
@@ -4018,8 +4018,8 @@ button.back-to-top.show:active {
     }
 
     .blog-posts .post {
-        max-height: 450px;
-        min-height: 450px
+        /* max-height: 450px;
+        min-height: 450px */
     }
 
     .mini-list-authors .author-info {
@@ -4056,8 +4056,8 @@ button.back-to-top.show:active {
     }
 
     .blog-posts .post {
-        max-height: 380px;
-        min-height: 380px
+        /* max-height: 380px;
+        min-height: 380px */
     }
 }
 
@@ -4079,8 +4079,8 @@ button.back-to-top.show:active {
     }
 
     .blog-posts .post {
-        max-height: 100%;
-        min-height: auto
+        /* max-height: 100%;
+        min-height: auto */
     }
 }
 

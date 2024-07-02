@@ -12,7 +12,7 @@
         <div class="row">
 
             @forelse ($posts as $post)
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6 mb-3">
                     <div class="post">
                         <div class="post-img">
                             <a href="{{ route('blog.show', $post->slug) }}">
