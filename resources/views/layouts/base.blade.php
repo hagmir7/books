@@ -70,7 +70,7 @@
                         </div>
                     </nav>
                 </div>
-                <div class="col-6 col-lg-3 col-md-6 d-flex gap-2 p-0 m-0">
+                <div class="col-6 col-lg-3 col-md-6 d-flex gap-2 p-0 m-0 justify-content-end">
                     <div class="menu-icons d-flex text-right align-items-center justify-content-end">
                         <div class="user-dropdown">
                             @auth
@@ -97,7 +97,7 @@
                     </div>
 
                     <div class="menu-icons mobile-menu d-flex text-right align-items-center justify-content-end">
-                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <button class="btn btn-primary py-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
