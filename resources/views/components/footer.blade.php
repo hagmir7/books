@@ -7,11 +7,10 @@
                 <div class="navbar">
                     <div class="w-100">
                         <ul class="primary-menu d-flex w-100 py-3 d-flex justify-content-center" style="list-style: none">
-                            @if (json_decode($site->site_options, true)['books_url'])
                             <li class="nav-item">
                                 <a href="/" title="{{ __("Home") }}"> {{ __("Home") }} </a>
                             </li>
-                            @endif
+
 
 
                             @if (json_decode($site->site_options, true)['contact_url'])
