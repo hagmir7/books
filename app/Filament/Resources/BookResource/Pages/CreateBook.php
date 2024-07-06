@@ -4,6 +4,7 @@ namespace App\Filament\Resources\BookResource\Pages;
 
 use App\Filament\Resources\BookResource;
 use App\Models\Language;
+use App\Models\Site;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Notifications\Notification;
@@ -48,6 +49,11 @@ class CreateBook extends CreateRecord
                 $data['title'] = "تحميل كتاب {$data['name']} مجانا (PDF)";
                 break;
         }
+
+        // Add site_id
+        $domain = str_replace('www.', '', request()->getHost());
+        $site = Site::where('domain', $domain)->firstOrFail();
+        $data['site_id'] = $site->id;
         return $data;
     }
 

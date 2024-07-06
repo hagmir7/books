@@ -34,11 +34,7 @@ class PostResource extends Resource
                                 Forms\Components\TextInput::make('title')
                                     ->label(__("Title"))
                                     ->required(),
-                                Forms\Components\Select::make('language_id')
-                                    ->native(false)
-                                    ->label(__("Language"))
-                                    ->relationship('language', "name")
-                                    ->required(),
+
                                 Forms\Components\TagsInput::make('tags')
                                     ->color('info')
                                     ->label(__("Keywords"))
@@ -46,13 +42,16 @@ class PostResource extends Resource
                                     ->separator(',')
                                     ->splitKeys(['Tab', ','])
                                     ->required()
-                                    ->columnSpanFull()
                                 ])
-                                ->columns(2)
                                 ->columnSpan(2),
 
                         Forms\Components\Section::make()
                             ->schema([
+                                Forms\Components\Select::make('language_id')
+                                    ->native(false)
+                                    ->label(__("Language"))
+                                    ->relationship('language', "name")
+                                    ->required(),
                                 Forms\Components\FileUpload::make('image')
                                     ->label(false)
                                     ->label(__("Image"))
@@ -94,8 +93,6 @@ class PostResource extends Resource
 
                     ])->columns(2),
 
-
-
             ]);
     }
 
@@ -106,8 +103,8 @@ class PostResource extends Resource
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('langauge.name')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('language.name')
+                    ->badge()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
