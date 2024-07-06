@@ -22,4 +22,12 @@ class Site extends Model
     public function urls(){
         return $this->hasMany(Url::class);
     }
+
+    public function books(){
+        return $this->hasMany(Book::class);
+    }
+
+    public function posts(){
+        return $this->hasMany(Post::class);
+    }
 }

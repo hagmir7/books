@@ -15,7 +15,7 @@ class Book extends Model
     protected $fillable = [
         'name', 'title', 'user_id', 'author_id', 'book_category_id',
         'language_id', 'type', 'pages', 'size', 'image', 'description',
-        'body', 'tags', 'file', 'is_public', 'slug',
+        'body', 'tags', 'file', 'is_public', 'slug', 'site_id'
     ];
 
     protected $dates = ['deleted_at'];
@@ -41,6 +41,10 @@ class Book extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function site(){
+        return $this->belongsTo(Site::class);
+    }
+
 
     protected static function boot()
     {
@@ -49,6 +53,8 @@ class Book extends Model
             $model->slug = Str::slug($model->name, '-');
         });
     }
+
+
 
     public function newQuery($ordered = true)
     {

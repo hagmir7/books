@@ -19,7 +19,8 @@ class Post extends Model
         'body',
         'slug',
         'user_id',
-        'language_id'
+        'language_id',
+        'site_id',
     ];
 
     public function language(){
