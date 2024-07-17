@@ -28,8 +28,21 @@ class BookListLivewire extends Component
     public function render()
     {
         $books = $this->category->name
-            ? $this->category->books()->with(['author'])->take($this->amount)->orderBy('created_at', 'asc')->get()
-            : Book::with(['author'])->take($this->amount)->orderBy('created_at', 'asc')->get();
+            // if
+            ? $this->category->books()
+                ->with(['author'])
+                ->take($this->amount)
+                ->orderBy('created_at', 'asc')
+                ->where('is_public', 1)
+                ->get()
+            // else
+            : Book::with(['author'])
+                ->take($this->amount)
+                ->where('is_public', 1)
+                ->orderBy('created_at', 'asc')
+                ->get();
+
+
         return view('livewire.book-list-livewire', [
             'books' => $books
         ]);

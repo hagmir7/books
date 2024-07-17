@@ -103,7 +103,7 @@
                             </svg>
                         <span class="d-none">{{ __("Share in pinterest") }}</span>
                         </a>
-                        <a class="btn email" href="#" target="blank">
+                        <a class="btn email" href="mailto:?subject=Check%20out%20{{ $title }}%20&amp;body=I%20thought%20you%20might%20be%20interested%20in%20this%20page:%20{{ url()->current() }}%20-%20{{ $post->description }}" target="blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="icon icon-tabler icons-tabler-outline icon-tabler-mail">
