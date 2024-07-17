@@ -123,6 +123,7 @@
                     <meta itemprop="ratingValue" content="{{ $rating ? $rating : 5 }}" />
                     <meta itemprop="ratingCount" content="{{ $book->comments->count() ? $book->comments->count() : 2  }}" />
                 </div>
+                {{-- Book info --}}
                 <table class="table book-meta" style="--bs-body-bg: none;">
                     <tbody>
                         <tr>
@@ -159,15 +160,21 @@
                         <tr>
                             <td>{{ __("Type") }}:</td>
                             <td>
-                                {{ $book->type }}
+                                <div class="badge badge-danger p-2">{{ $book->type }}</div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                {{-- Book Actions --}}
+                @if (auth()->user()?->email_verified_at)
+                    @livewire('book-actions', ['book' => $book, key($book->slug)])
+                @endif
+                {{-- Body --}}
                 <div class="book-description" itemprop="description">
                     {!! $book->body !!}
                 </div>
-                <!--ads before review-->
+
+                {{-- Reviews --}}
                 <div class="row mt-5 mb-3">
                     <div class="col-lg-6 col-6">
                         <h2>{{ __("Book reviews") }}</h2>
