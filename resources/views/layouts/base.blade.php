@@ -157,48 +157,12 @@
 
     <script src="{{ asset("js/popper.min.js") }}"></script>
     <script src="{{ asset("js/bootstrap.min.js") }}"></script>
-
     <script src="{{ asset("js/carousel.min.js") }}"></script>
-
     <script src="{{ asset("js/plugins.js") }}"></script>
     <script src="{{ asset("js/custom.js") }}"></script>
 
-
-
-    <script>
-        $('.home-book-carousel').owlCarousel({
-            center: true,
-            items: 3,
-            loop: true,
-            margin: 0,
-            merge: true,
-            responsive: {
-                2600: {
-                    items: 6
-                },
-                2000: {
-                    items: 5
-                },
-                1800: {
-                    items: 4
-                },
-                1200: {
-                    items: 3
-
-         },
-                600: {
-                    items: 2
-                },
-                0: {
-                    items: 1
-                }
-            }
-        });
-    </script>
     @yield('footer')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"> </script>
 </body>
 
 </html>

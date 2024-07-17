@@ -55,3 +55,37 @@
     </div>
 </section>
 @endsection
+
+
+@section('footer')
+    <script>
+        $('.home-book-carousel').owlCarousel({
+                center: true,
+                items: 3,
+                loop: true,
+                margin: 0,
+                merge: true,
+                responsive: {
+                    2600: {
+                        items: 6
+                    },
+                    2000: {
+                        items: 5
+                    },
+                    1800: {
+                        items: 4
+                    },
+                    1200: {
+                        items: 3
+
+             },
+                    600: {
+                        items: 2
+                    },
+                    0: {
+                        items: 1
+                    }
+                }
+            });
+    </script>
+@endsection
