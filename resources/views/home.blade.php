@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="book-info col-lg-9 col-9">
                                     <div class="book-title">
-                                        <a href="{{ route('book.show', $book->slug) }}">{{ $book->name }} {{ $book->type }}</a>
+                                        <a href="{{ route('book.show', $book->slug) }}">{{ $book->name }} ({{ $book->type }})</a>
                                     </div>
                                     <div class="book-attr">
                                         <span class="book-publishing-year">{{ $book->created_at->format("Y") }}, </span>

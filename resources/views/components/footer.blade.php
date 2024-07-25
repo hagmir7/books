@@ -6,7 +6,7 @@
 
                 <div class="navbar">
                     <div class="w-100">
-                        <ul class="primary-menu d-flex w-100 py-3 d-flex justify-content-center" style="list-style: none">
+                        <ul class="flex-wrap primary-menu d-flex w-100 py-3 d-flex justify-content-center" style="list-style: none">
                             <li class="nav-item">
                                 <a href="/" title="{{ __("Home") }}"> {{ __("Home") }} </a>
                             </li>
