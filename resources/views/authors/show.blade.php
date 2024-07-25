@@ -64,7 +64,7 @@
 
                         <div class="books-per-page d-flex">
                             <nav class="m-auto">
-                                <ul class="pagination">
+                                <ul class="pagination py-4">
                                     <!-- Pagination Elements -->
                                     @foreach ($books->links()->elements[0] as $page => $url)
                                         @if ($page == $books->currentPage())

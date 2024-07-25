@@ -54,7 +54,7 @@
                 @if ($total >= $amount)
                     <div class="books-per-page d-flex">
                         <nav class="m-auto">
-                            <ul class="pagination">
+                            <ul class="pagination py-4">
                                 <li class="page-item">
 
                                     <button wire:click='loadMore' class="page-link px-5" wire:loading.attr="disabled">

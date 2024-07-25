@@ -10,7 +10,6 @@
             </div>
         </div>
         <div class="row">
-
             @forelse ($posts as $post)
                 <div class="col-lg-4 col-md-6 mb-3">
                     <div class="post">
@@ -36,6 +35,7 @@
                 </div>
             @endforelse
         </div>
+        <div class="mt-3 pb-4">{{ $posts->links() }}</div>
     </div>
 </section>
 @endsection
