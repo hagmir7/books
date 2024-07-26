@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Site;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::paginate(15);
+        $domain = str_replace('www.', '', request()->getHost());
+        $site = Site::where('domain', $domain)->firstOrFail();
+        $posts = Post::where("site_id", $site->id)->paginate(15);
         return view('posts.index', [
             'posts' => $posts,
             'title' => __("Book News and Literary Delights")
