@@ -39,7 +39,7 @@ Route::get('/', function (Request $request) {
         ]);
     }
 
-    $posts = Post::paginate(12);
+    $posts = Post::where('site_id', $site->id)->paginate(15);
     return view('posts.index', [
         'posts' => $posts,
         'title' => json_decode($site->site_options, true)['blog_title']
