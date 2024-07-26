@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Post;
+use App\Models\Site;
 use Closure;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -21,6 +22,14 @@ class PostResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-bars-4';
 
+
+    public static function getEloquentQuery(): Builder
+    {
+        $domain = str_replace('www.', '', request()->getHost());
+        $site = Site::where('domain', $domain)->firstOrFail();
+        return parent::getEloquentQuery()->where("site_id", $site->id);
+
+    }
 
     public static function form(Form $form): Form
     {

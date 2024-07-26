@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PageResource\Pages;
 use App\Filament\Resources\PageResource\RelationManagers;
 use App\Models\Page;
+use App\Models\Site;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -19,6 +20,14 @@ class PageResource extends Resource
     protected static ?string $model = Page::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-check';
+
+
+    public static function getEloquentQuery(): Builder
+    {
+        $domain = str_replace('www.', '', request()->getHost());
+        $site = Site::where('domain', $domain)->firstOrFail();
+        return parent::getEloquentQuery()->where("site_id", $site->id);
+    }
 
     public static function form(Form $form): Form
     {

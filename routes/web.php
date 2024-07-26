@@ -60,18 +60,18 @@ Route::controller(PostController::class)->prefix('blog')->group(function(){
 // Books
 Route::controller(BookController::class)->prefix('books')->group(function () {
     Route::get('', 'index')->name('books.index');
-    Route::get("{book}", 'show')->name("book.show");
+    Route::get("{book:slug}", 'show')->name("book.show");
 });
 
 
 // Categories
 Route::prefix('category')->group(function () {
-    Route::get("{category}", [BookCategoryController::class, "show"])->name("category.show");
+    Route::get("{category:slug}", [BookCategoryController::class, "show"])->name("category.show");
 });
 
 Route::prefix('authors')->group(function () {
     Route::get('', [AuthorController::class, 'index'])->name('authors.indx');
-    Route::get('{author}/books', [AuthorController::class, 'show'])->name('authors.show');
+    Route::get('{author:slug}/books', [AuthorController::class, 'show'])->name('authors.show');
 });
 
 

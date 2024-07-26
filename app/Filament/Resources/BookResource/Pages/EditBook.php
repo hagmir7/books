@@ -20,10 +20,10 @@ class EditBook extends EditRecord
     protected function getHeaderActions(): array
     {
 
-        $existingActions = [
+        $actions = [
             Actions\DeleteAction::make(),
         ];
-        return array_merge($existingActions, $this->getNavigationActions());
+        return array_merge($actions, $this->getNavigationActions());
     }
 
 }

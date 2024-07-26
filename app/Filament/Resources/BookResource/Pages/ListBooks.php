@@ -5,10 +5,14 @@ namespace App\Filament\Resources\BookResource\Pages;
 use App\Filament\Resources\BookResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use JoseEspinal\RecordNavigation\Traits\HasRecordsList;
 
 class ListBooks extends ListRecords
 {
+
+    use HasRecordsList;
     protected static string $resource = BookResource::class;
+
 
     protected function getHeaderActions(): array
     {
