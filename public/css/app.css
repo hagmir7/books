@@ -808,6 +808,18 @@
     border-bottom: 1px solid
 }
 
+pre{
+    background-color: #002b36;
+    border-radius: .375rem;
+    color: #839496;
+    font-family: Consolas, Courier New, monospace;
+    font-size: .85em !important;
+    font-weight: 500;
+    max-height: 500px;
+    overflow: auto;
+    padding: .5rem !important;
+}
+
 .star {
     font-size: 1.5rem;
     color: gold;
@@ -2110,6 +2122,8 @@ h6 {
 .preloader.hide {
     display: none
 }
+
+
 
 .preloader .overlay {
     background: linear-gradient(to bottom, #fefefe 0, #e9eef3 100%);
