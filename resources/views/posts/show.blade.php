@@ -115,6 +115,10 @@
 
                         </a>
                     </div>
+                    @if (auth()->user()?->email_verified_at)
+                        @livewire('post-actions', ['post' => $post, key($post->slug)])
+                    @endif
+
                     <div class="post-text">
                         {!! $post->body !!}
                     </div>
