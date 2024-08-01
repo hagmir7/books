@@ -30,7 +30,8 @@
                             <span class="d-none">{{ __("Share in facebook") }}</span>
                         </a>
                         <a class="btn twitter"
-                            href="https://twitter.com/intent/tweet?status={{ $book->title }}+{{ request()->url() }}"
+                            href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+                            data-show-count="false"
                             target="blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -42,6 +43,8 @@
                             <span class="d-none">{{ __("Share in x") }}</span>
 
                         </a>
+                        {{-- <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a> --}}
+
                         <a class="btn vk" href="http://vk.com/share.php?url={{ request()->url() }}"
                             target="blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -229,4 +232,7 @@
             displayStars({{ $rating ? $rating : 5 }});
         });
 </script>
+
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en/sdk.js#xfbml=1&version=v20.0" nonce="O3PMh4xP"></script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 @endsection
