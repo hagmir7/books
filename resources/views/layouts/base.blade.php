@@ -161,6 +161,9 @@
     <script src="{{ asset("js/plugins.js") }}"></script>
     <script src="{{ asset("js/custom.js") }}"></script>
 
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en/sdk.js#xfbml=1&version=v20.0" nonce="O3PMh4xP"></script>
+
     @yield('footer')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"> </script>
 </body>

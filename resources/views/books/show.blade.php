@@ -12,12 +12,17 @@
                     <div class="book-cover">
                         <img src="{{ Storage::url($book->image) }}" alt="{{ $book->title }}" class="img-fluid" itemprop="image">
                     </div>
+
+                    {{-- <div class="fb-share-button social-btns" data-href="{{ request()->url() }}" data-layout="" data-size="">
+
+                    </div> --}}
+
                     <div class="social-btns">
-                        <a class="btn facebook"
-                            href="https://www.facebook.com/share.php?u={{ request()->url() }}&title={{ $book->title }}"
-                            target="blank">
-                            <svg class="facebook" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ request()->url() }}&title={{ $book->title }}"
+                            class="fb-xfbml-parse-ignore btn facebook">
+
+                            <svg class="facebook" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="icon icon-tabler icons-tabler-outline icon-tabler-brand-facebook">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
