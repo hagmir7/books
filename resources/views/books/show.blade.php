@@ -18,7 +18,9 @@
                     </div> --}}
 
                     <div class="social-btns">
-                        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ request()->url() }}&title={{ $book->title }}"
+                        <a target="_blank"
+                            aria-label="{{ __("Share with Facebook")}}"
+                            href="https://www.facebook.com/sharer/sharer.php?u={{ request()->url() }}&title={{ $book->title }}"
                             class="fb-xfbml-parse-ignore btn facebook">
 
                             <svg class="facebook" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -32,6 +34,7 @@
                         <a class="btn twitter"
                             href="https://twitter.com/share?ref_src=twsrc%5Etfw"
                             data-show-count="false"
+                            aria-label="{{ __("Share with X")}}"
                             target="blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -43,21 +46,9 @@
                             <span class="d-none">{{ __("Share in x") }}</span>
 
                         </a>
-                        {{-- <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a> --}}
-
-                        <a class="btn vk" href="http://vk.com/share.php?url={{ request()->url() }}"
-                            target="blank">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon icon-tabler icons-tabler-outline icon-tabler-brand-vk">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path
-                                    d="M14 19h-4a8 8 0 0 1 -8 -8v-5h4v5a4 4 0 0 0 4 4h0v-9h4v4.5l.03 0a4.531 4.531 0 0 0 3.97 -4.496h4l-.342 1.711a6.858 6.858 0 0 1 -3.658 4.789h0a5.34 5.34 0 0 1 3.566 4.111l.434 2.389h0h-4a4.531 4.531 0 0 0 -3.97 -4.496v4.5z" />
-                            </svg>
-                            <span class="d-none">{{ __("Share in vk") }}</span>
-                        </a>
                         <a class="btn pinterest"
                             href="https://pinterest.com/pin/create/button/?url={{ request()->url() }}&description={{ $book->title }}"
+                            aria-label="{{ __("Share with Pintrest")}}"
                             target="blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -69,7 +60,9 @@
                             </svg>
                         <span class="d-none">{{ __("Share in pinterest") }}</span>
                         </a>
-                        <a class="btn email" href="mailto:?subject=Check%20out%20{{ $title }}%20&amp;body=I%20thought%20you%20might%20be%20interested%20in%20this%20page:%20{{ url()->current() }}%20-%20{{ $book->name }}" target="blank">
+                        <a class="btn email"
+                            aria-label="{{ __("Share with Email")}}"
+                            href="mailto:?subject=Check%20out%20{{ $title }}%20&amp;body=I%20thought%20you%20might%20be%20interested%20in%20this%20page:%20{{ url()->current() }}%20-%20{{ $book->name }}" target="blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="icon icon-tabler icons-tabler-outline icon-tabler-mail">
@@ -233,6 +226,4 @@
         });
 </script>
 
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en/sdk.js#xfbml=1&version=v20.0" nonce="O3PMh4xP"></script>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 @endsection
