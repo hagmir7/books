@@ -10,9 +10,6 @@
                             <li class="nav-item">
                                 <a href="/" title="{{ __("Home") }}"> {{ __("Home") }} </a>
                             </li>
-
-
-
                             @if (json_decode($site->site_options, true)['contact_url'])
                             <li class="nav-item">
                                 <a href="{{ route("contact") }}" title="{{ __("Contact Us") }}"> {{ __("Contact Us") }} </a>
