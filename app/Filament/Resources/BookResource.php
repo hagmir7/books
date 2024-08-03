@@ -104,6 +104,8 @@ class BookResource extends Resource
                 Forms\Components\Textarea::make('description')
                     ->rows(5)
                     ->columnSpanFull(),
+
+
                 Forms\Components\RichEditor::make('body')
                     ->columnSpanFull(),
 

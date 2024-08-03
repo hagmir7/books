@@ -19,7 +19,7 @@ class SitemapController extends Controller
 
         $site = Site::where('domain', $sitemap_name)->firstOrFail();
 
-        $site_options = json_decode($site->site_options, true);
+        $site_options = $site->site_options
 
 
 
