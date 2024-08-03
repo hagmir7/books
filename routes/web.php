@@ -32,7 +32,7 @@ Route::get('/ads.txt', function (Request $request) {
 Route::get('/', function (Request $request) {
     $domain = str_replace('www.', '', $request->getHost());
     $site = Site::where('domain', $domain)->firstOrFail();
-    $site_options = $site->site_options
+    $site_options = $site->site_options;
 
     if ($site_options['home_page'] == "books") {
         return view('home', [
