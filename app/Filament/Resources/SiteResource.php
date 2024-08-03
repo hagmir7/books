@@ -12,7 +12,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use ValentinMorice\FilamentJsonColumn\FilamentJsonColumn;
 
 class SiteResource extends Resource
 {
@@ -56,12 +55,11 @@ class SiteResource extends Resource
                 Forms\Components\FileUpload::make('logo')
                     ->image(),
 
-                // Forms\Components\Textarea::make('site_options')
-                //     ->columnSpanFull()
-                //     ->rows(5),
+                Forms\Components\KeyValue::make('site_options')
+                    ->columnSpanFull(),
 
-                FilamentJsonColumn::make('site_options')
-                ->columnSpanFull(),
+                // FilamentJsonColumn::make('site_options')
+                // ->columnSpanFull(),
 
                 Forms\Components\Repeater::make('urls')
                     ->relationship('urls')

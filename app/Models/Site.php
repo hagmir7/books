@@ -14,6 +14,11 @@ class Site extends Model
         'icon', 'image', 'logo', 'ads_txt', 'site_options'
     ];
 
+
+    protected $casts = [
+        'site_options' => 'array'
+    ];
+
     public function language()
     {
         return $this->belongsTo(Language::class);
