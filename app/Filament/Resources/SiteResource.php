@@ -8,6 +8,7 @@ use App\Models\Site;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,37 +24,70 @@ class SiteResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('domain')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('language_id')
-                    ->relationship('language', 'name')
-                    ->native(false)
-                    ->required(),
-                Forms\Components\TextInput::make('ads_txt')
-                    ->maxLength(255),
+                Forms\Components\Tabs::make('Tabs')
+                    ->tabs([
+                        Forms\Components\Tabs\Tab::make('Site')
+                            ->icon('heroicon-o-globe-alt')
+                            // ->iconPosition(IconPosition::After)
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+                                    ->columnSpanFull()
+                                    ->maxLength(255),
 
-                Forms\Components\Textarea::make('keywords')
-                    ->columnSpanFull(),
+                                Forms\Components\TextInput::make('domain')
+                                    ->required()
+                                    ->maxLength(255),
 
-                Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
+                                Forms\Components\Select::make('language_id')
+                                    ->relationship('language', 'name')
+                                    ->native(false)
+                                    ->required(),
+                            ])->columns(2),
+                        Forms\Components\Tabs\Tab::make('SEO')
+                            ->icon('heroicon-o-magnifying-glass-circle')
+                            // ->iconPosition(IconPosition::After)
+                            ->schema([
+                                Forms\Components\Textarea::make('keywords')
+                                    ->columnSpanFull(),
 
-                Forms\Components\Textarea::make('header')
-                    ->columnSpanFull(),
+                                Forms\Components\Textarea::make('description')
+                                    ->columnSpanFull(),
 
-               Forms\Components\Textarea::make('footer')
-                    ->columnSpanFull(),
+                                Forms\Components\Grid::make(2)
+                                    ->schema([
+                                        Forms\Components\FileUpload::make('image')
+                                        ->image(),
 
-                Forms\Components\FileUpload::make('image')
-                    ->image(),
-                Forms\Components\FileUpload::make('icon')
-                    ->image(),
-                Forms\Components\FileUpload::make('logo')
-                    ->image(),
+                                        Forms\Components\FileUpload::make('icon')
+                                        ->image(),
+
+                                        Forms\Components\FileUpload::make('logo')
+                                        ->image(),
+                                    ])
+                            ]),
+                        Forms\Components\Tabs\Tab::make('Advance')
+                            ->icon('heroicon-o-cog-6-tooth')
+                            // ->iconPosition(IconPosition::After)
+                            ->schema([
+                                Forms\Components\TextInput::make('ads_txt')
+                                    ->maxLength(255),
+
+                                Forms\Components\Textarea::make('header')
+                                    ->columnSpanFull(),
+
+                                Forms\Components\Textarea::make('footer')
+                                    ->columnSpanFull(),
+                        ]),
+                    ])
+                    ->columnSpanFull()
+                    ->activeTab(2),
+
+
+
+
+
+
 
                 Forms\Components\KeyValue::make('site_options')
                     ->columnSpanFull(),

@@ -51,6 +51,11 @@ class PostResource extends Resource
                                     ->separator(',')
                                     ->splitKeys(['Tab', ','])
                                     ->required()
+                                    ->reorderable()
+                                    ->nestedRecursiveRules([
+                                        'min:3',
+                                        'max:100',
+                                    ])
                                 ])
                                 ->columnSpan(2),
 
@@ -92,12 +97,34 @@ class PostResource extends Resource
                             ->hidden(fn (Get $get): bool => $get('markdown'))
                             ->columnSpanFull(),
 
-                        Forms\Components\Textarea::make('body')
+
+                        Forms\Components\MarkdownEditor::make('body')
                             ->label(__('Content'))
                             ->required()
-                            ->rows(10)
                             ->hidden(fn (Get $get): bool => !$get('markdown'))
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->toolbarButtons([
+                                'attachFiles',
+                                'blockquote',
+                                'bold',
+                                'bulletList',
+                                'codeBlock',
+                                'heading',
+                                'italic',
+                                'link',
+                                'orderedList',
+                                'redo',
+                                'strike',
+                                'table',
+                                'undo',
+                            ]),
+
+                        // Forms\Components\Textarea::make('body')
+                        //     ->label(__('Content'))
+                        //     ->required()
+                        //     ->rows(10)
+                        //     ->hidden(fn (Get $get): bool => !$get('markdown'))
+                        //     ->columnSpanFull(),
 
 
                     ])->columns(2),
