@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-lg-12 p-0">
                         <div class="section-title">
-                            <h1 class="h3">{{ json_decode($site->site_options, true)['home_title'] }}</h1>
+                            <h1 class="h3">{{ $site->site_options['home_title'] }}</h1>
                         </div>
                     </div>
                     @forelse ($books as $book)

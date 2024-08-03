@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row text-center">
             <div class="col-lg-12">
-                <h1 class="h3">{{ json_decode($site->site_options, true)['blog_title'] }}</h1>
+                <h1 class="h3">{{ $site->site_options['blog_title'] }}</h1>
             </div>
         </div>
         <div class="row">

@@ -32,13 +32,13 @@
                     <nav class="navbar navbar-expand-lg">
                         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                             <ul class="navbar-nav primary-menu">
-                                @if (json_decode($site->site_options, true)['books_url'])
+                                @if ($site->site_options['books_url'])
                                     <li class="nav-item ">
                                         <a href="/books" title="{{ __(" Books") }}"> {{ __("Books") }} </a>
                                     </li>
                                 @endif
 
-                                @if (json_decode($site->site_options, true)['authors_url'])
+                                @if ($site->site_options['authors_url'])
                                 <li class="nav-item ">
                                     <a href="/authors" title="{{ __(" Authors") }}">{{ __("Authors") }} </a>
                                 </li>
@@ -46,13 +46,13 @@
 
 
 
-                                @if (json_decode($site->site_options, true)['blogs_url'])
+                                @if ($site->site_options['blogs_url'])
                                     <li class="nav-item ">
                                         <a href="/blog" title="{{ __(" Blog") }}">{{ __("Blog") }} </a>
                                     </li>
                                 @endif
 
-                                @if (json_decode($site->site_options, true)['contact_url'])
+                                @if ($site->site_options['contact_url'])
                                     <li class="nav-item ">
                                         <a href="{{ route("contact") }}" title="{{ __("Contact Us") }}"> {{ __("Contact Us") }} </a>
                                     </li>
@@ -86,7 +86,7 @@
                                 </a>
                             @endauth
 
-                            @if (json_decode($site->site_options, true)['login_url'])
+                            @if ($site->site_options['login_url'])
                             @guest
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#login">
                                 {{ __("Join us") }}
@@ -144,7 +144,7 @@
     </header>
 
 
-    @if (json_decode($site->site_options, true)['login_url'])
+    @if ($site->site_options['login_url'])
         @livewire('auth-livewire')
     @endif
 
