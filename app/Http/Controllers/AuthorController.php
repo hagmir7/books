@@ -17,7 +17,7 @@ class AuthorController extends Controller
 
     public function show(Author $author){
         $books = $author->books()->paginate(18);
-        $title = $author->full_name;
+        $title = str_replace(":attr", $author->full_name, app('site')->site_options['author_title']);
         return view('authors.show', compact('author', 'books', 'title'));
     }
 }

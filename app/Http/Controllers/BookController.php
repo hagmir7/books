@@ -26,7 +26,7 @@ class BookController extends Controller
         !$book->is_public && abort(403);
         return view("books.show", [
             "book" => $book,
-            "title" => $book->title,
+            "title" => str_replace(":attr", $book->name, app('site')->site_options['book_title']),
             "description" => \Illuminate\Support\Str::limit($book->description, 160),
             "tags" => $book->tags,
             "author" => $book->author->full_name,

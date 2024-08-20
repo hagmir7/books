@@ -10,7 +10,7 @@
             <div class="col-lg-3">
                 <div class="sticky-left-column">
                     <div class="book-cover">
-                        <img src="{{ Storage::url($book->image) }}" alt="{{ $book->title }}" class="img-fluid" itemprop="image">
+                        <img src="{{ Storage::url($book->image) }}" alt="{{ formatBookTitle($book->name) }}" class="img-fluid" itemprop="image">
                     </div>
 
                     {{-- <div class="fb-share-button social-btns" data-href="{{ request()->url() }}" data-layout="" data-size="">
@@ -20,7 +20,7 @@
                     <div class="social-btns">
                         <a target="_blank"
                             aria-label="{{ __("Share with Facebook")}}"
-                            href="https://www.facebook.com/sharer/sharer.php?u={{ request()->url() }}&title={{ $book->title }}"
+                            href="https://www.facebook.com/sharer/sharer.php?u={{ request()->url() }}&title={{ formatBookTitle($book->name) }}"
                             class="fb-xfbml-parse-ignore btn facebook">
 
                             <svg class="facebook" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -47,7 +47,7 @@
 
                         </a>
                         <a class="btn pinterest"
-                            href="https://pinterest.com/pin/create/button/?url={{ request()->url() }}&description={{ $book->title }}"
+                            href="https://pinterest.com/pin/create/button/?url={{ request()->url() }}&description={{ formatBookTitle($book->name) }}"
                             aria-label="{{ __("Share with Pintrest")}}"
                             target="blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -110,7 +110,7 @@
             </div>
 
             <div class="col-lg-9">
-                <h1 itemprop="name" class="h3" dir="auto">{{ $book->title }}</h1>
+                <h1 itemprop="name" class="h3" dir="auto">{{ formatBookTitle($book->name) }}</h1>
                 <div class="book-rating general" itemprop="aggregateRating" itemscope
                     itemtype="http://schema.org/AggregateRating">
                     <div class="d-flex align-items-center gap-2">

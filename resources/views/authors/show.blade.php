@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="author-info">
-                        <h1>{{ $author->full_name }}</h1>
+                        <h1>{{ str_replace(":attribute", $author->full_name, $site->site_options['author_title']) }}</h1>
                         <div class="description-author more">
                             <div class="text-center">
                                 {!! $author->description !!}
