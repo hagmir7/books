@@ -170,6 +170,27 @@
                 @if (auth()->user()?->email_verified_at)
                     @livewire('book-actions', ['book' => $book, key($book->slug)])
                 @endif
+                <div class="mt-5 d-flex justify-content-center">
+                    <nav aria-label="Next and Previous navigation" class="w-100">
+                        <ul class="pagination d-flex justify-content-between">
+                            @if($book->previous())
+                            <li class="page-item">
+                                <a class="page-link btn btn-primary" href="{{ route('book.show', $book->previous()->slug) }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo; {{ __("Previous") }}</span>
+                                </a>
+                            </li>
+                            @endif
+                            @if($book->next())
+                            <li class="page-item">
+                                <a class="page-link btn btn-primary" href="{{ route('book.show', $book->next()->slug) }}" aria-label="Next">
+                                    <span aria-hidden="true">{{ __("Next") }} &raquo;</span>
+                                </a>
+                            </li>
+                            @endif
+                        </ul>
+                    </nav>
+                </div>
+
                 {{-- Body --}}
                 <div class="book-description" itemprop="description">
                     {!! $book->body !!}

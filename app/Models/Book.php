@@ -21,6 +21,22 @@ class Book extends Model
     protected $dates = ['deleted_at'];
 
 
+    public function next()
+    {
+        return static::where('id', '>', $this->id)
+            ->orderBy('id', 'asc')
+            ->first();
+    }
+
+    // Get the previous book based on ID
+    public function previous()
+    {
+        return static::where('id', '<', $this->id)
+            ->orderBy('id', 'desc')
+            ->first();
+    }
+
+
     public function language(){
         return $this->belongsTo(Language::class);
     }

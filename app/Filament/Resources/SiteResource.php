@@ -57,13 +57,13 @@ class SiteResource extends Resource
                                 Forms\Components\Grid::make(2)
                                     ->schema([
                                         Forms\Components\FileUpload::make('image')
-                                        ->image(),
+                                            ->image(),
 
                                         Forms\Components\FileUpload::make('icon')
-                                        ->image(),
+                                            ->image(),
 
                                         Forms\Components\FileUpload::make('logo')
-                                        ->image(),
+                                            ->image(),
                                     ])
                             ]),
                         Forms\Components\Tabs\Tab::make('Advance')
@@ -78,7 +78,15 @@ class SiteResource extends Resource
 
                                 Forms\Components\Textarea::make('footer')
                                     ->columnSpanFull(),
-                        ]),
+                            ]),
+
+                        Forms\Components\Tabs\Tab::make('Options')
+                            ->icon('heroicon-o-cog-6-tooth')
+                            ->schema([
+                                Forms\Components\KeyValue::make('site_options')
+                                    ->columnSpanFull(),
+                            ])
+
                     ])
                     ->columnSpanFull()
                     ->activeTab(2),
@@ -89,8 +97,9 @@ class SiteResource extends Resource
 
 
 
-                Forms\Components\KeyValue::make('site_options')
-                    ->columnSpanFull(),
+
+
+
 
                 // FilamentJsonColumn::make('site_options')
                 // ->columnSpanFull(),
