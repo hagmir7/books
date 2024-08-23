@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
         Model::preventLazyLoading(! app()->isProduction());
         $domain = str_replace('www.', '', request()->getHost());
-        $site = Site::where('domain', $domain)->firstOrFail();
+        $site = Site::where('domain', $domain)->first();
         app()->instance('site', $site);
 
     }
