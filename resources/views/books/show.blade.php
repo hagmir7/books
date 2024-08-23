@@ -158,6 +158,13 @@
                                 <span itemprop="numberOfPages">{{ $book->pages ? $book->pages : "__" }} {{ __("pages") }}</span>
                             </td>
                         </tr>
+
+                        <tr>
+                            <td>{{ __("ISBN13") }}:</td>
+                            <td>
+                                <span itemprop="isbn">{{ $book->isbn ? $book->isbn : "__" }}</span>
+                            </td>
+                        </tr>
                         <tr>
                             <td>{{ __("Language") }}:</td>
                             <td itemprop="Language">
