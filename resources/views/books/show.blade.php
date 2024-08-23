@@ -5,6 +5,8 @@
     <meta itemprop="author" content="{{ $book->author->full_name }}" />
     <meta itemprop="publisher" content="{{ $book->author->full_name }}" />
 
+    {!! app("site")->ads !!}
+
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
@@ -80,6 +82,7 @@
 
 
                     <div class="download read py-3">
+                        {!! app("site")->ads !!}
                         <a download href="{{ Storage::url($book->file) }}" class="w-100 btn btn-primary btn-rounded d-flex justify-content-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -104,12 +107,15 @@
                                 <path d="M21 6l0 13" />
                             </svg>
                             <span class="mx-2">{{ __("Read") }}</span>
+
                         </a>
+                        {!! app("site")->ads !!}
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-9">
+                {!! app("site")->ads !!}
                 <h1 itemprop="name" class="h3" dir="auto">{{ formatBookTitle($book->name) }}</h1>
                 <div class="book-rating general" itemprop="aggregateRating" itemscope
                     itemtype="http://schema.org/AggregateRating">
@@ -166,6 +172,7 @@
                         </tr>
                     </tbody>
                 </table>
+                {!! app("site")->ads !!}
                 {{-- Book Actions --}}
                 @if (auth()->user()?->email_verified_at)
                     @livewire('book-actions', ['book' => $book, key($book->slug)])
@@ -195,6 +202,7 @@
                 <div class="book-description" itemprop="description">
                     {!! $book->body !!}
                 </div>
+                {!! app("site")->ads !!}
 
                 {{-- Reviews --}}
                 <div class="row mt-5 mb-3">

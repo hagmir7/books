@@ -94,6 +94,16 @@ Route::middleware('api')->prefix('api/books')->group(function () {
 
 
 
+Route::prefix('copyright')->group(function(){
+    Route::get('/list', function(){
+        $books = Book::where("is_public", 0)->get();
+        return view('copyright.list', ['books' => $books]);
+    });
+
+});
+
+
+
 
 
 

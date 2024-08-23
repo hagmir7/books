@@ -13,7 +13,7 @@ class BookActions extends Component
 
     public function hidde(){
         $book_status = !$this->book->is_public ? true : false;
-        $this->book->update(['is_public' => $book_status]);
+        $this->book->update(['is_public' => $book_status, "copyright_date" => now()]);
         session()->flash('status', 'Book successfully hidded.');
     }
 

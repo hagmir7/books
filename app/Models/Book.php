@@ -15,7 +15,8 @@ class Book extends Model
     protected $fillable = [
         'name', 'title', 'user_id', 'author_id', 'book_category_id',
         'language_id', 'type', 'pages', 'size', 'image', 'description',
-        'body', 'tags', 'file', 'is_public', 'slug', 'site_id'
+        'body', 'tags', 'file', 'is_public', 'slug', 'site_id',
+        'copyright_date', 'isbm'
     ];
 
     protected $dates = ['deleted_at'];

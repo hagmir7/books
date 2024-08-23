@@ -73,6 +73,9 @@ class SiteResource extends Resource
                                 Forms\Components\TextInput::make('ads_txt')
                                     ->maxLength(255),
 
+                                Forms\Components\Textarea::make('ads')
+                                    ->columnSpanFull(),
+
                                 Forms\Components\Textarea::make('header')
                                     ->columnSpanFull(),
 
