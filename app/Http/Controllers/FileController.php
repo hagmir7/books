@@ -30,7 +30,7 @@ class FileController extends Controller
 
     public function cleanUpImages()
     {
-        $filesInDatabase = DB::table('books')->pluck('file')->toArray();
+        $filesInDatabase = DB::table('books')->pluck('image')->toArray();
 
         $filesInStorage = array_map('basename', Storage::disk('public')->files('book_images'));
 
