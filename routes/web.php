@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookCategoryController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SitemapController;
@@ -11,6 +12,8 @@ use App\Models\Post;
 use App\Models\Site;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -103,7 +106,8 @@ Route::prefix('copyright')->group(function(){
 });
 
 
-
+Route::get('delete-files', [FileController::class, 'cleanUpFiles']);
+Route::get('delete-images', [FileController::class, 'cleanUpImages']);
 
 
 
