@@ -37,4 +37,20 @@ class Author extends Model
         }
         return $query;
     }
+
+
+        public function next()
+    {
+        return static::where('id', '>', $this->id)
+            ->orderBy('id', 'asc')
+            ->first();
+    }
+
+    // Get the previous book based on ID
+    public function previous()
+    {
+        return static::where('id', '<', $this->id)
+            ->orderBy('id', 'desc')
+            ->first();
+    }
 }

@@ -17,7 +17,28 @@
                             <div class="text-center">
                                 {!! $author->description !!}
                             </div>
+                            @livewire('author-ai', ['author' => $author], key($author->id))
                         </div>
+                    </div>
+                    <div class="mt-5 d-flex justify-content-center">
+                        <nav aria-label="Next and Previous navigation" class="w-100">
+                            <ul class="pagination d-flex justify-content-between">
+                                @if($author->previous())
+                                <li class="page-item">
+                                    <a class="page-link btn btn-primary" href="{{ route('authors.show', $author->previous()->slug) }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo; {{ __("Previous") }}</span>
+                                    </a>
+                                </li>
+                                @endif
+                                @if($author->next())
+                                <li class="page-item">
+                                    <a class="page-link btn btn-primary" href="{{ route('authors.show', $author->next()->slug) }}" aria-label="Next">
+                                        <span aria-hidden="true">{{ __("Next") }} &raquo;</span>
+                                    </a>
+                                </li>
+                                @endif
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
