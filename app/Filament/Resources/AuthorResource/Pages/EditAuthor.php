@@ -17,7 +17,10 @@ class EditAuthor extends EditRecord
     {
 
         $actions = [
-            Actions\DeleteAction::make(),
+            Actions\CreateAction::make()
+                ->icon('heroicon-o-plus-circle'),
+            Actions\DeleteAction::make()
+                ->icon('heroicon-o-trash'),
         ];
         return array_merge($actions, $this->getNavigationActions());
     }
