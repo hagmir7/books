@@ -80,7 +80,7 @@
 
                     <!-- ads before download -->
 
-
+{{--
                     <div class="download read py-3">
                         {!! app("site")->ads !!}
                         <a download href="{{ Storage::url($book->file) }}" class="w-100 btn btn-primary btn-rounded d-flex justify-content-center">
@@ -110,7 +110,7 @@
 
                         </a>
                         {!! app("site")->ads !!}
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
