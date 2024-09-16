@@ -3,7 +3,7 @@
 
 @section('content')
 <section class="single-post">
-    {!! isset(app("site")->ads) && app("site")->ads !!}
+    {!! app("site")->ads !!}
 
     <script type="application/ld+json">
         {
@@ -119,12 +119,12 @@
                     @if (auth()->user()?->email_verified_at)
                         @livewire('post-actions', ['post' => $post, key($post->slug)])
                     @endif
-                    {!! isset(app("site")->ads) && app("site")->ads !!}
+                    {!! app("site")->ads !!}
 
                     <div class="post-text">
                         {!! $post->body !!}
                     </div>
-                    {!! isset(app("site")->ads) && app("site")->ads !!}
+                    {!! app("site")->ads !!}
                 </div>
             </div>
         </div>
