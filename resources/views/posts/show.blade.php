@@ -67,7 +67,7 @@
                         </svg>
                     </a>
                     <a class="btn twitter"
-                        href="https://twitter.com/intent/tweet?text={{ urlencode($book->name . ' ' . request()->fullUrl()) }}"
+                        href="https://twitter.com/intent/tweet?text={{ urlencode($post->title . ' ' . request()->fullUrl()) }}"
                         data-show-count="false" aria-label="@lang('Share with X')" target="blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -78,7 +78,7 @@
                         </svg>
                     </a>
                     <a class="btn pinterest"
-                        href="https://pinterest.com/pin/create/button/?url={{ urlencode(request()->fullUrl()) }}&description={{ urlencode($book->name) }}"
+                        href="https://pinterest.com/pin/create/button/?url={{ urlencode(request()->fullUrl()) }}&description={{ urlencode($post->title) }}"
                         aria-label="@lang('Share with Pinterest')" target="blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -90,7 +90,7 @@
                         </svg>
                     </a>
                     <a class="btn whatsapp"
-                        href="whatsapp://send/?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($book->name) }}"
+                        href="whatsapp://send/?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($post->title) }}"
                         aria-label="@lang('Share with WhatsApp')" target="blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -101,7 +101,7 @@
                         </svg>
                     </a>
                     <a class="btn telegram"
-                        href="https://telegram.me/share/url?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($book->name) }}"
+                        href="https://telegram.me/share/url?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($post->title) }}"
                         aria-label="@lang('Share with Telegram')" target="blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
