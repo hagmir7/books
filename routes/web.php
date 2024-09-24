@@ -121,7 +121,7 @@ Route::post('delete-books', function(Request $request){
     $slugs = array_filter(array_map('trim', explode("\n", $request->input('slugs'))));
 
     // Delete books with the matching slugs
-    $deletedBooks = Book::whereIn('slug', $slugs)->delete();
+    $deletedBooks = Book::whereIn('slug', $slugs)->update(['is_public' => false]);;
 
     // Return a response with the number of deleted books
     return redirect()->back()->with('status', "$deletedBooks books were deleted.");
