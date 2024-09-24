@@ -21,12 +21,12 @@
                             <div class="row book">
                                 <div class="book-cover col-lg-3 col-3">
                                     <a href="{{ route('book.show', $book->slug) }}">
-                                        <img src="{{ Storage::url($book->image) }}" alt="{{ $book->name }} {{ $book->type }}" class="img-fluid">
+                                        <img src="{{ Storage::url($book->image) }}" alt="{{ $book->name }}" class="img-fluid">
                                     </a>
                                 </div>
                                 <div class="book-info col-lg-9 col-9">
                                     <div class="book-title">
-                                        <a href="{{ route('book.show', $book->slug) }}">{{ $book->name }} ({{ $book->type }})</a>
+                                        <a href="{{ route('book.show', $book->slug) }}">{{ $book->name }}</a>
                                     </div>
                                     <div class="book-attr">
                                         <span class="book-publishing-year">{{ $book->created_at->format("Y") }}, </span>

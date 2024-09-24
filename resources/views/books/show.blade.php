@@ -170,12 +170,12 @@
                                 {{ $book->language->name }}
                             </td>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                             <td>{{ __("Type") }}:</td>
                             <td>
                                 <div class="badge badge-danger p-2">{{ $book->type }}</div>
                             </td>
-                        </tr>
+                        </tr> --}}
                     </tbody>
                 </table>
                 {!! app("site")->ads !!}

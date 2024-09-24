@@ -4,7 +4,7 @@
             <div class="col-12" id="book-list">
                 <div class="top-filter row">
                     <div class="col-lg-7">
-                        <h1 class="h4">{{ $category->name ? $category->name : "Download Free PDF Books" }}</h1>
+                        <h1 class="h4">{{ $category->name ? $category->name : "Books" }}</h1>
                     </div>
                     <div class="col-lg-5 text p-0 text-end">
                         Found <span>{{ $total }} books</span> in total
@@ -16,12 +16,12 @@
                             <div class="row book">
                                 <div class="book-cover col-lg-3 col-3">
                                     <a href="{{ route('book.show', $book->slug) }}">
-                                        <img src="{{ Storage::url($book->image) }}" alt="{{ $book->name }} {{ $book->type }}" class="img-fluid">
+                                        <img src="{{ Storage::url($book->image) }}" alt="{{ $book->name }}" class="img-fluid">
                                     </a>
                                 </div>
                                 <div class="book-info col-lg-9 col-9">
                                     <div class="book-title">
-                                        <a href="{{ route('book.show', $book->slug) }}">{{ $book->name }} {{ $book->type }}</a>
+                                        <a href="{{ route('book.show', $book->slug) }}">{{ $book->name }}</a>
                                     </div>
                                     <div class="book-attr">
                                         <span class="book-publishing-year">{{ $book->created_at->format("Y") }}, </span>
