@@ -102,7 +102,6 @@ Route::prefix('copyright')->group(function(){
         $books = Book::where("is_public", 0)->get();
         return view('copyright.list', ['books' => $books]);
     });
-
 });
 
 
@@ -110,5 +109,25 @@ Route::get('delete-files', [FileController::class, 'cleanUpFiles']);
 Route::get('delete-images', [FileController::class, 'cleanUpImages']);
 
 
+
+Route::post('delete-books', function(Request $request){
+
+    // Validate the textarea input to ensure it's not empty
+    $request->validate([
+        'slugs' => 'required|string',
+    ]);
+
+    // Get the slugs from the textarea, trim and split into an array
+    $slugs = array_filter(array_map('trim', explode("\n", $request->input('slugs'))));
+
+    // Delete books with the matching slugs
+    $deletedBooks = Book::whereIn('slug', $slugs)->delete();
+
+    // Return a response with the number of deleted books
+    return redirect()->back()->with('status', "$deletedBooks books were deleted.");
+
+})->name("books.remove");
+
+Route::view('book_form', 'book_form');
 
 
