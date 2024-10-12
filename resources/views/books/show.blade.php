@@ -78,8 +78,6 @@
 
 
                     <!-- ads before download -->
-
-{{--
                     <div class="download read py-3">
                         {!! app("site")->ads !!}
                         <a download href="{{ Storage::url($book->file) }}" class="w-100 btn btn-primary btn-rounded d-flex justify-content-center">
@@ -109,7 +107,7 @@
 
                         </a>
                         {!! app("site")->ads !!}
-                    </div> --}}
+                    </div>
                 </div>
             </div>
 
@@ -170,12 +168,12 @@
                                 {{ $book->language->name }}
                             </td>
                         </tr>
-                        {{-- <tr>
+                        <tr>
                             <td>{{ __("Type") }}:</td>
                             <td>
                                 <div class="badge badge-danger p-2">{{ $book->type }}</div>
                             </td>
-                        </tr> --}}
+                        </tr>
                     </tbody>
                 </table>
                 {!! app("site")->ads !!}
