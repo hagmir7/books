@@ -116,7 +116,7 @@
                     @endif
                     {!! app("site")->ads !!}
                     <div class="my-3">
-                        <img width="100%" height="auto" src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}">
+                        <img width="100%" height="auto" class="rounded" src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}">
                     </div>
                     <div class="post-text">
                         {!! $post->body !!}
