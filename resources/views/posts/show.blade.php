@@ -115,7 +115,9 @@
                         @livewire('post-actions', ['post' => $post, key($post->slug)])
                     @endif
                     {!! app("site")->ads !!}
-
+                    <div class="my-3">
+                        <img src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}">
+                    </div>
                     <div class="post-text">
                         {!! $post->body !!}
                     </div>
