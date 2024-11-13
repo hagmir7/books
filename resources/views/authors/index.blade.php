@@ -6,24 +6,25 @@
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="authors-list">
-                    <div class="top-filter row">
+                    <div class="top-filter row m-0">
                         <div class="col-lg-8 text">
                             Found <span>{{ $authors->count() }} authors</span> in total
                         </div>
                     </div>
+                    <h1 class="h2 py-3">Most popular book authors</h1>
                     <div class="row">
                         @foreach ($authors as $author)
-                            <div class="col-sm-4 col-md-3 col-lg-2 col-6">
-                                <div class="author">
+                            <div class="col-sm-4 col-md-3 col-lg-2 col-6 rounded overflow-hidden">
+                                <div class="author overflow-hidden" style="border-radius: 17px">
                                     <div class="author-photo">
-                                        <a href="{{ route("authors.show", $author->slug) }}" class="text-center">
+                                        <a href="{{ route("authors.show", $author->slug) }}" class="text-center rounded">
                                             <img class="cover" src="{{ Storage::url($author->image) }}" alt="{{ $author->full_name }}">
                                         </a>
                                     </div>
                                     <div class="author-info">
-                                        <h4 class="author-name">
+                                        <h2 class="author-name h4 mt-2">
                                             <a href="{{ route("authors.show", $author->slug) }}">{{ $author->full_name }}</a>
-                                        </h4>
+                                        </h2>
                                         <span class="author-books">{{ $author->books_count }} {{ __("books") }}</span>
                                     </div>
                                 </div>
