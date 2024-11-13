@@ -63,9 +63,9 @@
                                             </a>
                                         </div>
                                         <div class="book-info col-lg-9 col-9">
-                                            <div class="book-title">
+                                            <h2 class="book-title">
                                                 <a href="{{ route("book.show", $book->slug) }}">{{ $book->name }}</a>
-                                            </div>
+                                            </h2>
                                             <div class="book-attr">
                                                 <span class="book-publishing-year">{{ $book->created_at->format("Y") }}</span>
                                             </div>
