@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class PageController extends Controller
 {
     public function show(Page $page){
-        return view("pages.show", compact('page'));
+        $title = $page->title;
+        return view("pages.show", compact('page', 'title'));
     }
 }
