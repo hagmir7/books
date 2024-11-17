@@ -105,7 +105,7 @@
                             </svg>
                             <span class="mx-2">{{ __("Read") }}</span>
                         </a>
-                        {{-- {!! app("site")->ads !!} --}}
+                        {!! app("site")->ads !!}
                     </div>
                 </div>
             </div>
