@@ -98,34 +98,34 @@ class PostResource extends Resource
                 //     ->columnSpanFull(),
 
 
-                Forms\Components\Textarea::make('body')
-                    ->label(__('Content'))
-                    ->required()
-                    ->rows(8)
-                    ->hidden(fn(Get $get): bool => $get('markdown'))
-                    ->columnSpanFull(),
-
-
-                        Forms\Components\MarkdownEditor::make('body')
+                        Forms\Components\Textarea::make('body')
                             ->label(__('Content'))
                             ->required()
-                            ->hidden(fn (Get $get): bool => !$get('markdown'))
-                            ->columnSpanFull()
-                            ->toolbarButtons([
-                                'attachFiles',
-                                'blockquote',
-                                'bold',
-                                'bulletList',
-                                'codeBlock',
-                                'heading',
-                                'italic',
-                                'link',
-                                'orderedList',
-                                'redo',
-                                'strike',
-                                'table',
-                                'undo',
-                            ]),
+                            ->rows(8)
+                            // ->hidden(fn(Get $get): bool => $get('markdown'))
+                            ->columnSpanFull(),
+
+
+                        // Forms\Components\MarkdownEditor::make('body')
+                        //     ->label(__('Content'))
+                        //     ->required()
+                        //     ->hidden(fn (Get $get): bool => !$get('markdown'))
+                        //     ->columnSpanFull()
+                        //     ->toolbarButtons([
+                        //         'attachFiles',
+                        //         'blockquote',
+                        //         'bold',
+                        //         'bulletList',
+                        //         'codeBlock',
+                        //         'heading',
+                        //         'italic',
+                        //         'link',
+                        //         'orderedList',
+                        //         'redo',
+                        //         'strike',
+                        //         'table',
+                        //         'undo',
+                        //     ]),
 
                         // Forms\Components\Textarea::make('body')
                         //     ->label(__('Content'))
