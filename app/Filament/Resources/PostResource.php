@@ -94,14 +94,14 @@ class PostResource extends Resource
                         Forms\Components\RichEditor::make('body')
                             ->label(__('Content'))
                             ->required()
-                            ->hidden(fn (Get $get): bool => $get('markdown'))
+                            ->hidden(fn (Get $get): bool => !$get('markdown'))
                             ->columnSpanFull(),
 
 
                         Forms\Components\MarkdownEditor::make('body')
                             ->label(__('Content'))
                             ->required()
-                            ->hidden(fn (Get $get): bool => !$get('markdown'))
+                            ->hidden(fn (Get $get): bool => $get('markdown'))
                             ->columnSpanFull()
                             ->toolbarButtons([
                                 'attachFiles',
