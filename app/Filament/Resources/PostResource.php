@@ -97,9 +97,6 @@ class PostResource extends Resource
                             ->hidden(fn (Get $get): bool => $get('markdown'))
                             ->columnSpanFull(),
 
-
-
-
                         Forms\Components\MarkdownEditor::make('body')
                             ->label(__('Content'))
                             ->required()

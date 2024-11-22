@@ -79,8 +79,14 @@
 
                     <!-- ads before download -->
                     <div class="download read py-3">
-                        {{-- {!! app("site")->ads !!} --}}
-                        <a download href="https://freedaz.com/books/{{ $book->slug }}" class="w-100 btn btn-primary btn-rounded d-flex justify-content-center">
+                        {!! app("site")->ads !!}
+                        @php
+                        $downloadLink = app("site")->domain == "freedaz.com"
+                        ? "https://pdfdrive.me/{$book->file}"
+                        : "https://freedaz.com/books/{$book->slug}";
+                        @endphp
+
+                        <a href="{{ $downloadLink }}" class="w-100 btn btn-primary btn-rounded d-flex justify-content-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="icon icon-tabler icons-tabler-outline icon-tabler-download">
