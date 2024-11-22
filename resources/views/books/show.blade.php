@@ -82,7 +82,7 @@
                         {!! app("site")->ads !!}
                         @php
                         $downloadLink = app("site")->domain == "freedaz.com"
-                        ? "https://pdfdrive.me/{$book->file}"
+                        ? "https://pdfdrive.me/storage/{$book->file}"
                         : "https://freedaz.com/books/{$book->slug}";
                         @endphp
 
