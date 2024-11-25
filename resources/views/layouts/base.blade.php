@@ -7,7 +7,7 @@
     <meta name="keywords" content="{{ isset($tags) ? $tags :  $site->keywords }}">
     <link rel="icon" type="image/png" href="{{ Storage::url($site->icon) }}" />
     <meta itemprop="image" content="{{ isset($image) ? Storage::url($image)  : Storage::url($site->image) }}">
-    <link rel='canonical' href='{{ request()->url() }}' />
+    <link rel='canonical' href='{{ request()->fullUrl() }}' />
     <meta name=viewport content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
