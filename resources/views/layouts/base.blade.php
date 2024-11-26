@@ -12,9 +12,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/carousel.min.css') }}">
-
     @yield('head')
    {!! $site->header !!}
 </head>
@@ -43,9 +40,6 @@
                                     <a href="/authors" title="{{ __(" Authors") }}">{{ __("Authors") }} </a>
                                 </li>
                                 @endif
-
-
-
                                 @if ($site->site_options['blogs_url'])
                                     <li class="nav-item ">
                                         <a href="/blog" title="{{ __(" Blog") }}">{{ __("Blog") }} </a>
@@ -65,7 +59,6 @@
                                         </li>
                                     @endif
                                 @endforeach
-
                             </ul>
                         </div>
                     </nav>
