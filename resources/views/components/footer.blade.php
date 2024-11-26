@@ -2,7 +2,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                {{-- <p>© 2024 {{ Str::upper($site->domain) }}. -- Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})</p> --}}
+                <p>Copyright © {{ Str::upper($site->domain) }} 2024. All rights reserved.
+                     {{-- -- Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }}) --}}
+                </p>
 
                 <div class="navbar">
                     <div class="w-100 pt-3">

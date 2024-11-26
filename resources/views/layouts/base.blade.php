@@ -10,7 +10,7 @@
     <link rel='canonical' href='{{ request()->fullUrl() }}' />
     <meta name=viewport content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/carousel.min.css') }}">
@@ -140,32 +140,14 @@
                 </div>
             </div>
         </div>
-        <!--HeaderCode-->
     </header>
-
-
     @if ($site->site_options['login_url'])
         @livewire('auth-livewire')
     @endif
-
     @yield('content')
     <x-footer />
     <div class="d-none">{!! $site->footer !!}</div>
-
-
-    {{-- Langauge menu --}}
-
-    <script src="{{ asset("js/popper.min.js") }}"></script>
-    <script src="{{ asset("js/bootstrap.min.js") }}"></script>
-    <script src="{{ asset("js/carousel.min.js") }}"></script>
-    <script src="{{ asset("js/plugins.js") }}"></script>
-    <script src="{{ asset("js/custom.js") }}"></script>
-
     <div id="fb-root"></div>
-
-
     @yield('footer')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"> </script>
 </body>
-
 </html>
