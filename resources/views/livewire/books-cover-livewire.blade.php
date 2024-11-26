@@ -1,5 +1,5 @@
 <section class="home-book-carousel owl-carousel">
-    @foreach ($books as $book)
+    {{-- @foreach ($books as $book)
         <div class="book {{ $colors[$loop->index] }}">
             <div class="row">
                 <div class="book-cover col-lg-4 col-4">
@@ -26,5 +26,5 @@
                 </div>
             </div>
         </div>
-    @endforeach
+    @endforeach --}}
 </section>
