@@ -7,43 +7,40 @@
 
     <script type="application/ld+json">
         {
-                  "@context": "http://schema.org",
-                  "@type": "Article",
-                  "mainEntityOfPage": {
-                    "@type": "WebPage",
-                    "@id": "{{ request()->url() }}"
-                  },
-                  "headline": "{{ $post->title }}",
-                                "image": [
-                    "Storage::url({{ $post->image }})"
-                   ],
-                                 "datePublished": "",
-                  "dateModified": "",
-                                "author": {
-                    "@type": "{{ $site->name }}",
-                    "name": "{{ $site->name }}"
-                  },
-                                 "publisher": {
-                    "@type": "Organization",
-                    "name": "{{ $site->name }}",
-                    "logo": {
-                      "@type": "ImageObject",
-                      "url": "{{ Storage::url($site->image) }}"
-                    }
-                  },
-                  "description": "{{ $post->description }}"
-                }
-
-
+            "@context": "http://schema.org",
+            "@type": "Article",
+            "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ request()->url() }}"
+            },
+            "headline": "{{ $post->title }}",
+                        "image": [
+            "Storage::url({{ $post->image }})"
+            ],
+                            "datePublished": "",
+            "dateModified": "",
+                        "author": {
+            "@type": "{{ $site->name }}",
+            "name": "{{ $site->name }}"
+            },
+                            "publisher": {
+            "@type": "Organization",
+            "name": "{{ $site->name }}",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ Storage::url($site->image) }}"
+            }
+            },
+            "description": "{{ $post->description }}"
+        }
     </script>
-
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
                 <div class="post-content">
                     <h1>{{ $post->title }}</h1>
                     <div class="post-meta text-center mt-1">
-                        <span class="time d-flex justify-content-center">
+                        <span class="time d-flex justify-content-center items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="icon icon-tabler icons-tabler-outline icon-tabler-clock-hour-2">
@@ -56,7 +53,7 @@
                         </span>
                     </div>
                 <div class="social-btns mt-1">
-                    <a target="_blank" aria-label="@lang('Share with Facebook')"
+                    <a target="_blank" aria-label="{{ __("Share with Facebook") }}"
                         href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
                         class="fb-xfbml-parse-ignore btn facebook">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -68,7 +65,7 @@
                     </a>
                     <a class="btn twitter"
                         href="https://twitter.com/intent/tweet?text={{ urlencode($post->title . ' ' . request()->fullUrl()) }}"
-                        data-show-count="false" aria-label="@lang('Share with X')" target="blank">
+                        data-show-count="false" aria-label="{{ __("Share with X") }}" target="blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="icon icon-tabler icons-tabler-outline icon-tabler-brand-twitter">
@@ -79,7 +76,7 @@
                     </a>
                     <a class="btn pinterest"
                         href="https://pinterest.com/pin/create/button/?url={{ urlencode(request()->fullUrl()) }}&description={{ urlencode($post->title) }}"
-                        aria-label="@lang('Share with Pinterest')" target="blank">
+                        aria-label="{{  __('Share with Pinterest') }}" target="blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="icon icon-tabler icons-tabler-outline icon-tabler-brand-pinterest">
@@ -91,7 +88,7 @@
                     </a>
                     <a class="btn whatsapp"
                         href="whatsapp://send/?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($post->title) }}"
-                        aria-label="@lang('Share with WhatsApp')" target="blank">
+                        aria-label="{{ __("Share with WhatsApp") }}" target="blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="icon icon-tabler icons-tabler-outline icon-tabler-brand-whatsapp">
@@ -102,7 +99,7 @@
                     </a>
                     <a class="btn telegram"
                         href="https://telegram.me/share/url?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($post->title) }}"
-                        aria-label="@lang('Share with Telegram')" target="blank">
+                        aria-label="{{ __("Share with Telegram") }}" target="blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="icon icon-tabler icons-tabler-outline icon-tabler-brand-telegram">

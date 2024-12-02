@@ -4,9 +4,23 @@
 @section('content')
 <section class="blog-posts">
     <div class="container">
-        <div class="row text-center">
-            <div class="col-lg-12 mt-3">
+        <div class="row text-center justify-content-center">
+            <div class="py-5 col-md-6">
                 <h1 class="h3">{{ $site->site_options['blog_title'] }}</h1>
+                <form action="/blog" method="GET">
+                    <div class="input-group rounded-pill border-2 overflow-hidden">
+                        <button class="btn btn-info" id="Search Button" title="Search Button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                                    <path d="M21 12a9 9 0 1 1-18 0a9 9 0 0 1 18 0"></path>
+                                    <path d="M13.856 13.85a3.429 3.429 0 1 0-4.855-4.842a3.429 3.429 0 0 0 4.855 4.842m0 0L16 16">
+                                    </path>
+                                </g>
+                            </svg>
+                        </button>
+                        <input class="form-control rounded-end-pill" name="q" value="{{ request()->query("q") }}" type="search" placeholder="Book, Author, Category...">
+                    </div>
+                </form>
             </div>
         </div>
         <div class="row">
