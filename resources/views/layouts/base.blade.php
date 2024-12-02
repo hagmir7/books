@@ -19,7 +19,7 @@
 </head>
 
 <body>
-    <header class="header">
+    <header class="header shadow-sm">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-6 col-lg-3 col-md-6">

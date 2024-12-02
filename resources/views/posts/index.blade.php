@@ -5,7 +5,7 @@
 <section class="blog-posts">
     <div class="container">
         <div class="row text-center">
-            <div class="col-lg-12">
+            <div class="col-lg-12 mt-3">
                 <h1 class="h3">{{ $site->site_options['blog_title'] }}</h1>
             </div>
         </div>
