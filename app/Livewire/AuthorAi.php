@@ -17,7 +17,7 @@ class AuthorAi extends Component
 
 
     public function generate(){
-        $response = Http::get('https://al-kora.com/en/ai?author=' . $this->author->full_name);
+        $response = Http::get('https://books.amtar.shop/en/ai?author=' . $this->author->full_name);
         if ($response->successful()) {
             $parsedown = new Parsedown();
             $description = $parsedown->text($response->json()['message']);
