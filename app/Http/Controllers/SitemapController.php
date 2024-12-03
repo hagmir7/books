@@ -20,8 +20,8 @@ class SitemapController extends Controller
 
         if (app("site")->site_options['book_sitemap']) {
             $sitemap->add(Url::create('/books'));
-            Book::all()->each(function (Book $book) use ($sitemap) {
-                $sitemap->add(Url::create("/books/{$book->slug}"));
+            Book::where('is_public', true)->each(function (Book $book) use ($sitemap) {
+                    $sitemap->add(Url::create("/books/{$book->slug}"));
             });
         }
 
@@ -43,7 +43,7 @@ class SitemapController extends Controller
 
         if (app("site")->site_options['post_sitemap']) {
             $sitemap->add(Url::create('/blog'));
-            Post::all()->each(function (Post $post) use ($sitemap) {
+            Post::where('site_id', app('site')->id)->each(function (Post $post) use ($sitemap) {
                 $sitemap->add(Url::create("/blog/{$post->slug}"));
             });
         }
