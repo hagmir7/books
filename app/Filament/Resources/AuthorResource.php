@@ -21,6 +21,12 @@ class AuthorResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
     protected static ?string $navigationGroup = 'More';
 
+
+    public static function getModelLabel(): string
+    {
+        return __("Authors");
+    }
+
     public static function form(Form $form): Form
     {
         return $form

@@ -20,6 +20,11 @@ class CommentResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-bottom-center-text';
     protected static ?string $navigationGroup = 'Contact';
 
+    public static function getModelLabel(): string
+    {
+        return __("Comment");
+    }
+
 
     public static function form(Form $form): Form
     {

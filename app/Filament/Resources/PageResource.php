@@ -24,9 +24,12 @@ class PageResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        $domain = str_replace('www.', '', request()->getHost());
-        $site = Site::where('domain', $domain)->firstOrFail();
-        return parent::getEloquentQuery()->where("site_id", $site->id);
+        return parent::getEloquentQuery()->where("site_id", app("site")->id);
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __("Page");
     }
 
     public static function form(Form $form): Form

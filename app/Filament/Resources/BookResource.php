@@ -23,6 +23,11 @@ class BookResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
+    public static function getModelLabel(): string
+    {
+        return __("Books");
+    }
+
     public static function form(Form $form): Form
     {
         return $form

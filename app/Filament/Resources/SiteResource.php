@@ -20,6 +20,11 @@ class SiteResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-globe-asia-australia';
 
+    public static function getModelLabel(): string
+    {
+        return __("Websites");
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -31,18 +36,25 @@ class SiteResource extends Resource
                             // ->iconPosition(IconPosition::After)
                             ->schema([
                                 Forms\Components\TextInput::make('name')
+                                    ->label(__("Site name"))
                                     ->required()
                                     ->columnSpanFull()
                                     ->maxLength(255),
 
                                 Forms\Components\TextInput::make('domain')
+                                    ->label(__("Domain"))
                                     ->required()
                                     ->maxLength(255),
 
                                 Forms\Components\Select::make('language_id')
                                     ->relationship('language', 'name')
+                                    ->label(__("Language"))
                                     ->native(false)
                                     ->required(),
+
+                                Forms\Components\TextInput::make('email')
+                                    ->email()
+                                    ->label(__("Email"))
                             ])->columns(2),
                         Forms\Components\Tabs\Tab::make('SEO')
                             ->icon('heroicon-o-magnifying-glass-circle')

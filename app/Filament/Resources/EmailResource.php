@@ -20,6 +20,11 @@ class EmailResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-at-symbol';
     protected static ?string $navigationGroup = 'Contact';
 
+    public static function getModelLabel(): string
+    {
+        return __("Email");
+    }
+
     public static function form(Form $form): Form
     {
         return $form

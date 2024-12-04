@@ -20,6 +20,11 @@ class LanguageResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-language';
     protected static ?string $navigationGroup = 'More';
 
+    public static function getModelLabel(): string
+    {
+        return __("Language");
+    }
+
     public static function form(Form $form): Form
     {
         return $form
