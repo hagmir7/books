@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
-        Model::preventLazyLoading(! app()->isProduction());
+        Model::preventLazyLoading(! app()->isProduction()); // For N+ error
         $domain = str_replace('www.', '', request()->getHost());
         $site = Site::where('domain', $domain)->first();
         app()->instance('site', $site);

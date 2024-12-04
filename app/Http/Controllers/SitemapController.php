@@ -6,7 +6,6 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\BookCategory;
 use App\Models\Post;
-use App\Models\Site;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 
