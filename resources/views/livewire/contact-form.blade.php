@@ -6,7 +6,7 @@
     @endif
     <div class="row">
         <div class="col-md-6 mb-3">
-            <input wire:model='full_name' class="form-control" placeholder="{{ __(" Full Name") }}" type="text">
+            <input wire:model='full_name' class="form-control" placeholder="{{ __("Full Name") }}" type="text">
             @error('full_name') <div class="alert alert-danger p-2 mt-2">{{ $message }}</div> @enderror
         </div>
 

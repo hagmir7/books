@@ -4,10 +4,10 @@
             <div class="col-12" id="book-list">
                 <div class="top-filter row">
                     <div class="col-lg-7">
-                        <h1 class="h4">{{ $category->name ? $category->name : "Books" }}</h1>
+                        <h1 class="h4">{{ $category->name ? $category->name : __("Books") }}</h1>
                     </div>
                     <div class="col-lg-5 text p-0 text-end">
-                        Found <span>{{ $total }} books</span> in total
+                        {{ __("Found") }} <span>{{ $total }} {{ __("books") }}</span> {{ __("in total") }}
                     </div>
                 </div>
                 <div class="row book-grid">
@@ -56,7 +56,6 @@
                         <nav class="m-auto">
                             <ul class="pagination py-4">
                                 <li class="page-item">
-
                                     <button wire:click='loadMore' class="page-link px-5" wire:loading.attr="disabled">
                                         <div class="loader" wire:loading></div>
                                         <div>{{ __("Load More") }}</div>

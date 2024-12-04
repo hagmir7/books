@@ -4,9 +4,7 @@
     <meta itemprop="url" content="/book/{{ $book->slug }}" />
     <meta itemprop="author" content="{{ $book->author->full_name }}" />
     <meta itemprop="publisher" content="{{ $book->author->full_name }}" />
-
     {!! app("site")->ads !!}
-
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
@@ -14,13 +12,8 @@
                     <div class="book-cover">
                         <img src="{{ Storage::url($book->image) }}" alt="{{ formatBookTitle($book->name) }}" class="img-fluid" itemprop="image">
                     </div>
-
-                    {{-- <div class="fb-share-button social-btns" data-href="{{ request()->url() }}" data-layout="" data-size="">
-
-                    </div> --}}
-
                 <div class="social-btns">
-                    <a target="_blank" aria-label="@lang('Share with Facebook')"
+                    <a target="_blank" aria-label="{{ __("Share with Facebook") }}"
                         href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
                         class="fb-xfbml-parse-ignore btn facebook">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -32,7 +25,7 @@
                     </a>
                     <a class="btn twitter"
                         href="https://twitter.com/intent/tweet?text={{ urlencode($book->name . ' ' . request()->fullUrl()) }}"
-                        data-show-count="false" aria-label="@lang('Share with X')" target="blank">
+                        data-show-count="false" aria-label="{{ __("Share with X") }}" target="blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="icon icon-tabler icons-tabler-outline icon-tabler-brand-twitter">
@@ -43,7 +36,7 @@
                     </a>
                     <a class="btn pinterest"
                         href="https://pinterest.com/pin/create/button/?url={{ urlencode(request()->fullUrl()) }}&description={{ urlencode($book->name) }}"
-                        aria-label="@lang('Share with Pinterest')" target="blank">
+                        aria-label="{{ __("Share with Pinterest") }}" target="blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="icon icon-tabler icons-tabler-outline icon-tabler-brand-pinterest">
@@ -55,7 +48,7 @@
                     </a>
                     <a class="btn whatsapp"
                         href="whatsapp://send/?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($book->name) }}"
-                        aria-label="@lang('Share with WhatsApp')" target="blank">
+                        aria-label="{{ __("Share with WhatsApp") }}" target="blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="icon icon-tabler icons-tabler-outline icon-tabler-brand-whatsapp">
@@ -66,7 +59,7 @@
                     </a>
                     <a class="btn telegram"
                         href="https://telegram.me/share/url?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($book->name) }}"
-                        aria-label="@lang('Share with Telegram')" target="blank">
+                        aria-label="{{ __("Share with Telegram") }}" target="blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="icon icon-tabler icons-tabler-outline icon-tabler-brand-telegram">
@@ -75,8 +68,6 @@
                         </svg>
                     </a>
                 </div>
-
-
                     <!-- ads before download -->
                     <div class="download read py-3">
                         {!! app("site")->ads !!}

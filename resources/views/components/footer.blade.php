@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <p>Copyright © {{ Str::upper($site->domain) }} 2024. All rights reserved.
+                <p>{{ __("Copyright") }} © {{ Str::upper($site->domain) }} 2024. {{ __("All rights reserved") }}.
                      {{-- -- Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }}) --}}
                 </p>
 

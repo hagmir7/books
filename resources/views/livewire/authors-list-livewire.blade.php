@@ -17,7 +17,7 @@
                     <div class="author-name">
                         <a href="{{ route("authors.show", $author->slug) }}"> {{ $author->full_name }}</a>
                     </div>
-                    <div class="author-books">{{ $author->books_count }} books</div>
+                    <div class="author-books">{{ $author->books_count }} {{ __("books") }}</div>
                 </div>
             </div>
         @endforeach

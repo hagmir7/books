@@ -4,7 +4,7 @@
             <div class="modal-body">
                 <div class="card card-no-border">
                     <div class="card-body">
-                        <img width="100px" src="{{ Storage::url($site->logo) }}" class="d-flex ml-auto mr-auto mb-4 mt-2 img-fluid" alt="Login">
+                        <img width="100px" src="{{ Storage::url($site->logo) }}" class="d-flex ml-auto mr-auto mb-4 mt-2 img-fluid" alt="{{ __("Login") }}">
                         @if ($isRegister)
                         <form wire:submit.prevent="register">
                             <div class="mb-3 row ">
@@ -72,7 +72,6 @@
                         @if (session()->has('error'))
                         <div class="alert alert-danger mt-3 p-2">{{ session('error') }}</div>
                         @endif
-
                     </div>
                 </div>
             </div>

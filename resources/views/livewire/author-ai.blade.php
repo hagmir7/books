@@ -1,6 +1,6 @@
 <div>
     {{ $data }}
-    <button class="btn-primary btn" wire:click='generate()'>Generate descripiton
+    <button class="btn-primary btn" wire:click='generate()'>{{ __("Generate descripiton") }}
          <span wire:loading>
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
                 <g>

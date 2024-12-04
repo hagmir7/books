@@ -5,13 +5,19 @@ namespace App\Livewire;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class AuthLivewire extends Component
 {
 
+
+    #[Validate('required|email|min:4|max:100', as:"Email", translate:true)]
     public $email;
+
+    #[Validate('required|min:4|max:100', as: "Passowrd", translate:true)]
     public $password;
+
     public $password_confirmation;
     public $first_name;
 
@@ -36,7 +42,7 @@ class AuthLivewire extends Component
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
             return redirect()->route('home');
         } else {
-            session()->flash('error', __("'Invalid credentials'"));
+            session()->flash('error', __("Invalid credentials"));
         }
     }
 

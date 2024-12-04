@@ -9,9 +9,9 @@ class SetLocale
 {
     public function handle($request, Closure $next)
     {
-        if ($request->segment(1)) {
-            App::setLocale($request->segment(1));
-        }
+        // if ($request->segment(1)) {
+        //     App::setLocale($request->segment(1));
+        // }
         return $next($request);
     }
 }
