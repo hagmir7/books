@@ -74,14 +74,14 @@ class Book extends Model
 
 
 
-    public function newQuery($ordered = true)
-    {
-        $query = parent::newQuery();
-        if ($ordered) {
-            $query->orderBy('created_at', 'desc');
-        }
-        return $query;
-    }
+    // public function newQuery($ordered = true)
+    // {
+    //     $query = parent::newQuery();
+    //     if ($ordered) {
+    //         $query->orderBy('created_at', 'desc');
+    //     }
+    //     return $query;
+    // }
 
     public function getRouteKeyName()
     {

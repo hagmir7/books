@@ -64,14 +64,14 @@ class User extends Authenticatable implements HasName, FilamentUser
         return "{$this->first_name} {$this->last_name}";
     }
 
-    public function newQuery($ordered = true)
-    {
-        $query = parent::newQuery();
-        if ($ordered) {
-            $query->orderBy('created_at', 'desc');
-        }
-        return $query;
-    }
+    // public function newQuery($ordered = true)
+    // {
+    //     $query = parent::newQuery();
+    //     if ($ordered) {
+    //         $query->orderBy('created_at', 'desc');
+    //     }
+    //     return $query;
+    // }
 
 
 
