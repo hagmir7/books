@@ -14,7 +14,6 @@ class EditBook extends EditRecord
 
     use HasRecordNavigation;
 
-
     protected static string $resource = BookResource::class;
 
     protected function getHeaderActions(): array
