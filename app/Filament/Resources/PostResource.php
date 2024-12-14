@@ -28,6 +28,11 @@ class PostResource extends Resource
         return parent::getEloquentQuery()->where("site_id", app('site')->id);
     }
 
+    public static function getPluralLabel(): ?string
+    {
+        return __("Blogs");
+    }
+
 
     public static function getModelLabel(): string
     {

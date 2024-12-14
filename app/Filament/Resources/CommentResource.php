@@ -26,6 +26,11 @@ class CommentResource extends Resource
     }
 
 
+    public static function getPluralLabel(): ?string
+    {
+        return __("Comments");
+    }
+
     public static function form(Form $form): Form
     {
         return $form

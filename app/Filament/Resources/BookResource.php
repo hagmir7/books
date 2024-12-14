@@ -25,6 +25,11 @@ class BookResource extends Resource
 
     public static function getModelLabel(): string
     {
+        return __("Book");
+    }
+
+    public static function getPluralLabel(): ?string
+    {
         return __("Books");
     }
 

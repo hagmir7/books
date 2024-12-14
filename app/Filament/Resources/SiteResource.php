@@ -22,6 +22,11 @@ class SiteResource extends Resource
 
     public static function getModelLabel(): string
     {
+        return __("Website");
+    }
+
+    public static function getPluralLabel(): ?string
+    {
         return __("Websites");
     }
 

@@ -20,6 +20,12 @@ class BookCategoryResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-swatch';
     protected static ?string $navigationGroup = 'More';
 
+
+    public static function getModelLabel(): string
+    {
+        return __("Book Categories");
+    }
+
     public static function form(Form $form): Form
     {
         return $form

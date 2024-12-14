@@ -24,6 +24,12 @@ class AuthorResource extends Resource
 
     public static function getModelLabel(): string
     {
+        return __("Author");
+    }
+
+
+    public static function getPluralLabel(): ?string
+    {
         return __("Authors");
     }
 

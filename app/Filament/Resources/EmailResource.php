@@ -25,6 +25,11 @@ class EmailResource extends Resource
         return __("Email");
     }
 
+    public static function getPluralLabel(): ?string
+    {
+        return __("Emails");
+    }
+
     public static function form(Form $form): Form
     {
         return $form

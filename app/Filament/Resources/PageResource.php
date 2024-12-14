@@ -32,6 +32,11 @@ class PageResource extends Resource
         return __("Page");
     }
 
+    public static function getPluralLabel(): ?string
+    {
+        return __("Pages");
+    }
+
     public static function form(Form $form): Form
     {
         return $form

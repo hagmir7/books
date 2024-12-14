@@ -24,6 +24,11 @@ class UserResource extends Resource
         return __("User");
     }
 
+    public static function getPluralLabel(): ?string
+    {
+        return __("Users");
+    }
+
     public static function form(Form $form): Form
     {
         return $form

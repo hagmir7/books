@@ -25,6 +25,11 @@ class LanguageResource extends Resource
         return __("Language");
     }
 
+    public static function getPluralLabel(): ?string
+    {
+        return __("Languages");
+    }
+
     public static function form(Form $form): Form
     {
         return $form

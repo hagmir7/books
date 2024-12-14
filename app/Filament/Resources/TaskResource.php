@@ -24,6 +24,16 @@ class TaskResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+
+    public static function getModelLabel(): string
+    {
+        return __("Task");
+    }
+    public static function getPluralLabel(): ?string
+    {
+        return __("Tasks");
+    }
+
     public static function form(Form $form): Form
     {
         return $form
