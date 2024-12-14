@@ -36,18 +36,24 @@ class CommentResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('book_id')
+                    ->label(__("Book"))
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('user_id')
+                    ->label(__("User"))
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('full_name'),
+                Forms\Components\TextInput::make('full_name')
+                    ->label(__("Full name")),
                 Forms\Components\TextInput::make('email')
+                    ->label(__("Email"))
                     ->email(),
                 Forms\Components\TextInput::make('stars')
+                    ->label(__("Stars"))
                     ->required()
                     ->numeric(),
                 Forms\Components\Textarea::make('body')
+                    ->label(__("Content"))
                     ->required()
                     ->columnSpanFull(),
             ]);
@@ -58,24 +64,31 @@ class CommentResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('book.name')
+                    ->label(__("Book"))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('full_name')
+                    ->label(___("Full name"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__("Email"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('stars')
+                    ->label(__("Stars"))
                     ->badge()
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('deleted_at')
+                    ->label(__("Deleted at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__("Created at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__("Updated at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

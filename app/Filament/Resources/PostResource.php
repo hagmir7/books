@@ -96,6 +96,7 @@ class PostResource extends Resource
                             ->rows(5)
                             ->columnSpanFull(),
                         Forms\Components\Toggle::make('markdown')
+                            ->label(__("Markdown"))
                             ->live()
                             ->label('Markdown'),
 
@@ -135,17 +136,22 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label(__("Image")),
                 Tables\Columns\TextColumn::make('title')
+                    ->label(__("Title"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('language.name')
+                    ->label(__("Language"))
                     ->badge()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__("Created at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__("Updated at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

@@ -34,14 +34,18 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('first_name')
+                    ->label(__("First name"))
                     ->required(),
                 Forms\Components\TextInput::make('last_name')
+                    ->label(__("Last name"))
                     ->required(),
                 Forms\Components\TextInput::make('email')
+                    ->label(__("Email"))
                     ->email()
                     ->required(),
                 Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
+                    ->label(__("Password"))
                     ->password()
                     ->required(),
             ]);
@@ -51,20 +55,22 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+
                 Tables\Columns\TextColumn::make('first_name')
+                    ->label(__("First name"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('last_name')
+                    ->label(__("Last name"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__("Email"))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label(__("Join date"))
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__("Updated at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

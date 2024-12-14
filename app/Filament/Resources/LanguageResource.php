@@ -35,8 +35,10 @@ class LanguageResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__("Name"))
                     ->required(),
                 Forms\Components\TextInput::make('code')
+                    ->label(__("Code"))
                     ->required(),
             ]);
     }
@@ -46,14 +48,13 @@ class LanguageResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__("Name"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('code')
+                    ->label(__("Code"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__("Created at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

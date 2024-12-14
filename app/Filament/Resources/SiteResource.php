@@ -37,6 +37,7 @@ class SiteResource extends Resource
                 Forms\Components\Tabs::make('Tabs')
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('Site')
+                            ->label(__("Websites"))
                             ->icon('heroicon-o-globe-alt')
                             // ->iconPosition(IconPosition::After)
                             ->schema([
@@ -62,64 +63,67 @@ class SiteResource extends Resource
                                     ->label(__("Email"))
                             ])->columns(2),
                         Forms\Components\Tabs\Tab::make('SEO')
+                            ->label("SEO")
                             ->icon('heroicon-o-magnifying-glass-circle')
                             // ->iconPosition(IconPosition::After)
                             ->schema([
                                 Forms\Components\Textarea::make('keywords')
+                                    ->label(__("Keywords"))
                                     ->columnSpanFull(),
 
                                 Forms\Components\Textarea::make('description')
+                                    ->label(__("Description"))
                                     ->columnSpanFull(),
 
                                 Forms\Components\Grid::make(2)
                                     ->schema([
                                         Forms\Components\FileUpload::make('image')
+                                            ->label(__("Image"))
                                             ->image(),
 
                                         Forms\Components\FileUpload::make('icon')
+                                            ->label(__("Icon"))
                                             ->image(),
 
                                         Forms\Components\FileUpload::make('logo')
+                                            ->label(__("Logo"))
                                             ->image(),
                                     ])
                             ]),
                         Forms\Components\Tabs\Tab::make('Advance')
+                            ->label(__("Advance"))
                             ->icon('heroicon-o-cog-6-tooth')
                             // ->iconPosition(IconPosition::After)
                             ->schema([
                                 Forms\Components\TextInput::make('ads_txt')
+                                    ->label(__("Ads TXT"))
                                     ->maxLength(255),
 
                                 Forms\Components\Textarea::make('ads')
+                                    ->label(__("Ads"))
                                     ->columnSpanFull(),
 
                                 Forms\Components\Textarea::make('header')
+                                    ->label(__("Header"))
                                     ->columnSpanFull(),
 
                                 Forms\Components\Textarea::make('footer')
+                                    ->label(__("Footer"))
                                     ->columnSpanFull(),
                             ]),
 
                         Forms\Components\Tabs\Tab::make('Options')
+                            ->label(__("Options"))
                             ->icon('heroicon-o-cog-6-tooth')
                             ->schema([
                                 Forms\Components\KeyValue::make('site_options')
+                                    ->label(__("Site options"))
                                     ->columnSpanFull(),
                             ])
 
                     ])
                     ->columnSpanFull()
                     ->activeTab(2),
-
-
-
-
-
-
-
-
-
-
 
                 // FilamentJsonColumn::make('site_options')
                 // ->columnSpanFull(),
@@ -154,20 +158,24 @@ class SiteResource extends Resource
         return $table
             ->columns([
 
-                Tables\Columns\ImageColumn::make('icon'),
+                Tables\Columns\ImageColumn::make('icon')
+                    ->label(__("Logo")),
                 Tables\Columns\TextColumn::make('domain')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('name')
+                    ->label(__("Domain name"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__("Email"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('language.name')
+                    ->label(__("Language"))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__("Created at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__("Updated at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

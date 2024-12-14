@@ -36,9 +36,11 @@ class EmailResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('email')
                     ->email()
+                    ->label(__("Email"))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('book_category_id')
+                    ->label(__("Book Category"))
                     ->numeric(),
             ]);
     }
@@ -48,15 +50,19 @@ class EmailResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__("Email"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('book_category_id')
+                    ->label(__("Book category"))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__("Created at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__("Updated at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

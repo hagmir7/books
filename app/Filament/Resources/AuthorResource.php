@@ -40,15 +40,18 @@ class AuthorResource extends Resource
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\FileUpload::make('image')
+                            ->label(__("Image"))
                             ->avatar()
                             ->label(false)
                             ->alignment(Alignment::Center)
                             ->columnSpanFull()
                             ->required(),
                         Forms\Components\TextInput::make('full_name')
+                            ->label(__("First name"))
                             ->columnSpanFull()
                             ->required(),
                         Forms\Components\RichEditor::make('description')
+                            ->label(__("Description"))
                             ->required()
                             ->columnSpanFull(),
                     ])->columns(2)
@@ -59,13 +62,18 @@ class AuthorResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                ->label(__("Image")),
+
                 Tables\Columns\TextColumn::make('full_name')
+                    ->label(__("Full name"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('books_count')->counts('books')
+                    ->label(__("Books"))
                     ->badge()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__("Created at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

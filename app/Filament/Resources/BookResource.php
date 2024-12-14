@@ -50,7 +50,7 @@ class BookResource extends Resource
 
                             Forms\Components\Select::make('author_id')
                                 ->relationship('author', 'full_name')
-                                ->label("Author")
+                                ->label(__("Author"))
                                 ->native(false)
                                 ->createOptionForm(self::AuthorForm())
                                 ->createOptionModalHeading("Create new author")
@@ -65,6 +65,7 @@ class BookResource extends Resource
 
                             Forms\Components\Select::make('book_category_id')
                                 ->relationship('category', 'name')
+                                ->label(__("Category"))
                                 ->searchable()
                                 ->preload()
                                 ->createOptionForm(self::CategoryForm())
@@ -73,7 +74,7 @@ class BookResource extends Resource
                                     $category = BookCategory::create($data);
                                     Notification::make()
                                     ->success()
-                                    ->title("Category created successfully")
+                                    ->title(__("Category created successfully"))
                                     ->send();
                                     return $category->getKey();
                                 })
@@ -81,6 +82,7 @@ class BookResource extends Resource
 
                             Forms\Components\Select::make('language_id')
                                 ->native(false)
+                                ->label(__("Language"))
                                 ->relationship('language', 'name'),
 
                             Forms\Components\TagsInput::make('tags')
@@ -99,10 +101,12 @@ class BookResource extends Resource
                     Forms\Components\Section::make()
                         ->schema([
                                 Forms\Components\FileUpload::make('image')
+                                    ->label(__("Image"))
                                     ->directory('book_images')
                                     ->image(),
 
                                 Forms\Components\FileUpload::make('file')
+                                    ->label(__("File"))
                                     ->acceptedFileTypes(['application/pdf'])
                                     ->directory('book_files'),
                             ])
@@ -112,15 +116,18 @@ class BookResource extends Resource
                 ->columnSpan(2),
 
                 Forms\Components\Textarea::make('description')
+                    ->label(__("Description"))
                     ->rows(5)
                     ->columnSpanFull(),
 
 
                 Forms\Components\RichEditor::make('body')
+                    ->label(__("Content"))
                     ->columnSpanFull(),
 
 
                 Forms\Components\Toggle::make('is_public')
+                    ->label(__("Public"))
                     ->default(true)
                     ->required(),
             ]);
@@ -130,37 +137,48 @@ class BookResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label(__("Image")),
 
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__("Name"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('author.full_name')
+                    ->label(__("Author"))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
+                    ->label(__("Category"))
                     ->badge()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('language.name')
+                    ->label(__("Language"))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('pages')
+                    ->label(__("Pages"))
                     ->placeholder("__")
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('size')
+                    ->label(__("Size"))
                     ->badge()
                     ->color('success')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->label(__("Type"))
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_public')
+                    ->label(__("Is public"))
                     ->boolean(),
 
 
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__("Created at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__("Update at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -184,14 +202,17 @@ class BookResource extends Resource
             Forms\Components\Section::make()
                 ->schema([
                     Forms\Components\FileUpload::make('image')
+                        ->label(__("Image"))
                         ->avatar()
                         ->label(false)
                         ->alignment(Alignment::Center)
                         ->columnSpanFull()
                         ->directory('author_images'),
                     Forms\Components\TextInput::make('full_name')
+                        ->label(__("Full name"))
                         ->columnSpanFull(),
                     Forms\Components\RichEditor::make('description')
+                        ->label(__("Description"))
                         ->columnSpanFull(),
                 ])->columns(2)
         ];
@@ -203,11 +224,14 @@ class BookResource extends Resource
             Forms\Components\Section::make()
                 ->schema([
                     Forms\Components\TextInput::make('name')
+                        ->label(__("Name"))
                         ->required(),
                     Forms\Components\FileUpload::make('image')
+                        ->label(__("Image"))
                         ->image()
                         ->directory('category_images'),
                     Forms\Components\RichEditor::make('description')
+                        ->label(__("Description"))
                         ->columnSpanFull(),
                 ])
         ];

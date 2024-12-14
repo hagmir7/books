@@ -22,6 +22,12 @@ class ContactResource extends Resource
 
     public static function getModelLabel(): string
     {
+        return __("Message");
+    }
+
+
+    public static function getPluralLabel(): ?string
+    {
         return __("Messages");
     }
 
@@ -31,14 +37,18 @@ class ContactResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('full_name')
+                    ->label(__("Full name"))
                     ->required(),
                 Forms\Components\TextInput::make('email')
+                    ->label(__("Email"))
                     ->email()
                     ->required(),
                 Forms\Components\Textarea::make('body')
+                    ->label(__("Content"))
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\DatePicker::make('readed_at')
+                    ->label(__("Created at"))
                     ->required(),
             ]);
     }
@@ -48,17 +58,17 @@ class ContactResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('full_name')
+                    ->label(__("Full name"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__("Email"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('readed_at')
+                    ->label(__("Readed at"))
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__("Created at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

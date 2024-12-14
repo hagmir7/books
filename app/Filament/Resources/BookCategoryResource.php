@@ -23,20 +23,29 @@ class BookCategoryResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __("Book Categories");
+        return __("Book category");
     }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __("Book categories");
+    }
+
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__("Name"))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
+                    ->label(__("Image"))
                     ->image()
                     ->required(),
                 Forms\Components\Textarea::make('description')
+                    ->label(__("Description"))
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('slug')
@@ -48,14 +57,18 @@ class BookCategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label(__("Image")),
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__("Name"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__("Created at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('books_count')->counts('books')
+                    ->label(__("Category"))
                     ->badge()
                     ->sortable(),
             ])

@@ -46,17 +46,20 @@ class PageResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('site_id')
+                    ->label(__("Website"))
                     ->searchable()
                     ->preload()
                     ->relationship('site', 'name'),
 
                 Forms\Components\Select::make('language_id')
+                    ->label(__("Language"))
                     ->searchable()
                     ->preload()
                     ->relationship('language', 'name'),
 
                 Forms\Components\Toggle::make('markdown')
                     ->inline(false)
+                    ->label(__("Markdown"))
                     ->live()
                     ->label('Markdown'),
 
