@@ -13,7 +13,6 @@
         "erusev/parsedown": "^1.7",
         "filament/filament": "^3.2",
         "guzzlehttp/guzzle": "^7.9",
-        "joaopaulolndev/filament-general-settings": "^1.0",
         "josespinal/filament-record-navigation": "^2.0",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",

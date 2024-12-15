@@ -19,15 +19,15 @@ class StatsOverview extends BaseWidget
         return [
 
             Stat::make(__("New users"), User::count())
-                ->description($todyaUsers->count() . __(" Today users"))
+                ->description($todyaUsers->count(). " " . __("Today users"))
                 ->icon('heroicon-m-user-group'),
 
             Stat::make(__("Books"), Book::count())
-                ->description($todyaBooks->count() . __(" Today books"))
+                ->description($todyaBooks->count(). " " . __("Today books"))
                 ->icon('heroicon-m-book-open'),
 
             Stat::make(__("Blogs"), Post::where('site_id', app('site')->id)->count())
-                ->description($todyaBlogs->count() . __(" Today blogs"))
+                ->description($todyaBlogs->count(). " " . __("Today blogs"))
                 ->icon('heroicon-m-bars-3-bottom-left')
         ];
     }

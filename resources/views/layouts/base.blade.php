@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="rtl">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === "ar" ? "rtl" : "ltr" }}">
 <head>
     <meta charset="UTF-8">
     <title>{{ isset($title) ? Str::limit($title, 160) : $site->name }}</title>

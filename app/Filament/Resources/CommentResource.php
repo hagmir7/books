@@ -67,7 +67,7 @@ class CommentResource extends Resource
                     ->label(__("Book"))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('full_name')
-                    ->label(___("Full name"))
+                    ->label(__("Full name"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label(__("Email"))

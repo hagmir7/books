@@ -75,7 +75,6 @@ class PostResource extends Resource
                                     ->relationship('language', "name")
                                     ->required(),
                                 Forms\Components\FileUpload::make('image')
-                                    ->label(false)
                                     ->label(__("Image"))
                                     ->maxSize(100048576)
                                     ->columnSpanFull()
@@ -97,8 +96,7 @@ class PostResource extends Resource
                             ->columnSpanFull(),
                         Forms\Components\Toggle::make('markdown')
                             ->label(__("Markdown"))
-                            ->live()
-                            ->label('Markdown'),
+                            ->live(),
 
                         Forms\Components\RichEditor::make('body')
                             ->label(__('Content'))

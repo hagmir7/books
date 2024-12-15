@@ -62,13 +62,6 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-                FilamentGeneralSettingsPlugin::make()
-                    // ->canAccess(fn () => auth()->user()->id === 1)
-                    ->setSort(3)
-                    ->setIcon('heroicon-o-cog')
-                    ->setNavigationGroup('Settings')
-                    ->setTitle('General Settings')
-                    ->setNavigationLabel('General Settings'),
 
             ])
             ->authMiddleware([

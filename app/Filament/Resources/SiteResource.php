@@ -49,33 +49,47 @@ class SiteResource extends Resource
 
                                 Forms\Components\TextInput::make('domain')
                                     ->label(__("Domain"))
+                                    ->suffixIcon('heroicon-m-globe-alt')
                                     ->required()
                                     ->maxLength(255),
 
                                 Forms\Components\Select::make('language_id')
                                     ->relationship('language', 'name')
+                                    ->suffixIcon('heroicon-m-language')
                                     ->label(__("Language"))
                                     ->native(false)
                                     ->required(),
 
                                 Forms\Components\TextInput::make('email')
                                     ->email()
+                                    ->suffixIcon('heroicon-m-at-symbol')
                                     ->label(__("Email"))
-                            ])->columns(2),
+                            ])->columns(3),
                         Forms\Components\Tabs\Tab::make('SEO')
-                            ->label("SEO")
+                            ->label(__("SEO"))
                             ->icon('heroicon-o-magnifying-glass-circle')
                             // ->iconPosition(IconPosition::After)
                             ->schema([
-                                Forms\Components\Textarea::make('keywords')
-                                    ->label(__("Keywords"))
-                                    ->columnSpanFull(),
-
                                 Forms\Components\Textarea::make('description')
                                     ->label(__("Description"))
+                                    ->rows(5)
                                     ->columnSpanFull(),
+                                Forms\Components\TagsInput::make('keywords')
+                                    ->color('info')
+                                    ->label(__("Keywords"))
+                                    ->placeholder(__("New keyword"))
+                                    ->separator(',')
+                                    ->splitKeys(['Tab', ','])
+                                    ->required()
+                                    ->reorderable()
+                                    ->nestedRecursiveRules([
+                                        'min:3',
+                                        'max:100',
+                                    ]),
 
-                                Forms\Components\Grid::make(2)
+
+
+                                Forms\Components\Grid::make(3)
                                     ->schema([
                                         Forms\Components\FileUpload::make('image')
                                             ->label(__("Image"))
@@ -95,6 +109,15 @@ class SiteResource extends Resource
                             ->icon('heroicon-o-cog-6-tooth')
                             // ->iconPosition(IconPosition::After)
                             ->schema([
+                                Forms\Components\Textarea::make('header')
+                                    ->label(__("Header"))
+                                    ->rows(5)
+                                    ->columnSpanFull(),
+
+                                Forms\Components\Textarea::make('footer')
+                                    ->rows(5)
+                                    ->label(__("Footer"))
+                                    ->columnSpanFull(),
                                 Forms\Components\TextInput::make('ads_txt')
                                     ->label(__("Ads TXT"))
                                     ->maxLength(255),
@@ -103,13 +126,7 @@ class SiteResource extends Resource
                                     ->label(__("Ads"))
                                     ->columnSpanFull(),
 
-                                Forms\Components\Textarea::make('header')
-                                    ->label(__("Header"))
-                                    ->columnSpanFull(),
 
-                                Forms\Components\Textarea::make('footer')
-                                    ->label(__("Footer"))
-                                    ->columnSpanFull(),
                             ]),
 
                         Forms\Components\Tabs\Tab::make('Options')
@@ -129,6 +146,7 @@ class SiteResource extends Resource
                 // ->columnSpanFull(),
 
                 Forms\Components\Repeater::make('urls')
+                    ->label(__("Urls"))
                     ->relationship('urls')
                     ->schema([
                         Forms\Components\TextInput::make('name')

@@ -60,8 +60,7 @@ class PageResource extends Resource
                 Forms\Components\Toggle::make('markdown')
                     ->inline(false)
                     ->label(__("Markdown"))
-                    ->live()
-                    ->label('Markdown'),
+                    ->live(),
 
                 Forms\Components\RichEditor::make('body')
                     ->label(__('Content'))
@@ -69,10 +68,9 @@ class PageResource extends Resource
                     ->hidden(fn (Get $get): bool => $get('markdown'))
                     ->columnSpanFull(),
 
-                Forms\Components\Textarea::make('body')
+                Forms\Components\MarkdownEditor::make('body')
                     ->label(__('Content'))
                     ->required()
-                    ->rows(10)
                     ->hidden(fn (Get $get): bool => !$get('markdown'))
                     ->columnSpanFull(),
             ]);

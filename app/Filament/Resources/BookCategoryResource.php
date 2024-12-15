@@ -36,20 +36,35 @@ class BookCategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label(__("Name"))
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('image')
-                    ->label(__("Image"))
-                    ->image()
-                    ->required(),
-                Forms\Components\Textarea::make('description')
-                    ->label(__("Description"))
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('slug')
-                    ->maxLength(255),
+                Forms\Components\Grid::make(3)
+                    ->schema([
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label(__("Name"))
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\Select::make('language_id')
+                                    ->label(__("Language"))
+                                    ->native(false)
+                                    ->relationship('language', 'name'),
+
+                                Forms\Components\Textarea::make('description')
+                                    ->label(__("Description"))
+                                    ->required()
+                                    ->columnSpanFull(),
+                            ])
+                            ->columns(2)
+                            ->columnSpan(2),
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\FileUpload::make('image')
+                                    ->label(__("Image"))
+                                    ->image()
+                                    ->required(),
+                            ])
+                            ->columnSpan(1),
+                    ])
             ]);
     }
 
