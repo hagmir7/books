@@ -9,9 +9,10 @@
     <div class="container">
         <div class="row book-list">
             {{-- Boooks --}}
+            @livewire('authors-list-livewire')
             <div class="col-lg-9">
                 <div class="row">
-                    <div class="col-lg-12 p-0">
+                    <div class="col-lg-12">
                         <div class="section-title">
                             <h1 class="h3">{{ $site->site_options['home_title'] }}</h1>
                         </div>
@@ -50,7 +51,7 @@
                     @endforelse
                 </div>
             </div>
-            @livewire('authors-list-livewire')
+
         </div>
     </div>
 </section>

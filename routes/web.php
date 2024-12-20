@@ -32,7 +32,7 @@ Route::get('/', function () {
 
     if ($site_options['home_page'] == "books") {
         return view('home', [
-            'books' => Book::with(['author', 'category'])->paginate(30)
+            'books' => Book::with(['author', 'category'])->latest()->paginate(30)
         ]);
     }
 

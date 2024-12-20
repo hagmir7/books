@@ -152,12 +152,7 @@
                             </td>
                         </tr>
 
-                        <tr>
-                            <td>{{ __("ISBN13") }}:</td>
-                            <td>
-                                <span itemprop="isbn">{{ $book->isbn ? $book->isbn : "__" }}</span>
-                            </td>
-                        </tr>
+
                         <tr>
                             <td>{{ __("Language") }}:</td>
                             <td itemprop="Language">
@@ -170,6 +165,15 @@
                                 <div class="badge badge-danger p-2">{{ $book->type }}</div>
                             </td>
                         </tr>
+
+                        @if ($book->isbn)
+                            <tr>
+                                <td>{{ __("ISBN13") }}:</td>
+                                <td>
+                                    <span itemprop="isbn">{{ $book->isbn ? $book->isbn : "__" }}</span>
+                                </td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
                 {!! app("site")->ads !!}
@@ -208,12 +212,6 @@
                 <div class="row mt-5 mb-3">
                     <div class="col-lg-6 col-6">
                         <h2>{{ __("Book reviews") }}</h2>
-                    </div>
-                    <div class="col-lg-6 col-6 text-right">
-                        <button class="btn btn-primary btn-rounded shadow add-review-collapse" data-toggle="collapse"
-                            data-target="#addReview" aria-expanded="false" aria-controls="addReview">
-                            {{ __("Write areview") }}
-                        </button>
                     </div>
                 </div>
                 @livewire('review-form-livewire', ['book' => $book], key($book->slug))

@@ -17,7 +17,7 @@ class BookController extends Controller
 
     public function books(){
          return view('home', [
-            'books' => Book::with(['author', 'category'])->paginate(30)
+            'books' => Book::with(['author', 'category'])->latest()->paginate(30)
         ]);
     }
 

@@ -52,6 +52,7 @@
                             <span class="h6">{{ $post->created_at->format('M d, Y') }}</span>
                         </span>
                     </div>
+
                 <div class="social-btns mt-1">
                     <a target="_blank" aria-label="{{ __("Share with Facebook") }}"
                         href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"

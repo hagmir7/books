@@ -22,7 +22,7 @@
         </div>
         <div class="col-lg-12">
             <div class="form-group">
-                <textarea wire:model="body" cols="30" rows="5" class="form-control" placeholder="Review"></textarea>
+                <textarea wire:model="body" cols="30" rows="5" class="form-control" placeholder="{{ __("Review") }}"></textarea>
                 @error('body') <div class="alert alert-danger p-2 mt-2"> {{ $message }}</div> @enderror
             </div>
         </div>
