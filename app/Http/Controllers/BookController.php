@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Models\Comment;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -17,7 +18,9 @@ class BookController extends Controller
 
     public function books(){
          return view('home', [
-            'books' => Book::with(['author', 'category'])->latest()->paginate(30)
+            'books' => Book::with(['author', 'category'])
+                ->wherehas('language', fn(Builder $query) => ($query->where('code', app()->getLocale())))
+                ->latest()->paginate(30)
         ]);
     }
 

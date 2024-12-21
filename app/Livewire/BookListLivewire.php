@@ -30,13 +30,15 @@ class BookListLivewire extends Component
         $books = $this->category->name
             // if
             ? $this->category->books()
-                ->with(['author'])
+                ->with(['author', 'language'])
+                ->wherehas('language', fn($query) => ($query->where('code', app()->getLocale())))
                 ->take($this->amount)
                 ->orderBy('created_at', 'asc')
                 ->where('is_public', 1)
                 ->get()
             // else
-            : Book::with(['author'])
+            : Book::with(['author', 'language'])
+                ->wherehas('language', fn($query) => ($query->where('code', app()->getLocale())))
                 ->take($this->amount)
                 ->where('is_public', 1)
                 ->orderBy('created_at', 'asc')

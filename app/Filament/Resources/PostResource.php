@@ -57,7 +57,7 @@ class PostResource extends Resource
                                     ->label(__("Keywords"))
                                     ->placeholder(__("New keyword"))
                                     ->separator(',')
-                                    ->splitKeys(['Tab', ','])
+                                    ->separator(',', 'Enter', '،')
                                     ->required()
                                     ->reorderable()
                                     ->nestedRecursiveRules([

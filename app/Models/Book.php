@@ -25,7 +25,8 @@ class Book extends Model
 
     public function next()
     {
-        return static::where('id', '>', $this->id)
+        return static::with(['category', 'author'])->where('id', '>', $this->id)
+            ->wherehas('language', fn($query) => ($query->where('code', app()->getLocale())))
             ->orderBy('id', 'asc')
             ->first();
     }
@@ -34,6 +35,7 @@ class Book extends Model
     public function previous()
     {
         return static::where('id', '<', $this->id)
+            ->wherehas('language', fn($query) => ($query->where('code', app()->getLocale())))
             ->orderBy('id', 'desc')
             ->first();
     }

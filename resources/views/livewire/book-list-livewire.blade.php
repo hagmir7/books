@@ -1,4 +1,9 @@
 <section class="books-listing">
+    <style>
+        .books-listing .book-grid .book .book-info {
+            padding: 0px 35px 0px 2px!important;
+        }
+    </style>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12" id="book-list">

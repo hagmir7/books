@@ -9,6 +9,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\SitemapController;
 use App\Models\Book;
 use App\Models\Post;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,7 +33,10 @@ Route::get('/', function () {
 
     if ($site_options['home_page'] == "books") {
         return view('home', [
-            'books' => Book::with(['author', 'category'])->latest()->paginate(30)
+            'books' => Book::with(['author', 'category'])
+                ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
+                ->latest()
+                ->paginate(30)
         ]);
     }
 
