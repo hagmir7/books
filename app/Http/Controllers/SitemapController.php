@@ -19,9 +19,12 @@ class SitemapController extends Controller
 
         if (app("site")->site_options['book_sitemap']) {
             $sitemap->add(Url::create('/books'));
-            Book::where('is_public', true)->each(function (Book $book) use ($sitemap) {
+            Book::where('is_public', true)
+                ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
+                ->each(function (Book $book) use ($sitemap) {
                     $sitemap->add(Url::create("/books/{$book->slug}"));
-            });
+                });
+
         }
 
 

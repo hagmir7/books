@@ -19,7 +19,7 @@ class BookController extends Controller
     public function books(){
          return view('home', [
             'books' => Book::with(['author', 'category'])
-                ->wherehas('language', fn(Builder $query) => ($query->where('code', app()->getLocale())))
+                ->whereHas('language', fn(Builder $query) => ($query->where('code', app()->getLocale())))
                 ->latest()->paginate(30)
         ]);
     }

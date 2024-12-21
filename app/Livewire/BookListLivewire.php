@@ -18,7 +18,7 @@ class BookListLivewire extends Component
     public function mount(BookCategory $category)
     {
         $this->category = $category;
-        $this->total = Book::all()->count();
+        $this->total = Book::whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))->count();
     }
 
     public function loadMore()
@@ -31,14 +31,14 @@ class BookListLivewire extends Component
             // if
             ? $this->category->books()
                 ->with(['author', 'language'])
-                ->wherehas('language', fn($query) => ($query->where('code', app()->getLocale())))
+                ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
                 ->take($this->amount)
                 ->orderBy('created_at', 'asc')
                 ->where('is_public', 1)
                 ->get()
             // else
             : Book::with(['author', 'language'])
-                ->wherehas('language', fn($query) => ($query->where('code', app()->getLocale())))
+                ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
                 ->take($this->amount)
                 ->where('is_public', 1)
                 ->orderBy('created_at', 'asc')
