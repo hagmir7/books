@@ -35,7 +35,7 @@
                         </div>
                         <div class="post-info">
                             <div class="post-meta">
-                                {{ $post->created_at->format('M d, Y') }}
+                                {{ $post->created_at->locale(app()->getLocale())->translatedFormat('M d, Y') }}
                             </div>
                             <a href="{{ route('blog.show', $post->slug) }}" class="post-title">
                                 <h2 class="h4 text-black">{{ $post->title }}</h2>

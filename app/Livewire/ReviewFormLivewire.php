@@ -10,13 +10,13 @@ use Livewire\Component;
 class ReviewFormLivewire extends Component
 {
 
-    #[Validate('required|min:3')]
+    #[Validate('required|min:3', attribute: "Full name")]
     public $full_name;
 
-    #[Validate('required|email|min:3')]
+    #[Validate('required|email|min:3', attribute:"Email")]
     public $email;
 
-    #[Validate('required|min:3')]
+    #[Validate('required|min:3', attribute: "Review", translate:true)]
     public $body;
 
     public Book $book;

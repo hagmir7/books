@@ -49,7 +49,8 @@
                                 <path d="M12 12l3 -2" />
                                 <path d="M12 7v5" />
                             </svg>
-                            <span class="h6">{{ $post->created_at->format('M d, Y') }}</span>
+                           <span class="h6">{{ $post->created_at->locale(app()->getLocale())->translatedFormat('M d, Y') }}</span>
+
                         </span>
                     </div>
 
