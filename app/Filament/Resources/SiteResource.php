@@ -106,7 +106,7 @@ class SiteResource extends Resource
                             ]),
                         Forms\Components\Tabs\Tab::make('Advance')
                             ->label(__("Advance"))
-                            ->icon('heroicon-o-cog-6-tooth')
+                            ->icon('heroicon-o-chart-bar')
                             // ->iconPosition(IconPosition::After)
                             ->schema([
                                 Forms\Components\Textarea::make('header')

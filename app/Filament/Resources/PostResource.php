@@ -69,11 +69,6 @@ class PostResource extends Resource
 
                         Forms\Components\Section::make()
                             ->schema([
-                                Forms\Components\Select::make('language_id')
-                                    ->native(false)
-                                    ->label(__("Language"))
-                                    ->relationship('language', "name")
-                                    ->required(),
                                 Forms\Components\FileUpload::make('image')
                                     ->label(__("Image"))
                                     ->maxSize(100048576)
