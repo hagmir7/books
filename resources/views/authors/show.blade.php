@@ -47,7 +47,7 @@
                     <div class="books-list">
                         <div class="top-filter row">
                             <div class="col-lg-8 text">
-                                Found <span>{{ $author->books->count() }} books</span> in total
+                                {{ __("Found") }} <span>{{ $author->books->count() }} {{ __("books") }}</span> {{ __("in total") }}
                             </div>
                         </div>
                         <div class="row book-grid">

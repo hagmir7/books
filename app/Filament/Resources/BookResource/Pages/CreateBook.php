@@ -4,7 +4,6 @@ namespace App\Filament\Resources\BookResource\Pages;
 
 use App\Filament\Resources\BookResource;
 use App\Models\Language;
-use App\Models\Site;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Notifications\Notification;
@@ -16,29 +15,38 @@ class CreateBook extends CreateRecord
     protected static string $resource = BookResource::class;
 
 
-
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['user_id'] = auth()->user()->id;
 
-        $file_size = Storage::size("public\\" . $data['file']);
-        $file_path =  Storage::path("public\\" . $data['file']);
-        $parser = new Parser();
-        try{
-            $pdf = $parser->parseFile($file_path);
-            $data['pages'] = count($pdf->getPages());
-        }catch(\Exception $e){
+        if (Storage::exists("public/" . $data['file'])) {
+            $file_size = Storage::size("public/" . $data['file']);
+            $file_path = Storage::path("public/" . $data['file']);
+        } else {
             Notification::make()
                 ->danger()
-                ->title("File is not supported!")
+                ->title("File not found!")
                 ->send();
         }
+        $parser = new Parser();
+
+        if ($data['pages'] !== "") {
+            try {
+                $pdf = $parser->parseFile($file_path);
+                $data['pages'] = count($pdf->getPages());
+            } catch (\Exception $e) {
+                Notification::make()
+                    ->danger()
+                    ->title("File is not supported!")
+                    ->send();
+            }
+        }
+
         $data['type'] = "PDF";
         $data['size'] = $this->formatFileSize($file_size);
 
-        $language = Language::find($data['language_id']);
 
-        switch($language->code){
+        switch (app("site")->language->code) {
             case "en":
                 $data['title'] = "Download {$data['name']}  for Free (PDF)";
                 break;
@@ -50,10 +58,8 @@ class CreateBook extends CreateRecord
                 break;
         }
 
-        // Add site_id
-        $domain = str_replace('www.', '', request()->getHost());
-        $site = Site::where('domain', $domain)->firstOrFail();
-        $data['site_id'] = $site->id;
+        $data['site_id'] = app('site')->id;
+        $data['language_id'] = app("site")->language->id;
         return $data;
     }
 

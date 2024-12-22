@@ -33,6 +33,14 @@ class BookResource extends Resource
         return __("Books");
     }
 
+    public static function getEloquentQuery() : Builder
+    {
+        return parent::getEloquentQuery()->where('language_id', app('site')->language->id);
+    }
+
+
+
+
     public static function form(Form $form): Form
     {
         return $form
@@ -44,7 +52,7 @@ class BookResource extends Resource
                         ->schema([
 
                             Forms\Components\TextInput::make('name')
-                                ->label("Name")
+                                ->label(__("Book name"))
                                 ->unique(ignoreRecord: true)
                                 ->required(),
 
@@ -80,17 +88,18 @@ class BookResource extends Resource
                                 })
                                     ->native(false),
 
-                            Forms\Components\Select::make('language_id')
-                                ->native(false)
-                                ->label(__("Language"))
-                                ->relationship('language', 'name'),
+                            Forms\Components\TextInput::make('isbn')
+                                ->label(__("ISBN")),
+
+                            Forms\Components\TextInput::make('pages')
+                                ->label(__("Pages")),
 
                             Forms\Components\TagsInput::make('tags')
                                 ->color('info')
                                 ->label(__("Keywords"))
                                 ->placeholder(__("New keyword"))
                                 ->separator(',')
-                                ->separator(',', 'Enter', '،')
+                                ->splitKeys([',', 'Enter', '،'])
                                 ->required()
                                 ->columnSpanFull()
 

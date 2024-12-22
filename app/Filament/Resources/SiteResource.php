@@ -79,7 +79,7 @@ class SiteResource extends Resource
                                     ->label(__("Keywords"))
                                     ->placeholder(__("New keyword"))
                                     ->separator(',')
-                                    ->separator(',', 'Enter', '،')
+                                    ->splitKeys([',', 'Enter', '،'])
                                     ->required()
                                     ->reorderable()
                                     ->nestedRecursiveRules([

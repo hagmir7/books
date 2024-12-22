@@ -21,6 +21,7 @@ class EditBook extends EditRecord
 
         $actions = [
             Actions\CreateAction::make()
+                ->url('/admin/books/create')
                 ->icon('heroicon-o-plus-circle'),
             Actions\DeleteAction::make()
                 ->icon('heroicon-o-trash'),
