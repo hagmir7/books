@@ -111,3 +111,9 @@ Route::post('delete-books', function(Request $request){
 Route::view('book_form', 'book_form');
 
 
+
+
+Route::post('/upload-books', [BookController::class, 'uploadBooks'])->name('book.upload');
+Route::get('/book-upload', function(){
+    return view('books.upload');
+});

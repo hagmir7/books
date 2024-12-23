@@ -93,4 +93,67 @@ class BookController extends Controller
     {
         return BookResource::make($book);
     }
+
+
+    public function uploadBooks(Request $request)
+    {
+        try {
+            // Validate the incoming JSON file
+            $request->validate([
+                'books_file' => 'required|file|mimes:json'
+            ]);
+
+            // Read and decode JSON file
+            $jsonContent = file_get_contents($request->file('books_file'));
+            $books = json_decode($jsonContent, true);
+
+            if (!isset($books['data'])) {
+                return response()->json(['error' => 'Invalid JSON format'], 400);
+            }
+
+            foreach ($books['data'] as $bookData) {
+                // Find or create category
+                $category = Category::firstOrCreate(
+                    ['name' => $bookData['category']]
+                );
+
+                // Check if file exists in storage
+                $filePath = $bookData['file'];
+                if (!Storage::exists($filePath)) {
+                    $filePath = null; // Or handle missing file as needed
+                }
+
+                // Check if image exists in storage
+                $imagePath = $bookData['image'];
+                if (!Storage::exists($imagePath)) {
+                    $imagePath = null; // Or handle missing image as needed
+                }
+
+                // Create book record
+                Book::create([
+                    'name' => $bookData['name'],
+                    'author' => $bookData['author'],
+                    'file_path' => $filePath,
+                    'image_path' => $imagePath,
+                    'pages' => $bookData['pages'],
+                    'size' => $bookData['size'],
+                    'description' => $bookData['description'],
+                    'tags' => $bookData['tags'],
+                    'category_id' => $category->id,
+                    'slug' => Str::slug($bookData['name']),
+                    'langauge_id' => 1
+                ]);
+            }
+
+            return response()->json([
+                'message' => 'Books uploaded successfully',
+                'books_count' => count($books['data'])
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to process books upload',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

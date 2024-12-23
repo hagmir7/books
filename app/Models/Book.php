@@ -31,7 +31,6 @@ class Book extends Model
             ->first();
     }
 
-    // Get the previous book based on ID
     public function previous()
     {
         return static::where('id', '<', $this->id)
@@ -74,16 +73,6 @@ class Book extends Model
         });
     }
 
-
-
-    // public function newQuery($ordered = true)
-    // {
-    //     $query = parent::newQuery();
-    //     if ($ordered) {
-    //         $query->orderBy('created_at', 'desc');
-    //     }
-    //     return $query;
-    // }
 
     public function getRouteKeyName()
     {
