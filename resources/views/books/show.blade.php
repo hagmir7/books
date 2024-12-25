@@ -138,8 +138,7 @@
                         <tr>
                             <td>{{ __("Category") }}:</td>
                             <td>
-                                <a itemprop="category" href="{{ route(" category.show", $book?->category?->slug) }}">{{ $book?->category?->name
-                                    }}</a>
+                                <a itemprop="category" href="{{ route("category.show", $book?->category?->slug) }}">{{ $book?->category?->name }}</a>
                             </td>
                         </tr>
                         @endif
