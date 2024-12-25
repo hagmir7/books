@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Spatie\Sluggable\SlugOptions;
 
 class Author extends Model
 {
     use HasFactory;
-    protected $fillable = ['full_name', 'description', "image", 'slug'];
+    protected $fillable = ['full_name', 'description', "image", "verified", "slug"];
 
     public function books(){
         return $this->hasMany(Book::class);
@@ -52,5 +53,15 @@ class Author extends Model
         return static::where('id', '<', $this->id)
             ->orderBy('id', 'desc')
             ->first();
+    }
+
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('full_name')
+            ->saveSlugsTo('slug')
+            ->slugsShouldBeNoLongerThan(50)
+            ->doNotGenerateSlugsOnUpdate();
     }
 }

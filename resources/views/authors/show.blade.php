@@ -7,7 +7,7 @@
             <div class="row author">
                 <div class="col-lg-12">
                     <div class="author-photo m-auto">
-                        <img src="{{ Storage::url($author->image) }}" alt="{{ $author->full_name }}" class="img-fluid">
+                        <img src="{{ Storage::url($author->image) }}" alt="{{ $author->full_name }}" class="img-fluid rounded">
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -47,7 +47,7 @@
                     <div class="books-list">
                         <div class="top-filter row">
                             <div class="col-lg-8 text">
-                                {{ __("Found") }} <span>{{ $author->books->count() }} {{ __("books") }}</span> {{ __("in total") }}
+                                {{ __("Found") }} <span>{{ $author->books->where('verified', true)->count() }} {{ __("books") }}</span> {{ __("in total") }}
                             </div>
                         </div>
                         <div class="row book-grid">
@@ -110,7 +110,7 @@
                                             </a>
                                         </li>
                                         <li class="page-item">
-                                            <a href="?page={{ $books->lastPage() }}" class="page-link ajax-page">Last Page</a>
+                                            <a href="?page={{ $books->lastPage() }}" class="page-link ajax-page">{{ __("Last Page") }}</a>
                                         </li>
                                     @else
                                         <li class="page-item disabled">

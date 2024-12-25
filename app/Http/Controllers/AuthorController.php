@@ -29,16 +29,18 @@ class AuthorController extends Controller
     public function index()
     {
         return view("authors.index", [
-            "authors" => Author::withCount('books')->orderBy('books_count', 'desc')->paginate(20),
+            "authors" => Author::withCount('books')->where('verified', true)->orderBy('books_count', 'desc')->paginate(20),
             "title" => __("Popular Authors")
         ]);
     }
 
-    public function show(Author $author){
-        if(!$author->description){
+    public function show(Author $author)
+    {
+        !$author->verified && abort(404);
+        if (!$author->description) {
             $this->generate($author);
         }
-        $books = $author->books()->paginate(18);
+        $books = $author->books()->where('verified', true)->paginate(18);
         $title = str_replace(":attr", $author->full_name, app('site')->site_options['author_title']);
         return view('authors.show', compact('author', 'books', 'title'));
     }

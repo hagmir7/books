@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Spatie\Sluggable\SlugOptions;
 
 class Book extends Model
 {
@@ -16,8 +17,8 @@ class Book extends Model
         'name', 'title', 'user_id', 'author_id', 'book_category_id',
         'language_id', 'type', 'pages', 'size', 'image', 'description',
         'body', 'tags', 'file', 'is_public', 'slug', 'site_id',
-        'copyright_date',
-        'isbn'
+        'copyright_date', 'verified','isbn'
+
     ];
 
     protected $dates = ['deleted_at'];
@@ -71,6 +72,15 @@ class Book extends Model
         static::creating(function ($model) {
             $model->slug = Str::slug($model->name, '-');
         });
+    }
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug')
+            ->slugsShouldBeNoLongerThan(55)
+            ->doNotGenerateSlugsOnUpdate();
     }
 
 

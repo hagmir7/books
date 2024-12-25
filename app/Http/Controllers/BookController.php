@@ -3,30 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\BookResource;
+use App\Models\Author;
 use App\Models\Book;
+use App\Models\BookCategory;
 use App\Models\Comment;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
 
 
-    public function index(){
+    public function index()
+    {
         return view("books.list");
     }
 
-    public function books(){
-         return view('home', [
+    public function books()
+    {
+        return view('home', [
             'books' => Book::with(['author', 'category'])
                 ->whereHas('language', fn(Builder $query) => ($query->where('code', app()->getLocale())))
+                ->where('verified', true)
                 ->latest()->paginate(30)
         ]);
     }
 
 
-    public function show(Book $book){
+    public function show(Book $book)
+    {
         !$book->is_public && abort(403);
+        !$book->verified && abort(404);
         return view("books.show", [
             "book" => $book,
             "title" => str_replace(":attr", $book->name, app('site')->site_options['book_title']),
@@ -85,7 +93,8 @@ class BookController extends Controller
 
 
 
-    public function api_list(){
+    public function api_list()
+    {
         return BookResource::collection(Book::where('is_public', true)->paginate(20));
     }
 
@@ -97,63 +106,50 @@ class BookController extends Controller
 
     public function uploadBooks(Request $request)
     {
-        try {
-            // Validate the incoming JSON file
-            $request->validate([
-                'books_file' => 'required|file|mimes:json'
-            ]);
+        $request->validate([
+            'books_file' => 'required|file|mimes:json'
+        ]);
 
-            // Read and decode JSON file
-            $jsonContent = file_get_contents($request->file('books_file'));
-            $books = json_decode($jsonContent, true);
+        $jsonContent = file_get_contents($request->file('books_file'));
+        $books = json_decode($jsonContent, true);
 
-            if (!isset($books['data'])) {
-                return response()->json(['error' => 'Invalid JSON format'], 400);
-            }
-
-            foreach ($books['data'] as $bookData) {
-                // Find or create category
-                $category = Category::firstOrCreate(
-                    ['name' => $bookData['category']]
-                );
-
-                // Check if file exists in storage
-                $filePath = $bookData['file'];
-                if (!Storage::exists($filePath)) {
-                    $filePath = null; // Or handle missing file as needed
-                }
-
-                // Check if image exists in storage
-                $imagePath = $bookData['image'];
-                if (!Storage::exists($imagePath)) {
-                    $imagePath = null; // Or handle missing image as needed
-                }
-
-                // Create book record
-                Book::create([
-                    'name' => $bookData['name'],
-                    'author' => $bookData['author'],
-                    'file_path' => $filePath,
-                    'image_path' => $imagePath,
-                    'pages' => $bookData['pages'],
-                    'size' => $bookData['size'],
-                    'description' => $bookData['description'],
-                    'tags' => $bookData['tags'],
-                    'category_id' => $category->id,
-                    'slug' => Str::slug($bookData['name']),
-                    'langauge_id' => 1
-                ]);
-            }
-
-            return response()->json([
-                'message' => 'Books uploaded successfully',
-                'books_count' => count($books['data'])
-            ], 201);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Failed to process books upload',
-                'message' => $e->getMessage()
-            ], 500);
+        if (!is_array($books)) {
+            return response()->json(['message' => 'Invalid JSON structure'], 422);
         }
+
+        foreach ($books as $book) {
+            $category = BookCategory::firstOrCreate(['name' => $book['category']]);
+
+            $author = Author::firstOrCreate(
+                ['slug' => \Illuminate\Support\Str::slug($book['author'])],
+                ['full_name' => $book['author'], 'verified' => false]
+            );
+
+            $filePath = basename($book['file']);
+
+
+            $imagePath = basename($book['image']);
+
+
+            Book::firstOrCreate(['name' => $book['name']], [
+                'author_id' => $author->id,
+                'file' => "book_files/" . $filePath,
+                'image' => "book_images/" . $imagePath,
+                'pages' => $book['pages'],
+                'size' => $book['size'],
+                'description' => $book['description'],
+                'tags' => $book['tags'],
+                'type' => "PDF",
+                'book_category_id' => $category->id,
+                'language_id' => 2,
+                'user_id' => 1,
+                'verified' => false,
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Books uploaded successfully',
+            'books_count' => count($books)
+        ], 201);
     }
 }

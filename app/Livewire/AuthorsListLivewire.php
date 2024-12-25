@@ -22,7 +22,7 @@ class AuthorsListLivewire extends Component
         //     ->limit(30)
         //     ->get();
         return view('livewire.authors-list-livewire', [
-            'authors' =>  Author::withCount('books')->orderBy('books_count', 'desc')->paginate(20)
+            'authors' =>  Author::where('verified', true)->withCount('books')->orderBy('books_count', 'desc')->paginate(20)
         ]);
     }
 }

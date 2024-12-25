@@ -9,10 +9,7 @@
             <div class="col-12" id="book-list">
                 <div class="top-filter row">
                     <div class="col-lg-7">
-                        <h1 class="h4">{{ $category->name ? $category->name : __("Books") }}</h1>
-                    </div>
-                    <div class="col-lg-5 text p-0 text-end">
-                        {{ __("Found") }} <span>{{ $total }} {{ __("books") }}</span> {{ __("in total") }}
+                        <h1 class="h2">{{ $category->name ? $category->name : __("Books") }}</h1>
                     </div>
                 </div>
                 <div class="row book-grid">
@@ -46,12 +43,11 @@
 
                     @empty
                     <div class="d-flex justify-content-center w-100 py-5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
-                            class="icon icon-tabler icons-tabler-outline icon-tabler-x">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M18 6l-12 12" />
-                            <path d="M6 6l12 12" />
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                                <path d="M3.25 13h3.68a2 2 0 0 1 1.664.89l.812 1.22a2 2 0 0 0 1.664.89h1.86a2 2 0 0 0 1.664-.89l.812-1.22A2 2 0 0 1 17.07 13h3.68" />
+                                <path d="m5.45 4.11l-2.162 7.847A8 8 0 0 0 3 14.082V19a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4.918a8 8 0 0 0-.288-2.125L18.55 4.11A2 2 0 0 0 16.76 3H7.24a2 2 0 0 0-1.79 1.11M10 8.5h4" />
+                            </g>
                         </svg>
                     </div>
                     @endforelse

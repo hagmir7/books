@@ -133,12 +133,17 @@
                                 <span >({{ $book->created_at->format("Y") }})</span>
                             </td>
                         </tr>
+
+                        @if ($book->category)
                         <tr>
                             <td>{{ __("Category") }}:</td>
                             <td>
-                                <a itemprop="category" href="{{ route("category.show", $book->category->slug) }}">{{ $book->category->name }}</a>
+                                <a itemprop="category" href="{{ route(" category.show", $book?->category?->slug) }}">{{ $book?->category?->name
+                                    }}</a>
                             </td>
                         </tr>
+                        @endif
+
                         <tr>
                             <td>{{ __("Authors") }}:</td>
                             <td>

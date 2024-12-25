@@ -31,6 +31,7 @@ class BookListLivewire extends Component
             // if
             ? $this->category->books()
                 ->with(['author', 'language'])
+                ->where('verified', true)
                 ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
                 ->take($this->amount)
                 ->orderBy('created_at', 'asc')
@@ -39,6 +40,7 @@ class BookListLivewire extends Component
             // else
             : Book::with(['author', 'language'])
                 ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
+                ->where('verified', true)
                 ->take($this->amount)
                 ->where('is_public', 1)
                 ->orderBy('created_at', 'asc')

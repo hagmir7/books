@@ -6,12 +6,7 @@
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="authors-list">
-                    <div class="top-filter row m-0">
-                        <div class="col-lg-8 text">
-                            Found <span>{{ $authors->count() }} authors</span> in total
-                        </div>
-                    </div>
-                    <h1 class="h2 py-3">Most popular book authors</h1>
+                    <h1 class="h2 py-3">{{ __("Most popular book authors") }}</h1>
                     <div class="row">
                         @foreach ($authors as $author)
                             <div class="col-sm-4 col-md-3 col-lg-2 col-6 rounded overflow-hidden">
@@ -22,7 +17,7 @@
                                         </a>
                                     </div>
                                     <div class="author-info">
-                                        <h2 class="author-name h4 mt-2">
+                                        <h2 class="author-name h4 mt-2 mx-1">
                                             <a href="{{ route("authors.show", $author->slug) }}">{{ $author->full_name }}</a>
                                         </h2>
                                         <span class="author-books">{{ $author->books_count }} {{ __("books") }}</span>
@@ -58,7 +53,7 @@
                                     </a>
                                 </li>
                                 <li class="page-item">
-                                    <a href="?page={{ $authors->lastPage() }}" class="page-link ajax-page">Last Page</a>
+                                    <a href="?page={{ $authors->lastPage() }}" class="page-link ajax-page">{{ __("Last Page") }}</a>
                                 </li>
                                 @else
                                 <li class="page-item disabled">

@@ -35,6 +35,7 @@ Route::get('/', function () {
         return view('home', [
             'books' => Book::with(['author', 'category'])
                 ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
+                ->where('verified', true)
                 ->latest()
                 ->paginate(30)
         ]);
