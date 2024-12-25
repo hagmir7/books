@@ -69,7 +69,7 @@
                     </a>
                 </div>
                     <!-- ads before download -->
-                    @if (app("site")->domain === "norkitab.com")
+                    @if (app("site")->id === 5)
                     <div class="download read py-3">
                         {!! app("site")->ads !!}
                         <a href="{{ Storage::url($book->file) }}" class="w-100 btn btn-primary btn-rounded d-flex justify-content-center">
