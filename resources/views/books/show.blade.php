@@ -188,20 +188,23 @@
                 <div class="mt-5 d-flex justify-content-center">
                     <nav aria-label="Next and Previous navigation" class="w-100">
                         <ul class="pagination d-flex justify-content-between">
-                            @if($book->previous())
                             <li class="page-item">
+                            @if($book->previous())
+
                                 <a class="page-link btn btn-primary" href="{{ route('book.show', $book->previous()->slug) }}" aria-label="Previous">
                                     <span aria-hidden="true">&laquo; {{ __("Previous") }}</span>
                                 </a>
-                            </li>
+
                             @endif
-                            @if($book->next())
+                            </li>
                             <li class="page-item">
+                            @if($book->next())
+
                                 <a class="page-link btn btn-primary" href="{{ route('book.show', $book->next()->slug) }}" aria-label="Next">
                                     <span aria-hidden="true">{{ __("Next") }} &raquo;</span>
                                 </a>
-                            </li>
                             @endif
+                            </li>
                         </ul>
                     </nav>
                 </div>
