@@ -95,6 +95,7 @@ class BookResource extends Resource
                                 ->label(__("Pages")),
 
                             Forms\Components\Toggle::make('verified')
+                                ->inline(false)
                                 ->label(__("Verified")),
 
                             Forms\Components\TagsInput::make('tags')
