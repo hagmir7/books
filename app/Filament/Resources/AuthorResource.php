@@ -48,8 +48,10 @@ class AuthorResource extends Resource
                             ->required(),
                         Forms\Components\TextInput::make('full_name')
                             ->label(__("First name"))
-                            ->columnSpanFull()
                             ->required(),
+                        Forms\Components\Toggle::make('verified')
+                            ->inline(false)
+                            ->label(__("Verified")),
                         Forms\Components\RichEditor::make('description')
                             ->label(__("Description"))
                             ->required()
