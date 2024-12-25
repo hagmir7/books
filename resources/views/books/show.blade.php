@@ -69,6 +69,7 @@
                     </a>
                 </div>
                     <!-- ads before download -->
+                    <!-- {{ app("site")->id }}  / {{ 5 }}-->
                     @if (app("site")->id == 5)
                     <div class="download read py-3">
                         {!! app("site")->ads !!}
