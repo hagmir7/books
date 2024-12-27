@@ -164,7 +164,7 @@
                             <td>{{ __("Book name") }}:</td>
                             <td>
                                 <span itemprop="bookName">{{ $book->name }}</span>
-                                <span >({{ $book->created_at->format("Y") }})</span>
+                                <span >({{ $book->updated_at->format("Y") }})</span>
                             </td>
                         </tr>
 

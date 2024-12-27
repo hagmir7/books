@@ -6,6 +6,8 @@ use App\Filament\Resources\AuthorResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use JoseEspinal\RecordNavigation\Traits\HasRecordsList;
+use Filament\Resources\Components\Tab;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ListAuthors extends ListRecords
 {
@@ -17,6 +19,21 @@ class ListAuthors extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+
+    public function getTabs(): array
+    {
+        return [
+            'ALL' => Tab::make()
+                ->label(__("All"))
+                ->icon("heroicon-o-wallet")
+                ->modifyQueryUsing(fn(Builder $query) => $query->latest()),
+
+            'ON_HOLD' => Tab::make()
+                ->label(__("On hold"))
+                ->icon("heroicon-o-clock")
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('verified', false)->latest()),
         ];
     }
 }

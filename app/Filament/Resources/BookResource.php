@@ -39,13 +39,10 @@ class BookResource extends Resource
     }
 
 
-
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-
             Forms\Components\Grid::make(3)
                 ->schema([
                     Forms\Components\Section::make()
