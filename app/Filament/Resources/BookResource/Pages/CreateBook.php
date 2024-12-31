@@ -14,45 +14,44 @@ class CreateBook extends CreateRecord
 {
     protected static string $resource = BookResource::class;
 
-
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['user_id'] = auth()->user()->id;
+        $data['type'] = "PDF";
+        $data['site_id'] = app('site')->id;
+        $data['language_id'] = app("site")->language->id;
 
-        if (Storage::exists("public/" . $data['file']) && isset($data['file'])) {
+        // Handle file processing
+        if (isset($data['file']) && Storage::exists("public/" . $data['file'])) {
             $file_size = Storage::size("public/" . $data['file']);
             $file_path = Storage::path("public/" . $data['file']);
+
+            $data['size'] = $this->formatFileSize($file_size);
+
+            // Only try to parse PDF if we need to get page count
+            if ($data['pages'] === "") {
+                try {
+                    $parser = new Parser();
+                    $pdf = $parser->parseFile($file_path);
+                    $data['pages'] = count($pdf->getPages());
+                } catch (\Exception $e) {
+                    Notification::make()
+                        ->danger()
+                        ->title("File is not supported!")
+                        ->send();
+                }
+            }
         } else {
             Notification::make()
                 ->danger()
                 ->title("File not found!")
                 ->send();
         }
-        $parser = new Parser();
 
-        if ($data['pages'] !== "") {
-            try {
-                $pdf = $parser->parseFile($file_path);
-                $data['pages'] = count($pdf->getPages());
-            } catch (\Exception $e) {
-                Notification::make()
-                    ->danger()
-                    ->title("File is not supported!")
-                    ->send();
-            }
-        }
-
-        $data['type'] = "PDF";
-
-        if (Storage::exists("public/" . $data['file']) && isset($data['file'])) {
-            $data['size'] = $this->formatFileSize($file_size);
-        }
-
-
-
+        // Set title based on language
         switch (app("site")->language->code) {
             case "en":
-                $data['title'] = "Download {$data['name']}  for Free (PDF)";
+                $data['title'] = "Download {$data['name']} for Free (PDF)";
                 break;
             case "fr":
                 $data['title'] = "Télécharger {$data['name']} gratuit (PDF)";
@@ -62,11 +61,8 @@ class CreateBook extends CreateRecord
                 break;
         }
 
-        $data['site_id'] = app('site')->id;
-        $data['language_id'] = app("site")->language->id;
         return $data;
     }
-
 
     protected function formatFileSize($size)
     {
