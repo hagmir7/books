@@ -43,7 +43,11 @@ class CreateBook extends CreateRecord
         }
 
         $data['type'] = "PDF";
-        $data['size'] = $this->formatFileSize($file_size);
+
+        if (Storage::exists("public/" . $data['file']) && isset($data['file'])) {
+            $data['size'] = $this->formatFileSize($file_size);
+        }
+
 
 
         switch (app("site")->language->code) {
