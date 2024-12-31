@@ -33,7 +33,7 @@ class BookResource extends Resource
         return __("Books");
     }
 
-    public static function getEloquentQuery() : Builder
+    public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->where('language_id', app('site')->language->id);
     }
@@ -43,91 +43,97 @@ class BookResource extends Resource
     {
         return $form
             ->schema([
-            Forms\Components\Grid::make(3)
-                ->schema([
-                    Forms\Components\Section::make()
-                        ->schema([
+                Forms\Components\Grid::make(3)
+                    ->schema([
+                        Forms\Components\Section::make()
+                            ->schema([
 
-                            Forms\Components\TextInput::make('name')
-                                ->label(__("Book name"))
-                                ->unique(ignoreRecord: true)
-                                ->required(),
+                                Forms\Components\TextInput::make('name')
+                                    ->label(__("Book name"))
+                                    ->unique(ignoreRecord: true)
+                                    ->required(),
 
-                            Forms\Components\Select::make('author_id')
-                                ->relationship('author', 'full_name')
-                                ->label(__("Author"))
-                                ->searchable()
-                                ->preload()
-                                ->createOptionForm(self::AuthorForm())
-                                ->createOptionModalHeading("Create new author")
-                                ->createOptionUsing(function (array $data): int {
-                                    $author = Author::create($data);
-                                    Notification::make()
-                                    ->success()
-                                    ->title("Author created successfully")
-                                    ->send();
-                                    return $author->getKey();
-                                }),
+                                Forms\Components\Select::make('author_id')
+                                    ->relationship('author', 'full_name')
+                                    ->label(__("Author"))
+                                    ->searchable()
+                                    ->preload()
+                                    ->createOptionForm(self::AuthorForm())
+                                    ->createOptionModalHeading("Create new author")
+                                    ->createOptionUsing(function (array $data): int {
+                                        $author = Author::create($data);
+                                        Notification::make()
+                                            ->success()
+                                            ->title("Author created successfully")
+                                            ->send();
+                                        return $author->getKey();
+                                    }),
 
-                            Forms\Components\Select::make('book_category_id')
-                                ->relationship('category', 'name')
-                                ->label(__("Category"))
-                                ->searchable()
-                                ->preload()
-                                ->createOptionForm(self::CategoryForm())
-                                ->createOptionModalHeading("Create category")
-                                ->createOptionUsing(function (array $data): int {
-                                    $category = BookCategory::create($data);
-                                    Notification::make()
-                                    ->success()
-                                    ->title(__("Category created successfully"))
-                                    ->send();
-                                    return $category->getKey();
-                                })
+                                Forms\Components\Select::make('book_category_id')
+                                    ->relationship('category', 'name')
+                                    ->label(__("Category"))
+                                    ->searchable()
+                                    ->preload()
+                                    ->createOptionForm(self::CategoryForm())
+                                    ->createOptionModalHeading("Create category")
+                                    ->createOptionUsing(function (array $data): int {
+                                        $category = BookCategory::create($data);
+                                        Notification::make()
+                                            ->success()
+                                            ->title(__("Category created successfully"))
+                                            ->send();
+                                        return $category->getKey();
+                                    })
                                     ->native(false),
 
-                            Forms\Components\TextInput::make('isbn')
-                                ->label(__("ISBN")),
+                                Forms\Components\TextInput::make('isbn')
+                                    ->label(__("ISBN")),
 
-                            Forms\Components\TextInput::make('pages')
-                                ->label(__("Pages")),
+                                Forms\Components\TextInput::make('pages')
+                                    ->label(__("Pages")),
 
-                            Forms\Components\Toggle::make('verified')
-                                ->inline(false)
-                                ->label(__("Verified")),
+                                Forms\Components\Toggle::make('verified')
+                                    ->inline(false)
+                                    ->label(__("Verified")),
 
-                            Forms\Components\TagsInput::make('tags')
-                                ->color('info')
-                                ->label(__("Keywords"))
-                                ->placeholder(__("New keyword"))
-                                ->separator(',')
-                                ->splitKeys([',', 'Enter', '،'])
-                                ->required()
-                                ->columnSpanFull()
+                                Forms\Components\TagsInput::make('tags')
+                                    ->color('info')
+                                    ->label(__("Keywords"))
+                                    ->placeholder(__("New keyword"))
+                                    ->separator(',')
+                                    ->splitKeys([',', 'Enter', '،'])
+                                    ->required()
+                                    ->columnSpanFull()
 
-                        ])
-                        ->columns(2)
-                        ->columnSpan(2),
+                            ])
+                            ->columns(2)
+                            ->columnSpan(2),
 
-                    Forms\Components\Section::make()
-                        ->schema([
-                            Forms\Components\FileUpload::make('image')
-                            ->label(__("Image"))
-                            ->directory('book_images')
-                            ->image()
-                            ->disk('public'),  // Specify the disk explicitly
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\FileUpload::make('image')
+                                            ->label(__("Image"))
+                                            ->directory('book_images')
+                                            ->image()
+                                            ->visibility('public')
+                                            ->preserveFilenames(),
 
-                            Forms\Components\FileUpload::make('file')
-                            ->label(__("File"))
-                            ->directory('book_files')
-                            ->acceptedFileTypes(['application/pdf'])
-                            ->maxSize(50000)
-                            ->disk('public'),  // Specify the disk explicitly
-                        ])
-                        ->columnSpan(1)
+                                        Forms\Components\FileUpload::make('file')
+                                            ->maxSize(50000)
+                                            ->label(__("File"))
+                                            ->acceptedFileTypes(['application/pdf'])
+                                            ->directory('book_files')
+                                            ->visibility('public')
+                                            ->preserveFilenames()
+                                            ->downloadable(),
+                                    ])
+                            ])
+                            ->columnSpan(1)
 
-                ])
-                ->columnSpan(2),
+                    ])
+                    ->columnSpan(2),
 
                 Forms\Components\Textarea::make('description')
                     ->label(__("Description"))
