@@ -111,17 +111,19 @@ class BookResource extends Resource
 
                     Forms\Components\Section::make()
                         ->schema([
-                                Forms\Components\FileUpload::make('image')
-                                    ->label(__("Image"))
-                                    ->directory('book_images')
-                                    ->image(),
+                            Forms\Components\FileUpload::make('image')
+                            ->label(__("Image"))
+                            ->directory('book_images')
+                            ->image()
+                            ->disk('public'),  // Specify the disk explicitly
 
-                                Forms\Components\FileUpload::make('file')
-                                    ->maxSize(50000)
-                                    ->label(__("File"))
-                                    ->acceptedFileTypes(['application/pdf'])
-                                    ->directory('book_files'),
-                            ])
+                            Forms\Components\FileUpload::make('file')
+                            ->label(__("File"))
+                            ->directory('book_files')
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->maxSize(50000)
+                            ->disk('public'),  // Specify the disk explicitly
+                        ])
                         ->columnSpan(1)
 
                 ])
