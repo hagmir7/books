@@ -19,7 +19,7 @@ class CreateBook extends CreateRecord
     {
         $data['user_id'] = auth()->user()->id;
 
-        if (Storage::exists("public/" . $data['file'])) {
+        if (Storage::exists("public/" . $data['file']) && isset($data['file'])) {
             $file_size = Storage::size("public/" . $data['file']);
             $file_path = Storage::path("public/" . $data['file']);
         } else {

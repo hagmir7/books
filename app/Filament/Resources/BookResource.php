@@ -56,7 +56,8 @@ class BookResource extends Resource
                             Forms\Components\Select::make('author_id')
                                 ->relationship('author', 'full_name')
                                 ->label(__("Author"))
-                                ->native(false)
+                                ->searchable()
+                                ->preload()
                                 ->createOptionForm(self::AuthorForm())
                                 ->createOptionModalHeading("Create new author")
                                 ->createOptionUsing(function (array $data): int {
@@ -155,10 +156,12 @@ class BookResource extends Resource
                     ->label(__("Name"))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('author.full_name')
+                    ->searchable()
                     ->label(__("Author"))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->label(__("Category"))
+                    ->searchable()
                     ->badge()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('language.name')
