@@ -34,7 +34,7 @@ class BookListLivewire extends Component
                 ->where('verified', true)
                 ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
                 ->take($this->amount)
-                ->orderBy('created_at', 'asc')
+                ->orderBy('updated_at', 'asc')
                 ->where('is_public', 1)
                 ->get()
             // else
@@ -43,7 +43,7 @@ class BookListLivewire extends Component
                 ->where('verified', true)
                 ->take($this->amount)
                 ->where('is_public', 1)
-                ->orderBy('created_at', 'asc')
+                ->orderBy('updated_at', 'asc')
                 ->get();
 
 

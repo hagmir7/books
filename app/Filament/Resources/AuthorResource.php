@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\AuthorResource\Pages;
 use App\Filament\Resources\AuthorResource\RelationManagers;
+use App\Filament\Resources\BookResource\RelationManagers\BooksRelationManager;
 use App\Models\Author;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -39,23 +40,41 @@ class AuthorResource extends Resource
             ->schema([
                 Forms\Components\Section::make()
                     ->schema([
-                        Forms\Components\FileUpload::make('image')
-                            ->label(__("Image"))
-                            ->avatar()
-                            ->label(false)
-                            ->alignment(Alignment::Center)
-                            ->columnSpanFull()
-                            ->required(),
-                        Forms\Components\TextInput::make('full_name')
-                            ->label(__("First name"))
-                            ->required(),
-                        Forms\Components\Toggle::make('verified')
-                            ->inline(false)
-                            ->label(__("Verified")),
-                        Forms\Components\RichEditor::make('description')
-                            ->label(__("Description"))
-                            ->required()
-                            ->columnSpanFull(),
+                        Forms\Components\Grid::make(3)
+                            ->schema([
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\TextInput::make('full_name')
+                                            ->label(__("First name"))
+                                            ->required(),
+                                        Forms\Components\RichEditor::make('description')
+                                            ->label(__("Description"))
+                                            ->required()
+                                            ->columnSpanFull(),
+                                    ])
+                                    ->columnSpan(2),
+                                Forms\Components\Section::make()
+                                    ->schema([
+
+                                        Forms\Components\FileUpload::make('image')
+                                            ->label(__("Image"))
+                                            ->avatar()
+                                            ->label(false)
+                                            ->alignment(Alignment::Center)
+                                            ->columnSpanFull()
+                                            ->required(),
+
+                                        Forms\Components\Toggle::make('verified')
+                                            ->inline(false)
+                                            ->label(__("Verified")),
+
+
+                                    ])
+                                    ->columnSpan(1)
+                            ])
+
+
+
                     ])->columns(2)
             ]);
     }
@@ -65,7 +84,7 @@ class AuthorResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                ->label(__("Image")),
+                    ->label(__("Image")),
 
                 Tables\Columns\TextColumn::make('full_name')
                     ->label(__("Full name"))
@@ -97,7 +116,7 @@ class AuthorResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            BooksRelationManager::class,
         ];
     }
 
