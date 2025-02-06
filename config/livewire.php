@@ -74,6 +74,7 @@ return [
             'jpg', 'jpeg', 'mpga', 'webp', 'wma',
         ],
         'max_upload_time' => 5, // Max duration (in minutes) before an upload is invalidated...
+        'rules' => 'file|max:102400',
         'cleanup' => true, // Should cleanup temporary uploads older than 24 hrs...
     ],
 
