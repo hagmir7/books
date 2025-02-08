@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === " ar" ? "rtl" : "ltr" }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === "ar" ? "rtl" : "ltr" }}">
 
 <head>
     <meta charset="UTF-8">
     <title>{{ isset($title) ? Str::limit($title, 160) : $site->name }}</title>
-    <meta name="description"
-        content="{{ isset($description) ? Str::limit($description, 160) : Str::limit($site->description, 160) }}">
+    <meta name="description" content="{{ isset($description) ? Str::limit($description, 160) : Str::limit($site->description, 160) }}">
     <meta name="keywords" content="{{ isset($tags) ? $tags :  $site->keywords }}">
     <link rel="icon" type="image/png" href="{{ Storage::url($site->icon) }}" />
     <meta itemprop="image" content="{{ isset($image) ? Storage::url($image)  : Storage::url($site->image) }}">
@@ -15,52 +14,52 @@
     @yield('head')
 
     @if (app()->getLocale() == 'ar')
-    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            text-align: right;
-            font-family: "Readex Pro", serif !important;
-            font-optical-sizing: auto;
-            font-weight: 500;
-            font-style: normal;
-            font-variation-settings: "HEXP" 0;
-        }
+        <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
+        <style>
+            * {
+                text-align: right;
+                font-family: "Readex Pro", serif !important;
+                font-optical-sizing: auto;
+                font-weight: 500;
+                font-style: normal;
+                font-variation-settings: "HEXP" 0;
+            }
 
 
 
-        .books-listing .book-grid .book .book-info {
-            padding: 0 31px 10px 0px !important;
-        }
+            .books-listing .book-grid .book .book-info{
+                padding: 0 31px 10px 0px !important;
+            }
 
-        .home-book-list .book-list .book .book-info {
-            padding: 0 31px 10px 0px !important;
-        }
+            .home-book-list .book-list .book .book-info {
+                padding: 0 31px 10px 0px !important;
+            }
 
-        .home-book-list .book-list .book .book-cover img {
-            position: absolute;
-            right: -20px !important;
-            max-width: 110px;
-            border-radius: 3px;
-            box-shadow: 0 10px 60px 0 rgba(29, 29, 31, .09);
-        }
-    </style>
+            .home-book-list .book-list .book .book-cover img {
+                position: absolute;
+                right: -20px!important;
+                max-width: 110px;
+                border-radius: 3px;
+                box-shadow: 0 10px 60px 0 rgba(29, 29, 31, .09);
+            }
+        </style>
     @endif
 
     @if (app()->getLocale() == 'ar')
-    @vite(['resources/js/app.js'])
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
+        @vite(['resources/js/app.js'])
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
     @else
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+        @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @endif
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     {!! $site->header !!}
 
     <style>
-        figure a img {
-            width: 100% !important;
-            height: auto !important;
-        }
+            figure a img{
+                width: 100%!important;
+                height:auto!important;
+            }
     </style>
 </head>
 
@@ -96,7 +95,7 @@
 
                                 @if ($site->site_options['contact_url'])
                                 <li class="nav-item ">
-                                    <a href="{{ route(" contact") }}" title="{{ __(" Contact Us") }}"> {{ __("Contact Us") }} </a>
+                                    <a href="{{ route("contact") }}" title="{{ __("Contact Us") }}"> {{ __("Contact Us") }} </a>
                                 </li>
                                 @endif
 
