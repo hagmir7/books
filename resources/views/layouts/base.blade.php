@@ -60,6 +60,9 @@
                 width: 100%!important;
                 height:auto!important;
             }
+            .attachment__caption{
+                display: none!important;
+            }
     </style>
 </head>
 
