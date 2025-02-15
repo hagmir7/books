@@ -26,7 +26,6 @@
             }
 
 
-
             .books-listing .book-grid .book .book-info{
                 padding: 0 31px 10px 0px !important;
             }

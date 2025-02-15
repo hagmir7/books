@@ -17,7 +17,6 @@
                             <div class="text-center">
                                 {!! $author->description !!}
                             </div>
-                            @livewire('author-ai', ['author' => $author], key($author->id))
                         </div>
                     </div>
                     <div class="mt-5 d-flex justify-content-center">
