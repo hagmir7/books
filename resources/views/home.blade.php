@@ -12,9 +12,9 @@
             @livewire('authors-list-livewire')
             <div class="col-lg-9">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 p-0 m-2">
                         <div class="section-title">
-                            <h1 class="h3">{{ $site->site_options['home_title'] }}</h1>
+                            <h1 class="h3 mb-2">{{ $site->site_options['home_title'] }}</h1>
                         </div>
                     </div>
                     @forelse ($books as $book)
