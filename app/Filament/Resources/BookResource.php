@@ -121,7 +121,7 @@ class BookResource extends Resource
                                             ->preserveFilenames(),
 
                                         Forms\Components\FileUpload::make('file')
-                                            ->maxSize(50000)
+                                            ->maxSize(5000000)
                                             ->label(__("File"))
                                             ->acceptedFileTypes(['application/pdf'])
                                             ->directory('book_files')
