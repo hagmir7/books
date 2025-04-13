@@ -99,6 +99,7 @@
                 </a>
                 {!! app("site")->ads !!}
                 </div>
+                </div>
             </div>
 
             <div class="col-lg-9">

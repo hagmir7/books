@@ -1,3 +1,5 @@
 User-agent: *
 Disallow: /storage/book_file/*
 Disallow: /admin
+Disallow: /storage/book_files/
+
