@@ -166,6 +166,7 @@ class BookController extends Controller
         $books = Book::with('author')->where('verified', false)
             ->latest()
             ->where('language_id', 2)
+            ->where('file', "like", "%pdf%")
             ->take(10)
             ->get();
 
@@ -174,28 +175,36 @@ class BookController extends Controller
 
         foreach ($books as $book) {
             $prompt = <<<PROMPT
-            Return a JSON object only. Do not include any markdown or code block formatting.
+        Return only a valid JSON object. Do not include markdown or code block formatting.
 
-            Keys:
-            - "meta_description": a short, SEO-friendly summary in Arabic.
-            - "content": improved Arabic version of the book content most be more than 1k characters, must be html use just h2 or h3 if needed,  (Not summary just a long description).
-            use defrent meta descriptoin foreach book
+        Keys to include in the JSON:
+        - "meta_description": a short, SEO-optimized summary in Arabic, between 140 and 159 characters.
+        - "content": a long, detailed Arabic description of the book (NOT a summary). Write in rich HTML format using only <h2>, <h3>, and <p> tags. The content must be more than 1000 characters.
+        - "tags": 5 to 6 relevant Arabic meta keywords related to the book, genre, author, and themes, separated by commas.
 
-            Book Title: "{$book->name}"
-            Author: "{$book->author->name}
-            PROMPT;
+        Avoid repeating the same meta description for different books. Do not add introductions or explanations.
+
+        Book Title: "{$book->name}"
+        Author: "{$book->author->name}"
+        PROMPT;
 
             try {
                 $result = $client->chat()->create([
                     'model' => 'gpt-4o',
                     'messages' => [
-                        ['role' => 'system', 'content' => 'You are an assistant that creates improved book long description and meta descriptions. Respond only in JSON format.'],
+                        [
+                            'role' => 'system',
+                            'content' => 'You are an assistant that creates improved book long descriptions and meta descriptions. Respond only in valid JSON format.',
+                        ],
                         ['role' => 'user', 'content' => $prompt],
                     ],
-                    'temperature' => 0.7,
+                    'temperature' => 0.5,
                 ]);
 
-                $content = $result->choices[0]->message->content;
+                $content = trim($result->choices[0]->message->content);
+
+                // Clean up markdown if accidentally added
+                $content = preg_replace('/^```(?:json)?|```$/', '', $content);
 
                 $data = json_decode($content, true);
 
@@ -208,21 +217,29 @@ class BookController extends Controller
                     continue;
                 }
 
-                if (isset($data['meta_description'], $data['content'])) {
+                if (isset($data['meta_description'], $data['content'], $data['tags'])) {
+                    if (mb_strlen(strip_tags($data['content'])) < 1000) {
+                        Log::warning("Generated content too short for book ID {$book->id}");
+                        $failed++;
+                        continue;
+                    }
+
                     $book->update([
                         'description' => $data['meta_description'],
                         'body' => $data['content'],
+                        'tags' => $data['tags'],
                         'verified' => true,
                     ]);
+
                     $updated++;
                 } else {
-                    Log::warning("Missing keys in AI response for book ID {$book->id}", [
+                    Log::warning("Missing keys in OpenAI response for book ID {$book->id}", [
                         'response' => $content,
                     ]);
                     $failed++;
                 }
 
-                // Optional: avoid hitting rate limit
+                // Avoid rate limiting
                 usleep(500000); // 0.5 second
             } catch (\Exception $e) {
                 Log::error("OpenAI API call failed for book ID {$book->id}", [
