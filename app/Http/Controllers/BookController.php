@@ -178,11 +178,12 @@ class BookController extends Controller
         Return only a valid JSON object. Do not include markdown or code block formatting.
 
         Keys to include in the JSON:
-        - "meta_description": a short, SEO-optimized summary in Arabic, between 140 and 159 characters.
-        - "content": a long, detailed Arabic description of the book (NOT a summary). Write in rich HTML format using only <h2>, <h3>, and <p> tags. The content must be more than 1000 characters.
-        - "tags": 5 to 6 relevant Arabic meta keywords related to the book, genre, author, and themes, separated by commas.
+        - "meta_description": a short, SEO-optimized details in Arabic, between 140 and 159 characters.
+        - "content": a long, detailed Arabic description of the book (NOT a summary, don't use Introduction and conclusen). Write in rich HTML format using only <h2>, <h3>, and <p> tags. The content must be more than 1000 characters.
+        - "tags": 5 to 6 relevant Arabic meta keywords related to the book, genre, author, and themes, separated by commas, Type of camma is (,).
 
         Avoid repeating the same meta description for different books. Do not add introductions or explanations.
+
 
         Book Title: "{$book->name}"
         Author: "{$book->author->name}"
