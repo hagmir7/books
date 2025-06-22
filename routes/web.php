@@ -118,3 +118,6 @@ Route::post('/upload-books', [BookController::class, 'uploadBooks'])->name('book
 Route::get('/book-upload', function(){
     return view('books.upload');
 });
+
+
+Route::get('ai-generater', [BookController::class, 'updateAndPublishBooksWithSdk'])->name("ai.generater");

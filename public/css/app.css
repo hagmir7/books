@@ -1,5 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,500,600,700|Poppins:300,400,400i,500,600,700);
 
+.book-description h2{
+    font-size: 18px!important;
+}
 
 .cover {
     object-fit: cover !important;

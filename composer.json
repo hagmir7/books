@@ -16,6 +16,7 @@
         "josespinal/filament-record-navigation": "^2.0",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
+        "openai-php/client": "^0.13.0",
         "roach-php/laravel": "^3.1",
         "smalot/pdfparser": "^2.10",
         "spatie/crawler": "^8.2",

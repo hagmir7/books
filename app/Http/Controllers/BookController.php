@@ -9,7 +9,9 @@ use App\Models\BookCategory;
 use App\Models\Comment;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use OpenAI;
 
 class BookController extends Controller
 {
@@ -151,5 +153,89 @@ class BookController extends Controller
             'message' => 'Books uploaded successfully',
             'books_count' => count($books)
         ], 201);
+    }
+
+
+
+
+
+    public function updateAndPublishBooksWithSdk(): \Illuminate\Http\JsonResponse
+    {
+        $client = OpenAI::client(env('OPENAI_API_KEY'));
+
+        $books = Book::with('author')->where('verified', false)
+            ->latest()
+            ->where('language_id', 2)
+            ->take(10)
+            ->get();
+
+        $updated = 0;
+        $failed = 0;
+
+        foreach ($books as $book) {
+            $prompt = <<<PROMPT
+            Return a JSON object only. Do not include any markdown or code block formatting.
+
+            Keys:
+            - "meta_description": a short, SEO-friendly summary in Arabic.
+            - "content": improved Arabic version of the book content most be more than 1k characters, must be html use just h2 or h3 if needed,  (Not summary just a long description).
+            use defrent meta descriptoin foreach book
+
+            Book Title: "{$book->name}"
+            Author: "{$book->author->name}
+            PROMPT;
+
+            try {
+                $result = $client->chat()->create([
+                    'model' => 'gpt-4o',
+                    'messages' => [
+                        ['role' => 'system', 'content' => 'You are an assistant that creates improved book long description and meta descriptions. Respond only in JSON format.'],
+                        ['role' => 'user', 'content' => $prompt],
+                    ],
+                    'temperature' => 0.7,
+                ]);
+
+                $content = $result->choices[0]->message->content;
+
+                $data = json_decode($content, true);
+
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    Log::error("Invalid JSON from OpenAI for book ID {$book->id}", [
+                        'response' => Str::limit($content, 500),
+                        'json_error' => json_last_error_msg(),
+                    ]);
+                    $failed++;
+                    continue;
+                }
+
+                if (isset($data['meta_description'], $data['content'])) {
+                    $book->update([
+                        'description' => $data['meta_description'],
+                        'body' => $data['content'],
+                        'verified' => true,
+                    ]);
+                    $updated++;
+                } else {
+                    Log::warning("Missing keys in AI response for book ID {$book->id}", [
+                        'response' => $content,
+                    ]);
+                    $failed++;
+                }
+
+                // Optional: avoid hitting rate limit
+                usleep(500000); // 0.5 second
+            } catch (\Exception $e) {
+                Log::error("OpenAI API call failed for book ID {$book->id}", [
+                    'error' => $e->getMessage(),
+                ]);
+                $failed++;
+            }
+        }
+
+        return response()->json([
+            'message' => 'Books processed',
+            'updated' => $updated,
+            'failed' => $failed,
+        ]);
     }
 }
