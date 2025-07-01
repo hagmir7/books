@@ -18,7 +18,8 @@
                                 </g>
                             </svg>
                         </button>
-                        <input class="form-control rounded-end-pill" name="q" value="{{ request()->query("q") }}" type="search" placeholder="{{ __("Book") }}, {{ __("Author") }}, {{ __("Category") }}...">
+                        <input type="search" name="q" class="form-control rounded-end-pill" value="{{ request()->query('q', '') }}"
+                            placeholder="{{ app('site')?->site_options['search_label'] ?? __("Search") . '...' }}">
                     </div>
                 </form>
             </div>
