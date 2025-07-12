@@ -20,28 +20,37 @@ class SitemapController extends Controller
         if (app("site")->site_options['book_sitemap']) {
             $sitemap->add(Url::create('/books'));
             Book::where('is_public', true)
-                ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
+                ->where('verified', true)
+                ->whereNull('copyright_date')
+                ->whereHas('language', fn($query) => $query->where('code', app()->getLocale()))
                 ->each(function (Book $book) use ($sitemap) {
                     $sitemap->add(Url::create("/books/{$book->slug}"));
                 });
-
         }
-
 
         if (app("site")->site_options['author_sitemap']) {
             $sitemap->add(Url::create('/authors'));
-            Author::all()->each(function (Author $author) use ($sitemap) {
-                $sitemap->add(Url::create("/authors/{$author->slug}/books"));
-            });
+            Author::whereHas('books', function ($book) {
+                $book->where('verified', true)
+                    ->whereNull('copyright_date')
+                    ->whereHas('language', fn($query) => $query->where('code', app()->getLocale()));
+            })
+                ->each(function (Author $author) use ($sitemap) {
+                    $sitemap->add(Url::create("/authors/{$author->slug}/books"));
+                });
         }
-
 
         if (app("site")->site_options['category_sitemap']) {
             $sitemap->add(Url::create('/category'));
-            BookCategory::all()->each(function (BookCategory $cateogry) use ($sitemap) {
-                $sitemap->add(Url::create("/category/{$cateogry->slug}"));
+            BookCategory::whereHas('books', function ($book) {
+                $book->where('verified', true)
+                    ->whereNull('copyright_date')
+                    ->whereHas('language', fn($query) => $query->where('code', app()->getLocale()));
+            })->each(function (BookCategory $category) use ($sitemap) {
+                $sitemap->add(Url::create("/category/{$category->slug}"));
             });
         }
+
 
         if (app("site")->site_options['post_sitemap']) {
             $sitemap->add(Url::create('/blog'));
