@@ -87,7 +87,7 @@ Route::middleware('api')->prefix('api/books')->group(function () {
 
 Route::prefix('copyright')->group(function(){
     Route::get('/list', function(){
-        $books = Book::where("is_public", 0)->get();
+        $books = Book::where("is_public", 0)->where('language_id', app("site")->language_id)->get();
         return view('copyright.list', ['books' => $books]);
     });
 });

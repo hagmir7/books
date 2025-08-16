@@ -5,7 +5,6 @@
                 <p>{{ __("Copyright") }} © {{ Str::upper($site->domain) }} 2024. {{ __("All rights reserved") }}.
                      {{-- -- Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }}) --}}
                 </p>
-
                 <div class="navbar">
                     <div class="w-100 pt-3">
                         <ul class="flex-wrap primary-menu d-flex w-100 py-3 d-flex justify-content-center" style="list-style: none">
