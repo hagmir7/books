@@ -245,6 +245,7 @@
                         <h2>{{ __("Book reviews") }}</h2>
                     </div>
                 </div>
+                <livewire:report-form>
                 @livewire('review-form-livewire', ['book' => $book], key($book->slug))
             </div>
         </div>
