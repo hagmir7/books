@@ -9,5 +9,9 @@ class Report extends Model
 {
     use HasFactory;
 
-    public $fillable = ['full_name', 'subject', 'content', 'readed_at', 'email'];
+    public $fillable = ['full_name', 'subject', 'content', 'readed_at', 'email', 'book_id'];
+
+    public function book(){
+        return $this->belongsTo(Book::class);
+    }
 }

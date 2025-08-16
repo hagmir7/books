@@ -5,14 +5,12 @@ namespace App\Filament\Resources\BookResource\Pages;
 use App\Filament\Resources\BookResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use JoseEspinal\RecordNavigation\Traits\HasRecordsList;
 use Filament\Resources\Components\Tab;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ListBooks extends ListRecords
 {
 
-    use HasRecordsList;
     protected static string $resource = BookResource::class;
 
 

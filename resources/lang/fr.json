@@ -155,5 +155,12 @@
     "pagination.next": "pagination.suivant",
     "pagination.previous": "pagination.précédent",
     "results": "résultats",
-    "to": "à"
+    "to": "à",
+    "Reports": "Rapports",
+    "Report": "Rapport",
+    "Report The Book": "Signaler le livre",
+    "Subject": "Sujet",
+    "Message Content": "Contenu",
+    "Send Report": "Envoyer le signalement",
+    "Close": "Fermer"
 }

@@ -157,5 +157,13 @@
     "pagination.previous": "الصفحة السابقة",
     "results": "النتائج",
     "to": "إلى",
-    "Search": "بحث"
+    "Search": "بحث",
+    "Subject": "الموضوع",
+    "Reports": "تقارير",
+    "Report": "تقرير",
+    "Report The Book": "الإبلاغ عن الكتاب",
+    "Message Content": "المحتوى",
+    "Send Report": "إرسال البلاغ",
+    "Close": "إغلاق"
+
 }

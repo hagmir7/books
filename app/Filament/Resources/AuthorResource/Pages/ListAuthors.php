@@ -5,14 +5,12 @@ namespace App\Filament\Resources\AuthorResource\Pages;
 use App\Filament\Resources\AuthorResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use JoseEspinal\RecordNavigation\Traits\HasRecordsList;
 use Filament\Resources\Components\Tab;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ListAuthors extends ListRecords
 {
 
-    use HasRecordsList;
     protected static string $resource = AuthorResource::class;
 
     protected function getHeaderActions(): array
