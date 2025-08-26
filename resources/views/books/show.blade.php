@@ -4,8 +4,14 @@
     <meta itemprop="url" content="/book/{{ $book->slug }}" />
     <meta itemprop="author" content="{{ $book->author->full_name }}" />
     <meta itemprop="publisher" content="{{ $book->author->full_name }}" />
-    {!! app("site")->ads !!}
+
     <div class="container">
+        {!! app("site")->ads !!}
+        @if (session()->has('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
         <div class="row">
             <div class="col-lg-3">
                 <div class="sticky-left-column">
@@ -212,6 +218,7 @@
                 @if (auth()->user()?->email_verified_at)
                     @livewire('book-actions', ['book' => $book, key($book->slug)])
                 @endif
+                <livewire:report-form :book="$book" />
                 <div class="mt-5 d-flex justify-content-center">
                     <nav aria-label="Next and Previous navigation" class="w-100">
                         <ul class="pagination d-flex justify-content-between">
@@ -245,7 +252,6 @@
                         <h2>{{ __("Book reviews") }}</h2>
                     </div>
                 </div>
-               <livewire:report-form :book="$book" />
                 @livewire('review-form-livewire', ['book' => $book], key($book->slug))
             </div>
         </div>

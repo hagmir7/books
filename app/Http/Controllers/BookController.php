@@ -37,7 +37,7 @@ class BookController extends Controller
     {
         !$book->is_public && abort(403);
         !$book->verified && abort(404);
-        return view("books.show", [
+        return view("book.show", [
             "book" => $book,
             "title" => str_replace(":attr", $book->name, app('site')->site_options['book_title']),
             "description" => \Illuminate\Support\Str::limit($book->description, 160),

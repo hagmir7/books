@@ -4,6 +4,8 @@
             padding: 0px 35px 0px 2px!important;
         }
     </style>
+
+    @livewire('book-search')
     <div class="container-fluid">
         <div class="row">
             <div class="col-12" id="book-list">
@@ -15,7 +17,7 @@
                 <div class="row book-grid">
                     @forelse ($books as $book)
                         <div class="col-lg-6 col-md-6 col-xl-4">
-                            <div class="row book">
+                            <div class="row book shadow-sm">
                                 <div class="book-cover col-lg-3 col-3">
                                     <a href="{{ route('book.show', $book->slug) }}">
                                         <img src="{{ Storage::url($book->image) }}" alt="{{ $book->name }}" class="img-fluid">

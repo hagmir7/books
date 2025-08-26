@@ -162,5 +162,6 @@
     "Subject": "Sujet",
     "Message Content": "Contenu",
     "Send Report": "Envoyer le signalement",
-    "Close": "Fermer"
+    "Close": "Fermer",
+    "Report created successfully!": "Rapport envoyé avec succès!"
 }

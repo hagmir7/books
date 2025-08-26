@@ -164,6 +164,9 @@
     "Report The Book": "الإبلاغ عن الكتاب",
     "Message Content": "المحتوى",
     "Send Report": "إرسال البلاغ",
-    "Close": "إغلاق"
+    "Close": "إغلاق",
+    "Report created successfully!" : "تم إرسال التقرير بنجاح!",
+    "Search Results": "نتائج البحث",
+    "Start search by book, author...": "ابدأ البحث بالكتاب أو المؤلف..."
 
 }

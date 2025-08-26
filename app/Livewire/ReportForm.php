@@ -6,7 +6,6 @@ use App\Models\Report;
 use App\Models\Book;
 use Livewire\Component;
 
-
 class ReportForm extends Component
 {
     public $full_name;
@@ -16,7 +15,6 @@ class ReportForm extends Component
     public $content;
     public Book $book;
 
-
     protected $rules = [
         'full_name' => 'required|string|max:255',
         'subject'   => 'required|string|max:255',
@@ -24,22 +22,44 @@ class ReportForm extends Component
         'content'   => 'required|string',
     ];
 
+    public function mount(Book $book)
+    {
+        $this->book = $book;
+    }
 
     public function save()
     {
         $this->validate();
 
-        Report::create([
-            'full_name' => $this->full_name,
-            'subject'   => $this->subject,
-            'email'     => $this->email,
-            'content'   => $this->content,
-            'book_id'   => $this->book->id,
-        ]);
+        // Additional check to ensure book is still valid
+        if (!$this->book || !$this->book->exists) {
+            session()->flash('error', __('Invalid book selected.'));
+            return;
+        }
 
-        $this->reset(['full_name', 'subject', 'email', 'content']);
+        try {
+            Report::create([
+                'full_name' => $this->full_name,
+                'subject'   => $this->subject,
+                'email'     => $this->email,
+                'content'   => $this->content,
+                'book_id'   => $this->book->id,
+            ]);
 
-        session()->flash('success', 'Report created successfully!');
+            // $this->reset(['full_name', 'subject', 'email', 'content']);
+
+            session()->flash('success', __('Report created successfully!'));
+
+            // Check if book has slug property before using it
+            if (isset($this->book->slug)) {
+                return redirect()->route('book.show', $this->book->slug);
+            } else {
+                return redirect()->route('book.show', $this->book->id);
+            }
+        } catch (\Exception $e) {
+            session()->flash('error', __('Failed to create report. Please try again.'));
+            \Log::error('Report creation failed: ' . $e->getMessage());
+        }
     }
 
     public function render()
