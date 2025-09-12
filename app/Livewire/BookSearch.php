@@ -34,6 +34,9 @@ class BookSearch extends Component
 
         $books = Book::query()
             ->with(['author', 'category'])
+            ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
+            ->where('verified', true)
+            ->where('is_public', 1)
             ->when($this->search, function ($q) {
                 $q->where(function ($q) {
                     $q->where('name', 'like', '%' . $this->search . '%')

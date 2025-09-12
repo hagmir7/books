@@ -41,8 +41,9 @@ class BookListLivewire extends Component
             : Book::with(['author', 'language'])
                 ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
                 ->where('verified', true)
-                ->take($this->amount)
                 ->where('is_public', 1)
+                ->take($this->amount)
+
                 ->orderBy('updated_at', 'desc')
                 ->get();
 
