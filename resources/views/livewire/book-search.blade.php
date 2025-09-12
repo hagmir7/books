@@ -64,7 +64,7 @@
                                     <div class="position-relative">
                                         <input type="text" class="form-control form-control-lg ps-5 border-0 fs-6"
                                             placeholder="{{ __('Start search by book, author...') }}"
-                                            wire:model.live.debounce.300ms="search">
+                                            wire:model.live.debounce.500ms="search">
 
                                         <!-- Search Icon (hidden when loading) -->
                                         <svg wire:loading.remove xmlns="http://www.w3.org/2000/svg" width="20"
