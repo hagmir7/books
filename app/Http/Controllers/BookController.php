@@ -37,6 +37,12 @@ class BookController extends Controller
     {
         !$book->is_public && abort(403);
         !$book->verified && abort(404);
+
+        if(app('site')->domain == 'file.best'){
+            return redirect('https://yakk.shop/books/'. $book->slug);
+        }
+
+
         return view("books.show", [
             "book" => $book,
             "title" => str_replace(":attr", $book->name, app('site')->site_options['book_title']),

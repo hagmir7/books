@@ -81,7 +81,7 @@
 
 
                 @if (Str::upper($site->domain) == "NORKITAB.COM")
-                <a rel="nofollow" href="https://yakk.shop/{{ request()->path() }}" class="w-100 btn btn-success btn-rounded d-flex justify-content-center">
+                <a rel="nofollow" href="https://file.best/{{ request()->path() }}" class="w-100 btn btn-success btn-rounded d-flex justify-content-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="icon icon-tabler icons-tabler-outline icon-tabler-download">
@@ -93,7 +93,7 @@
                     <span class="mx-2">{{ __("Download") }}</span>
                 </a>
 
-               <a rel="nofollow" href="https://yakk.shop/{{ request()->path() }}" class="w-100 mt-4 btn btn-warning btn-rounded d-flex justify-content-center">
+               <a rel="nofollow" href="https://file.best/{{ request()->path() }}" class="w-100 mt-4 btn btn-warning btn-rounded d-flex justify-content-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="icon icon-tabler icons-tabler-outline icon-tabler-book">
