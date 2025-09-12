@@ -9,11 +9,6 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12" id="book-list">
-                <div class="top-filter row">
-                    <div class="col-lg-7">
-                        <h1 class="h2">{{ $category->name ? $category->name : __("Books") }}</h1>
-                    </div>
-                </div>
                 <div class="row book-grid">
                     @forelse ($books as $book)
                         <div class="col-lg-6 col-md-6 col-xl-4">
