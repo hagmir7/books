@@ -56,11 +56,8 @@
                                         <div class="list-group-item border-0 py-0 px-4 bg-white hover-bg-light">
                                             <div class="d-flex flex-column">
                                                 <h4 class="mb-2 text-dark fw-bold">
-                                                    <a href="{{ route("book.show", $book->slug) }}">
+                                                    <a href="{{ route("book.show", $book?->slug) }}">
                                                         {{ $book->name }}
-                                                        @if($book->title && $book->title !== $book->name)
-                                                        <small class="text-muted fw-normal ms-2">{{ $book->title }}</small>
-                                                        @endif
                                                     </a>
                                                 </h4>
                                                 @if($book->author)

@@ -26,7 +26,6 @@ class BookSearch extends Component
 
     public function render()
     {
-        // Only search when user has typed something
         if (empty($this->search)) {
             return view('livewire.book-search', [
                 'books' => collect(),
@@ -35,13 +34,17 @@ class BookSearch extends Component
 
         $books = Book::query()
             ->with(['author', 'category'])
-            ->where(function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('title', 'like', '%' . $this->search . '%')
-                    ->orWhere('description', 'like', '%' . $this->search . '%')
-                    ->orWhere('tags', 'like', '%' . $this->search . '%');
+            ->when($this->search, function ($q) {
+                $q->where(function ($q) {
+                    $q->where('name', 'like', '%' . $this->search . '%')
+                        ->orWhere('title', 'like', '%' . $this->search . '%')
+                        ->orWhere('description', 'like', '%' . $this->search . '%')
+                        ->orWhere('tags', 'like', '%' . $this->search . '%');
+                });
             })
+            ->limit(10)
             ->get();
+
 
         return view('livewire.book-search', compact('books'));
     }
