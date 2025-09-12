@@ -26,7 +26,7 @@
                                     {{-- <span class="input-group-text bg-primary text-white border-0">
                                         <i class="fas fa-search"></i>
                                     </span> --}}
-                                    <input type="text" class="form-control border-0"
+                                    <input type="text" class="form-control border-0 fs-6"
                                         placeholder="{{ __('Start search by book, author...') }}"
                                         wire:model.live.debounce.300ms="search">
                                 </div>
