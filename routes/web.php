@@ -133,9 +133,7 @@ Route::get('/convert-book-sizes', function () {
             $sizeInKB = $book->size; // assume original is in KB
             $sizeInMB = round($sizeInKB / 1024, 2);
 
-            // Save formatted sizes
-            $book->size = $sizeInKB . ' KB';  // KB version
-            $book->size_mb = $sizeInMB . ' MB'; // optional separate column for MB
+            $book->size = $sizeInMB . ' MB';
             $book->save();
         }
     }
