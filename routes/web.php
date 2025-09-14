@@ -123,20 +123,24 @@ Route::get('/book-upload', function(){
 Route::get('ai-generater', [BookController::class, 'updateAndPublishBooksWithSdk'])->name("ai.generater");
 
 
-
 Route::get('/convert-book-sizes', function () {
+
     $books = Book::all();
 
     foreach ($books as $book) {
-        // Check if size contains only numbers (integer or float)
-        if (is_numeric($book->size)) {
-            $sizeInKB = $book->size; // assume original is in KB
-            $sizeInMB = round($sizeInKB / 1024, 2);
+        // Remove " B" from the size string
+        $sizeInBytes = str_replace(' MB', '', $book->size);
 
+        // Make sure it's numeric
+        if (is_numeric($sizeInBytes) && intval($sizeInBytes) > 200) {
+            // Convert from bytes to MB
+            $sizeInMB = round($sizeInBytes / (1024 * 1024), 2);
+
+            // Save the corrected size
             $book->size = $sizeInMB . ' MB';
             $book->save();
         }
     }
 
-    return "Book sizes converted successfully!";
+    return "All book sizes have been correctly converted from Bytes to MB!";
 });
