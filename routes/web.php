@@ -9,7 +9,6 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\SitemapController;
 use App\Models\Book;
 use App\Models\Post;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,13 +31,7 @@ Route::get('/', function () {
     $site_options = app('site')->site_options;
 
     if ($site_options['home_page'] == "books") {
-        return view('home', [
-            'books' => Book::with(['author', 'category'])
-                ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
-                ->where('verified', true)
-                ->latest()
-                ->paginate(30)
-        ]);
+        return view('books.list');
     }
 
     $posts = Post::where('site_id', app('site')->id)->paginate(15);
@@ -128,15 +121,12 @@ Route::get('/convert-book-sizes', function () {
     $books = Book::all();
 
     foreach ($books as $book) {
-        // Remove " B" from the size string
         $sizeInBytes = str_replace(' MB', '', $book->size);
 
-        // Make sure it's numeric
+
         if (is_numeric($sizeInBytes) && intval($sizeInBytes) > 200) {
-            // Convert from bytes to MB
             $sizeInMB = round($sizeInBytes / (1024 * 1024), 2);
 
-            // Save the corrected size
             $book->size = $sizeInMB . ' MB';
             $book->save();
         }
