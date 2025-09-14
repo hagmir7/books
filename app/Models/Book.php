@@ -68,13 +68,22 @@ class Book extends Model
     }
 
 
+
+
+
     protected static function boot()
     {
         parent::boot();
-        static::creating(function ($model) {
-            $model->slug = Str::slug($model->name, '-');
+
+        static::creating(function ($book) {
+            $book->slug = Str::slug($book->name, '-');
+
+            if ($book->size && !Str::contains($book->size, ['MB', 'KB'])) {
+                $book->size = round($book->size / 1024, 2) . ' MB';
+            }
         });
     }
+
 
     public function getSlugOptions(): SlugOptions
     {

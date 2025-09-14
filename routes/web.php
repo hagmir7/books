@@ -121,3 +121,24 @@ Route::get('/book-upload', function(){
 
 
 Route::get('ai-generater', [BookController::class, 'updateAndPublishBooksWithSdk'])->name("ai.generater");
+
+
+
+Route::get('/convert-book-sizes', function () {
+    $books = Book::all();
+
+    foreach ($books as $book) {
+        // Check if size contains only numbers (integer or float)
+        if (is_numeric($book->size)) {
+            $sizeInKB = $book->size; // assume original is in KB
+            $sizeInMB = round($sizeInKB / 1024, 2);
+
+            // Save formatted sizes
+            $book->size = $sizeInKB . ' KB';  // KB version
+            $book->size_mb = $sizeInMB . ' MB'; // optional separate column for MB
+            $book->save();
+        }
+    }
+
+    return "Book sizes converted successfully!";
+});
