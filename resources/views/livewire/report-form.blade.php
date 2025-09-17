@@ -9,7 +9,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="reportModalLabel">{{ __("Report The Book") }}</h1>
+                    <div class="modal-title fs-5" id="reportModalLabel">{{ __("Report The Book") }}</div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="{{ __('Close') }}"></button>
                 </div>
