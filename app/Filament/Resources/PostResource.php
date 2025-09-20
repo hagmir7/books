@@ -11,6 +11,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -20,7 +21,8 @@ class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bars-4';
+
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-bars-4';
 
 
     public static function getEloquentQuery(): Builder
@@ -39,9 +41,9 @@ class PostResource extends Resource
         return __("Blog");
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
 
                 Forms\Components\Grid::make(3)

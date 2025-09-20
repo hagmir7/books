@@ -8,6 +8,7 @@ use App\Models\Language;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,8 +18,9 @@ class LanguageResource extends Resource
 {
     protected static ?string $model = Language::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-language';
-    protected static ?string $navigationGroup = 'More';
+    protected static string | \UnitEnum | null $navigationGroup = 'More';
+
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-language';
 
     public static function getModelLabel(): string
     {
@@ -30,9 +32,9 @@ class LanguageResource extends Resource
         return __("Languages");
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label(__("Name"))

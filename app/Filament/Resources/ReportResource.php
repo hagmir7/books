@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,7 +20,7 @@ class ReportResource extends Resource
 {
     protected static ?string $model = Report::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-flag';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-flag';
 
     public static function getModelLabel(): string
     {
@@ -36,10 +37,10 @@ class ReportResource extends Resource
     //     return parent::getEloquentQuery()->whereNotNull('readed_at')->latest();
     // }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Forms\Components\Grid::make(2)
                     ->schema([
                         Forms\Components\Section::make(__('Contact Information'))
@@ -220,10 +221,11 @@ class ReportResource extends Resource
             ->defaultSort('created_at', 'desc');
     }
 
-    public static function infolist(Infolist $infolist): Infolist
+    public function ReportInfolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
+        return $schema
+            ->record($this->report)
+            ->components([
                 Infolists\Components\Grid::make(3)
                     ->schema([
                         Infolists\Components\Section::make(__('Contact Information'))

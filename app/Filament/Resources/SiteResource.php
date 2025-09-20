@@ -8,6 +8,7 @@ use App\Models\Site;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -18,7 +19,8 @@ class SiteResource extends Resource
 {
     protected static ?string $model = Site::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-globe-asia-australia';
+
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-globe-asia-australia';
 
     public static function getModelLabel(): string
     {
@@ -30,10 +32,10 @@ class SiteResource extends Resource
         return __("Websites");
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Forms\Components\Tabs::make('Tabs')
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('Site')

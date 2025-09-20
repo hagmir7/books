@@ -4,23 +4,26 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\AuthorResource\Pages;
 use App\Filament\Resources\AuthorResource\RelationManagers;
-use App\Filament\Resources\BookResource\RelationManagers\BooksRelationManager;
 use App\Models\Author;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class AuthorResource extends Resource
 {
     protected static ?string $model = Author::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
-    protected static ?string $navigationGroup = 'More';
+
+    protected static string | UnitEnum | null $navigationGroup = 'More';
+
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-user-circle';
 
 
     public static function getModelLabel(): string
@@ -34,10 +37,10 @@ class AuthorResource extends Resource
         return __("Authors");
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\Grid::make(3)
@@ -113,12 +116,12 @@ class AuthorResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            BooksRelationManager::class,
-        ];
-    }
+    // public static function getRelations(): array
+    // {
+    //     return [
+    //         BooksRelationManager::class,
+    //     ];
+    // }
 
     public static function getPages(): array
     {

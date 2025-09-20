@@ -8,6 +8,7 @@ use App\Models\Email;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,9 +18,10 @@ class EmailResource extends Resource
 {
     protected static ?string $model = Email::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-at-symbol';
-    protected static ?string $navigationGroup = 'Contact';
 
+    protected static string | \UnitEnum | null $navigationGroup = 'Contact';
+
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-at-symbol';
     public static function getModelLabel(): string
     {
         return __("Email");
@@ -30,10 +32,10 @@ class EmailResource extends Resource
         return __("Emails");
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->label(__("Email"))

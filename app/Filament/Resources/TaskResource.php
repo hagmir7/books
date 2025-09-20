@@ -17,12 +17,14 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Infolists\Infolist;
+use Filament\Schemas\Schema;
 
 class TaskResource extends Resource
 {
     protected static ?string $model = Task::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
 
     public static function getModelLabel(): string
@@ -34,10 +36,10 @@ class TaskResource extends Resource
         return __("Tasks");
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Forms\Components\TextInput::make('title')
                     ->label(__("Title"))
                     ->required()
@@ -134,10 +136,11 @@ class TaskResource extends Resource
 
 
 
-    public static function infolist(Infolist $infolist): Infolist
+    public function ReportInfolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
+        return $schema
+            ->record($this->task)
+            ->components([
                  TextEntry::make('title')
             ]);
     }

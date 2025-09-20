@@ -14,10 +14,11 @@ class BooksRelationManager extends RelationManager
 {
     protected static string $relationship = 'books';
 
-    public function form(Form $form): Form
+    public function ReportInfolist(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->record($this->report)
+            ->components([
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
