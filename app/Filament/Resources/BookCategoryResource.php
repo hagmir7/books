@@ -49,7 +49,6 @@ class BookCategoryResource extends Resource
 
                         ->required(),
                     ])
-                    // ->extraAttributes(['style' => 'display:flex; justify-content:center; width: 100%'])
                     ->columnSpanFull(),
 
 
@@ -64,7 +63,6 @@ class BookCategoryResource extends Resource
 
                 \Filament\Forms\Components\Textarea::make('description')
                     ->label(__("Description"))
-                    ->required()
                     ->columnSpanFull(),
             ]);
     }

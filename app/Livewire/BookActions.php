@@ -12,15 +12,19 @@ class BookActions extends Component
 
 
     public function hidde(){
-        $book_status = !$this->book->is_public ? true : false;
-        $this->book->update(['is_public' => $book_status, "copyright_date" => now()]);
-        session()->flash('status', 'Book successfully hidded.');
+        if(auth()->user()->hasRole("super_admin")){
+            $book_status = !$this->book->is_public ? true : false;
+            $this->book->update(['is_public' => $book_status, "copyright_date" => now()]);
+            session()->flash('status', __('Book successfully hidded.'));
+        }
     }
 
     public function delete()
     {
-        $this->book->delete();
-        session()->flash('status', 'Book successfully deleted.');
+        if(auth()->user()->hasRole("super_admin")){
+            $this->book->delete();
+            session()->flash('status', __('Book successfully deleted.'));
+        }
     }
 
 

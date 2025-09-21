@@ -15,6 +15,4 @@
     <a href="{{ route('filament.admin.resources.books.edit', $book->slug) }}" class="btn btn-success">
         {{ __("Edit") }}
     </a>
-
-
 </div>

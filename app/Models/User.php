@@ -40,12 +40,9 @@ class User extends Authenticatable implements HasName, FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        // Allow access in local environment
         if (config('app.env') === 'local') {
             return true;
         }
-
-        // Check if user has at least one role
         return $this->roles()->exists();
     }
 
