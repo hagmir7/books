@@ -196,8 +196,7 @@
                         <tr>
                             <td>{{ __("Authors") }}:</td>
                             <td>
-                                @if(isset($book->author) && strlen($book->author->description) > 0 &&
-                                $book->author->verified)
+                                @if(isset($book->author) && strlen($book->author->description) > 0 && $book->author->verified)
                                 <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -221,7 +220,7 @@
 
                                 <a href="{{ route("authors.show", $book->author->slug) }}" itemprop="author">{{
                                     $book->author->full_name }} </a>
-                                @if (auth()->user()->email_verified_at)
+                                @if (auth()?->user()?->email_verified_at)
                                 -
                                 <a
                                     href="{{ route('filament.admin.resources.authors.edit', ['record' => $book->author->slug]) }}">
@@ -273,7 +272,7 @@
                 </table>
                 {!! app("site")->ads !!}
                 {{-- Book Actions --}}
-                @if (auth()->user()->email_verified_at)
+                @if (auth()?->user()?->email_verified_at)
                 @livewire('book-actions', ['book' => $book, key($book->slug)])
                 @endif
                 <livewire:report-form :book="$book" />
