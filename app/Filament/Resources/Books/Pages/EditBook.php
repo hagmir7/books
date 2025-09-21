@@ -18,10 +18,8 @@ class EditBook extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            // viewfinder-circle
             ViewAction::make()->icon(Heroicon::OutlinedViewfinderCircle),
-            CreateAction::make()->icon(Heroicon::OutlinedPlusCircle)
-            ->color('success'),
+            CreateAction::make()->icon(Heroicon::OutlinedPlusCircle)->color('success'),
             DeleteAction::make()->icon(Heroicon::OutlinedTrash),
             ForceDeleteAction::make()->icon(Heroicon::OutlinedTrash),
             RestoreAction::make()->icon(Heroicon::OutlinedPencilSquare),
