@@ -6,8 +6,10 @@ use App\Filament\Resources\BookCategoryResource\Pages;
 use App\Filament\Resources\BookCategoryResource\RelationManagers;
 use App\Models\BookCategory;
 use Filament\Forms;
+// use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -39,35 +41,31 @@ class BookCategoryResource extends Resource
     {
         return $schema
             ->components([
-                Forms\Components\Grid::make(3)
+                \Filament\Schemas\Components\Grid::make()
                     ->schema([
-                        Forms\Components\Section::make()
-                            ->schema([
-                                Forms\Components\TextInput::make('name')
-                                    ->label(__("Name"))
-                                    ->required()
-                                    ->maxLength(255),
-                                Forms\Components\Select::make('language_id')
-                                    ->label(__("Language"))
-                                    ->native(false)
-                                    ->relationship('language', 'name'),
+                    \Filament\Forms\Components\FileUpload::make('image')
+                        ->label(__("Image"))
+                        ->image()
 
-                                Forms\Components\Textarea::make('description')
-                                    ->label(__("Description"))
-                                    ->required()
-                                    ->columnSpanFull(),
-                            ])
-                            ->columns(2)
-                            ->columnSpan(2),
-                        Forms\Components\Section::make()
-                            ->schema([
-                                Forms\Components\FileUpload::make('image')
-                                    ->label(__("Image"))
-                                    ->image()
-                                    ->required(),
-                            ])
-                            ->columnSpan(1),
+                        ->required(),
                     ])
+                    // ->extraAttributes(['style' => 'display:flex; justify-content:center; width: 100%'])
+                    ->columnSpanFull(),
+
+
+                \Filament\Forms\Components\TextInput::make('name')
+                    ->label(__("Name"))
+                    ->required()
+                    ->maxLength(255),
+                \Filament\Forms\Components\Select::make('language_id')
+                    ->label(__("Language"))
+                    ->native(false)
+                    ->relationship('language', 'name'),
+
+                \Filament\Forms\Components\Textarea::make('description')
+                    ->label(__("Description"))
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -114,8 +112,8 @@ class BookCategoryResource extends Resource
     {
         return [
             'index' => Pages\ListBookCategories::route('/'),
-            'create' => Pages\CreateBookCategory::route('/create'),
-            'edit' => Pages\EditBookCategory::route('/{record}/edit'),
+            // 'create' => Pages\CreateBookCategory::route('/create'),
+            // 'edit' => Pages\EditBookCategory::route('/{record}/edit'),
         ];
     }
 }

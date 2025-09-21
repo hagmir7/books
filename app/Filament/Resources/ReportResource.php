@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ReportResource\Pages;
 use App\Filament\Resources\ReportResource\RelationManagers;
 use App\Models\Report;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists;
@@ -185,9 +186,11 @@ class ReportResource extends Resource
                             );
                     }),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\Action::make('mark_as_read')
+            ->recordActions([
+                \Filament\Actions\ViewAction::make(),
+
+
+                \Filament\Actions\Action::make('mark_as_read')
                     ->label(__('Mark as read'))
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
@@ -200,10 +203,10 @@ class ReportResource extends Resource
                     ->modalDescription(__('Are you sure you want to mark this report as read?'))
                     ->modalSubmitActionLabel(__('Yes, mark as read')),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\BulkAction::make('mark_as_read')
+            ->toolbarActions([
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\BulkAction::make('mark_as_read')
                         ->label(__('Mark as read'))
                         ->icon('heroicon-o-check-circle')
                         ->color('success')

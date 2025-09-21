@@ -16,13 +16,15 @@ class EditPost extends EditRecord
 
         return [
             Actions\CreateAction::make()
+                ->color('success')
                 ->icon('heroicon-o-plus-circle'),
 
             Actions\Action::make(__("View"))
                 ->url(route('blog.show', $this->record->slug))
                 ->openUrlInNewTab()
-                ->color('success')
+                ->color('info')
                 ->icon('heroicon-o-rocket-launch'),
+
             Actions\DeleteAction::make()
                 ->icon('heroicon-o-trash'),
         ];

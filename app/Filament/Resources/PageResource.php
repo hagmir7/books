@@ -44,38 +44,18 @@ class PageResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\TextInput::make('title')
+                \Filament\Forms\Components\TextInput::make('title')
+                    ->columnSpanFull()
                     ->label(__("Title"))
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('site_id')
-                    ->label(__("Website"))
-                    ->searchable()
-                    ->preload()
-                    ->relationship('site', 'name'),
-
-                Forms\Components\Select::make('language_id')
-                    ->label(__("Language"))
-                    ->searchable()
-                    ->preload()
-                    ->relationship('language', 'name'),
-
-                Forms\Components\Toggle::make('markdown')
-                    ->inline(false)
-                    ->label(__("Markdown"))
-                    ->live(),
-
                 Forms\Components\RichEditor::make('body')
+                    ->extraInputAttributes(['style' => 'min-height: 20rem; max-height: 50vh; overflow-y: auto;'])
                     ->label(__('Content'))
                     ->required()
-                    ->hidden(fn (Get $get): bool => $get('markdown'))
                     ->columnSpanFull(),
 
-                Forms\Components\MarkdownEditor::make('body')
-                    ->label(__('Content'))
-                    ->required()
-                    ->hidden(fn (Get $get): bool => !$get('markdown'))
-                    ->columnSpanFull(),
+
             ]);
     }
 
@@ -121,8 +101,8 @@ class PageResource extends Resource
     {
         return [
             'index' => Pages\ListPages::route('/'),
-            'create' => Pages\CreatePage::route('/create'),
-            'edit' => Pages\EditPage::route('/{record}/edit'),
+            // 'create' => Pages\CreatePage::route('/create'),
+            // 'edit' => Pages\EditPage::route('/{record}/edit'),
         ];
     }
 }

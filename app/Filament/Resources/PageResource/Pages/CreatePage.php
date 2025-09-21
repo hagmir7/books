@@ -3,9 +3,7 @@
 namespace App\Filament\Resources\PageResource\Pages;
 
 use App\Filament\Resources\PageResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
-use Parsedown;
 
 class CreatePage extends CreateRecord
 {
@@ -13,13 +11,9 @@ class CreatePage extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-
-
-        if ($data['markdown']) {
-            $parsedown = new Parsedown();
-            $data['body'] = $parsedown->text($data['body']);
-        }
         $data['user_id'] = auth()->user()->id;
+        $data['site_id'] = app('site')->id;
+        $data['language_id'] = app("site")->language->id;
         return $data;
     }
 }

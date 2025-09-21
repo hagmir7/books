@@ -8,6 +8,8 @@ use App\Models\Site;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
@@ -36,9 +38,9 @@ class SiteResource extends Resource
     {
         return $schema
             ->components([
-                Forms\Components\Tabs::make('Tabs')
+                Tabs::make('Tabs')
                     ->tabs([
-                        Forms\Components\Tabs\Tab::make('Site')
+                        Tab::make('Site')
                             ->label(__("Websites"))
                             ->icon('heroicon-o-globe-alt')
                             // ->iconPosition(IconPosition::After)
@@ -67,7 +69,7 @@ class SiteResource extends Resource
                                     ->suffixIcon('heroicon-m-at-symbol')
                                     ->label(__("Email"))
                             ])->columns(3),
-                        Forms\Components\Tabs\Tab::make('SEO')
+                        Tab::make('SEO')
                             ->label(__("SEO"))
                             ->icon('heroicon-o-magnifying-glass-circle')
                             // ->iconPosition(IconPosition::After)
@@ -91,7 +93,7 @@ class SiteResource extends Resource
 
 
 
-                                Forms\Components\Grid::make(3)
+                                \Filament\Schemas\Components\Grid::make(3)
                                     ->schema([
                                         Forms\Components\FileUpload::make('image')
                                             ->label(__("Image"))
@@ -106,7 +108,7 @@ class SiteResource extends Resource
                                             ->image(),
                                     ])
                             ]),
-                        Forms\Components\Tabs\Tab::make('Advance')
+                        Tab::make('Advance')
                             ->label(__("Advance"))
                             ->icon('heroicon-o-chart-bar')
                             // ->iconPosition(IconPosition::After)
@@ -131,7 +133,7 @@ class SiteResource extends Resource
 
                             ]),
 
-                        Forms\Components\Tabs\Tab::make('Options')
+                        Tab::make('Options')
                             ->label(__("Options"))
                             ->icon('heroicon-o-cog-6-tooth')
                             ->schema([

@@ -85,8 +85,8 @@ class LanguageResource extends Resource
     {
         return [
             'index' => Pages\ListLanguages::route('/'),
-            'create' => Pages\CreateLanguage::route('/create'),
-            'edit' => Pages\EditLanguage::route('/{record}/edit'),
+            // 'create' => Pages\CreateLanguage::route('/create'),
+            // 'edit' => Pages\EditLanguage::route('/{record}/edit'),
         ];
     }
 }

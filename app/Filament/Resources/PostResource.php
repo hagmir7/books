@@ -46,15 +46,15 @@ class PostResource extends Resource
         return $schema
             ->schema([
 
-                Forms\Components\Grid::make(3)
+            \Filament\Schemas\Components\Grid::make(3)
                     ->schema([
-                        Forms\Components\Section::make()
+                        \Filament\Schemas\Components\Section::make()
                             ->schema([
-                                Forms\Components\TextInput::make('title')
+                                \Filament\Forms\Components\TextInput::make('title')
                                     ->label(__("Title"))
                                     ->required(),
 
-                                Forms\Components\TagsInput::make('tags')
+                                \Filament\Forms\Components\TagsInput::make('tags')
                                     ->color('info')
                                     ->label(__("Keywords"))
                                     ->placeholder(__("New keyword"))
@@ -69,9 +69,9 @@ class PostResource extends Resource
                                 ])
                                 ->columnSpan(2),
 
-                        Forms\Components\Section::make()
+                        \Filament\Schemas\Components\Section::make()
                             ->schema([
-                                Forms\Components\FileUpload::make('image')
+                                \Filament\Forms\Components\FileUpload::make('image')
                                     ->label(__("Image"))
                                     ->maxSize(100048576)
                                     ->columnSpanFull()
@@ -83,46 +83,20 @@ class PostResource extends Resource
 
                     ])->columnSpan(2),
 
-                Forms\Components\Section::make()
+                \Filament\Schemas\Components\Section::make()
                     ->schema([
 
-                        Forms\Components\Textarea::make('description')
+                        \Filament\Forms\Components\Textarea::make('description')
                             ->label(__("Description"))
                             ->required()
                             ->rows(5)
                             ->columnSpanFull(),
-                        Forms\Components\Toggle::make('markdown')
-                            ->label(__("Markdown"))
-                            ->live(),
 
-                        Forms\Components\RichEditor::make('body')
+                        \Filament\Forms\Components\RichEditor::make('body')
                             ->label(__('Content'))
                             ->required()
-                            ->hidden(fn (Get $get): bool => $get('markdown'))
                             ->columnSpanFull(),
-
-                        Forms\Components\MarkdownEditor::make('body')
-                            ->label(__('Content'))
-                            ->required()
-                            ->hidden(fn (Get $get): bool => !$get('markdown'))
-                            ->columnSpanFull()
-                            ->toolbarButtons([
-                                'attachFiles',
-                                'blockquote',
-                                'bold',
-                                'bulletList',
-                                'codeBlock',
-                                'heading',
-                                'italic',
-                                'link',
-                                'orderedList',
-                                'redo',
-                                'strike',
-                                'table',
-                                'undo',
-                            ]),
-
-                    ])->columns(2),
+                    ])->columnSpanFull(),
 
             ]);
     }
