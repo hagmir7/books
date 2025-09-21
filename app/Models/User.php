@@ -43,7 +43,7 @@ class User extends Authenticatable implements HasName, FilamentUser
         if(config('app.env') == "local"){
             return true;
         }
-        return str_contains(auth()->user()->email, '@freewsad.com');
+        return str_contains($this->email, '@freewsad.com');
     }
 
     /**

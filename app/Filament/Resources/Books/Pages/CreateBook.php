@@ -55,7 +55,7 @@ class CreateBook extends CreateRecord
                 $data['title'] = "Télécharger {$data['name']} gratuit (PDF)";
                 break;
             case "ar":
-                $data['title'] = "تحميل كتاب {$data['name']} مجانا (PDF)";
+                $data['title'] = "تحميل {$data['name']} مجانا (PDF)";
                 break;
         }
 
