@@ -19,6 +19,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -35,6 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->brandLogo(Storage::url($site->logo))
+            ->favicon(Storage::url($site->icon))
             ->login()
             ->colors([
                 'primary' => Color::Rose,

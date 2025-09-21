@@ -5,7 +5,8 @@ namespace App\Filament\Resources\AuthorResource\Pages;
 use App\Filament\Resources\AuthorResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ListAuthors extends ListRecords
@@ -16,7 +17,9 @@ class ListAuthors extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->icon(Heroicon::OutlinedPlusCircle)
+                ->color('success'),
         ];
     }
 

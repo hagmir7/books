@@ -5,6 +5,7 @@ namespace App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Support\Icons\Heroicon;
 
 class EditUser extends EditRecord
 {
@@ -13,7 +14,11 @@ class EditUser extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->icon(Heroicon::OutlinedTrash),
+            Actions\CreateAction::make()
+                ->icon(Heroicon::OutlinedPlusCircle)
+                ->color('success')
         ];
     }
 }

@@ -41,14 +41,26 @@ class UserResource extends Resource
                     ->label(__("Last name"))
                     ->required(),
                 Forms\Components\TextInput::make('email')
+                    ->unique(ignoreRecord: true)
                     ->label(__("Email"))
                     ->email()
                     ->required(),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\TextInput::make('password')
-                    ->label(__("Password"))
-                    ->password()
-                    ->required(),
+                Forms\Components\DateTimePicker::make('email_verified_at')
+                    ->label(__("Email verified at"))
+                    ->native(false),
+
+                Forms\Components\Select::make('roles')
+                    ->relationship('roles', 'name')
+                    ->label(__("Roles"))
+                    ->multiple()
+                    ->preload()
+                    ->searchable()
+
+
+                // Forms\Components\TextInput::make('password')
+                //     ->label(__("Password"))
+                //     ->password()
+                //     ->required(),
             ]);
     }
 

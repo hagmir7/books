@@ -3,11 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AuthorResource\Pages;
-use App\Filament\Resources\AuthorResource\RelationManagers;
 use App\Models\Author;
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
@@ -41,44 +45,49 @@ class AuthorResource extends Resource
     {
         return $schema
             ->components([
-                Forms\Components\Section::make()
+                Grid::make()
+                    ->columns(3)
                     ->schema([
-                        Forms\Components\Grid::make(3)
+
+
+                        Section::make()
                             ->schema([
-                                Forms\Components\Section::make()
-                                    ->schema([
-                                        Forms\Components\TextInput::make('full_name')
-                                            ->label(__("First name"))
-                                            ->required(),
-                                        Forms\Components\RichEditor::make('description')
-                                            ->label(__("Description"))
-                                            ->required()
-                                            ->columnSpanFull(),
-                                    ])
-                                    ->columnSpan(2),
-                                Forms\Components\Section::make()
-                                    ->schema([
-
-                                        Forms\Components\FileUpload::make('image')
-                                            ->label(__("Image"))
-                                            ->avatar()
-                                            ->label(false)
-                                            ->alignment(Alignment::Center)
-                                            ->columnSpanFull()
-                                            ->required(),
-
-                                        Forms\Components\Toggle::make('verified')
-                                            ->inline(false)
-                                            ->label(__("Verified")),
-
-
-                                    ])
-                                    ->columnSpan(1)
+                                TextInput::make('full_name')
+                                    ->label(__("Full name"))
+                                    ->required(),
+                                RichEditor::make('description')
+                                    ->label(__("Description"))
+                                    ->extraInputAttributes(['style' => 'min-height: 20rem; max-height: 50vh; overflow-y: auto;'])
+                                    ->required()
+                                    ->columnSpanFull(),
                             ])
+                            ->columnSpan(2),
 
 
 
-                    ])->columns(2)
+                        Section::make()
+                            ->schema([
+
+                                FileUpload::make('image')
+                                    ->label(__("Image"))
+                                    ->avatar()
+                                    // ->label(false)
+                                    ->alignment(Alignment::Center)
+                                    ->columnSpanFull()
+
+                                    ->required(),
+
+                                Toggle::make('verified')
+                                    ->inline(false)
+                                    ->label(__("Verified")),
+
+
+                            ])
+                            ->columnSpan(1)
+
+
+
+                    ])->columnSpanFull()
             ]);
     }
 
