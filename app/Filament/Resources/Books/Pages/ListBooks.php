@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Filament\Resources\BookResource\Pages;
+namespace App\Filament\Resources\Books\Pages;
 
-use App\Filament\Resources\BookResource;
-use Filament\Actions;
+use App\Filament\Resources\Books\BookResource;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ListBooks extends ListRecords
 {
-
     protected static string $resource = BookResource::class;
-
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make()
+                // ->color('success')
+                ->icon(Heroicon::OutlinedPlusCircle),
         ];
     }
-
 
     public function getTabs(): array
     {
@@ -42,6 +42,4 @@ class ListBooks extends ListRecords
 
         ];
     }
-
-
 }

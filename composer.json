@@ -11,7 +11,7 @@
         "php": "^8.2",
         "barryvdh/laravel-translation-manager": "^0.6.6",
         "erusev/parsedown": "^1.7",
-        "filament/filament": "^4.0",
+        "filament/filament": "4.0.18",
         "guzzlehttp/guzzle": "^7.9",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",

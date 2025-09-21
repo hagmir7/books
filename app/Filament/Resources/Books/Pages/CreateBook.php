@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\BookResource\Pages;
+namespace App\Filament\Resources\Books\Pages;
 
-use App\Filament\Resources\BookResource;
-use App\Models\Language;
-use Filament\Actions;
-use Filament\Resources\Pages\CreateRecord;
+use App\Filament\Resources\Books\BookResource;
 use Filament\Notifications\Notification;
+use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Storage;
 use Smalot\PdfParser\Parser;
 
