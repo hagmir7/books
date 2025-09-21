@@ -168,6 +168,9 @@
     "Report created successfully!" : "تم إرسال التقرير بنجاح!",
     "Search Results": "نتائج البحث",
     "Start search by book, author...": "ابدأ البحث بالكتاب أو المؤلف...",
-    "Advanced info" : "معلومات متقدمة"
+    "Advanced info" : "معلومات متقدمة",
+    "SEO Keywords": "كلمات مفتاحية",
+    "Add keywords": "أضف الكلمات",
+    "Slug": "مسار"
 
 }

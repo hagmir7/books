@@ -50,7 +50,7 @@ class BookForm
                                 ->label(__("ISBN")),
 
                             TextInput::make('pages')
-                                ->label('Pages')
+                                ->label(__('Pages'))
                                 ->numeric(),
 
                             TagsInput::make('tags')
@@ -63,8 +63,6 @@ class BookForm
                                     'md' => 2,
                                 ]),
 
-
-
                         ])->columnSpan(2)
                         ->columns(2),
 
@@ -75,18 +73,26 @@ class BookForm
                             FileUpload::make('image')
                                 ->label(__("Image"))
                                 ->directory('book_images')
+                                ->columnSpanFull()
                                 ->image(),
                             FileUpload::make('file')
                                 ->maxSize(5000000)
                                 ->acceptedFileTypes(['application/pdf'])
                                 ->directory('book_files')
+                                ->columnSpanFull()
                                 ->label(__("File")),
 
                             Toggle::make('is_public')
                                 ->label(__("Is public"))
                                 ->inline(false)
                                 ->required(),
+
+                            Toggle::make('verified')
+                                ->label(__("Verified"))
+                                ->inline(false)
+                                ->required(),
                         ])
+                        ->columns(2)
                         ->columnSpan(1),
 
                 ])->columns(3)
@@ -98,6 +104,7 @@ class BookForm
                 ->columnSpanFull(),
             RichEditor::make('body')
                 ->label(__("Content"))
+                ->extraInputAttributes(['style' => 'min-height: 20rem; max-height: 50vh; overflow-y: auto;'])
                 ->columnSpanFull(),
 
 
@@ -108,6 +115,9 @@ class BookForm
                     Grid::make()
                         ->columns(2)
                         ->schema([
+
+                            TextInput::make('title')
+                                ->label(__("Title")),
                             TextInput::make('size')
                                 ->label(__("Size")),
 
@@ -115,11 +125,12 @@ class BookForm
                                 ->label(__("Type")),
 
                             DatePicker::make('copyright_date')
-                                ->label(__("Copy Right")),
+                                ->native(false)
+                                ->label(__("Copyright")),
 
-                            TextInput::make('site_id')
-                                ->label(__("Website"))
-                                ->numeric(),
+                            Select::make('site_id')
+                                ->relationship('site', 'name')
+                                ->label(__("Website")),
 
                             TextInput::make('slug')
                                 ->label(__("Slug")),
@@ -131,14 +142,10 @@ class BookForm
                                 ->preload()
                                 ->label(__("Language")),
 
-                            Toggle::make('verified')
-                                ->label(__("Verified"))
-                                ->inline(false)
-                                ->required(),
 
 
-                            TextInput::make('title')
-                                ->label(__("Title")),
+
+
                         ])
                 ])
                 ->columnSpanFull(),
