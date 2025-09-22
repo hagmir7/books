@@ -163,5 +163,17 @@
     "Message Content": "Contenu",
     "Send Report": "Envoyer le signalement",
     "Close": "Fermer",
-    "Report created successfully!": "Rapport envoyé avec succès!"
+    "Report created successfully!": "Rapport envoyé avec succès!",
+    "Search Results": "Résultats de la recherche",
+    "Start search by book, author...": "Commencez la recherche par livre, auteur...",
+    "Advanced info": "Informations avancées",
+    "SEO Keywords": "Mots-clés SEO",
+    "Add keywords": "Ajouter des mots-clés",
+    "Slug": "Slug",
+    "Email verified at": "E-mail vérifié le",
+    "Roles": "Rôles",
+    "Launch": "Lancer",
+    "Email address": "Adresse e-mail",
+    "No books match your search criteria": "Aucun livre ne correspond à vos critères de recherche",
+    "No books found": "Aucun livre trouvé"
 }

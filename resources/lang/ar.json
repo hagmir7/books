@@ -175,6 +175,7 @@
     "Email verified at" : "تحقق من البريد الإلكتروني في",
     "Roles": "الأدوار",
     "Launch" : "عرض",
-    "Email address": "البريد الإلكتروني"
-
+    "Email address": "البريد الإلكتروني",
+    "No books match your search criteria": "لا توجد كتب تطابق معايير البحث الخاصة بك",
+    "No books found": "لم يتم العثور على كتب"
 }
