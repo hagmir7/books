@@ -54,7 +54,7 @@ class AuthorResource extends Resource
                             ->schema([
                                 TextInput::make('full_name')
                                     ->label(__("Full name"))
-                                    ->unique(true)
+                                    ->unique()
                                     ->required(),
                                 RichEditor::make('description')
                                     ->label(__("Description"))
