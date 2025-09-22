@@ -30,6 +30,7 @@ class BookForm
 
                             TextInput::make('name')
                                 ->label(__("Book name"))
+                                ->unique(true)
                                 ->required()
                                 ->columnSpan(2),
 
