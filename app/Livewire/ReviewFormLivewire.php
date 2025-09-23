@@ -9,29 +9,29 @@ use Livewire\Component;
 
 class ReviewFormLivewire extends Component
 {
-
-    #[Validate('required|min:3', attribute: "Full name")]
+    #[Validate('required|min:3', attribute: "Full name", translate: true)]
     public $full_name;
 
-    #[Validate('required|email|min:3', attribute:"Email")]
+    #[Validate('required|email|min:3', attribute: "Email", translate: true)]
     public $email;
 
-    #[Validate('required|min:3', attribute: "Review", translate:true)]
+    #[Validate('required|min:3', attribute: "Review", translate: true)]
     public $body;
 
     public Book $book;
 
-    public function mount(){
-        if(auth()->check()){
+    public function mount()
+    {
+        if (auth()->check()) {
             $this->full_name = auth()->user()->first_name . " " . auth()->user()->last_name;
             $this->email = auth()->user()->email;
         }
     }
 
-
     public function save()
     {
         $this->validate();
+
         Comment::create([
             "full_name" => $this->full_name,
             "email" => $this->email,
@@ -40,10 +40,23 @@ class ReviewFormLivewire extends Component
             "stars" => 5,
             "user_id" => auth()->check() ? auth()->user()->id : null,
         ]);
+
         session()->flash('message', __('Thank you! Your review is submited successfully'));
-        $this->reset('body');
+
+        $this->reset(['full_name', 'email', 'body']);
     }
 
+    /**
+     * Custom reset method that preserves user data for authenticated users
+     */
+    public function resetForm()
+    {
+        if (auth()->check()) {
+            $this->reset(['body']);
+        } else {
+            $this->reset(['full_name', 'email', 'body']);
+        }
+    }
 
     public function render()
     {

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Books\Pages;
 
 use App\Filament\Resources\Books\BookResource;
+use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
@@ -18,11 +19,15 @@ class EditBook extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            ViewAction::make()->icon(Heroicon::OutlinedViewfinderCircle),
+            Action::make(__("Launch"))->icon(Heroicon::OutlinedRocketLaunch)
+                ->color('warning')
+                ->url(route('book.show', $this->record->slug), true),
             CreateAction::make()->icon(Heroicon::OutlinedPlusCircle)->color('success'),
             DeleteAction::make()->icon(Heroicon::OutlinedTrash),
+            ViewAction::make()->icon(Heroicon::OutlinedViewfinderCircle),
             ForceDeleteAction::make()->icon(Heroicon::OutlinedTrash),
             RestoreAction::make()->icon(Heroicon::OutlinedPencilSquare),
+
         ];
     }
 }

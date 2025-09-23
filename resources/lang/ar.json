@@ -177,5 +177,6 @@
     "Launch" : "عرض",
     "Email address": "البريد الإلكتروني",
     "No books match your search criteria": "لا توجد كتب تطابق معايير البحث الخاصة بك",
-    "No books found": "لم يتم العثور على كتب"
+    "No books found": "لم يتم العثور على كتب",
+    "Submitting...": "جاري الإرسال..."
 }
