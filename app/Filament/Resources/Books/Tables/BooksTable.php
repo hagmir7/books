@@ -23,8 +23,6 @@ class BooksTable
                 ImageColumn::make('image')
                     ->label(__("Image")),
                 TextColumn::make('name')
-
-
                     ->label(__("Book name"))
                     ->searchable(),
 

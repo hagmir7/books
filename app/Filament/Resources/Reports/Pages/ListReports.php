@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\ReportResource\Pages;
+namespace App\Filament\Resources\Reports\Pages;
 
-use App\Filament\Resources\ReportResource;
-use Filament\Actions;
+use App\Filament\Resources\Reports\ReportResource;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListReports extends ListRecords
@@ -13,7 +13,7 @@ class ListReports extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

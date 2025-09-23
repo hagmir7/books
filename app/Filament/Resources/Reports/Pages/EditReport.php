@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\ReportResource\Pages;
+namespace App\Filament\Resources\Reports\Pages;
 
-use App\Filament\Resources\ReportResource;
-use Filament\Actions;
+use App\Filament\Resources\Reports\ReportResource;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditReport extends EditRecord
@@ -13,7 +14,8 @@ class EditReport extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            ViewAction::make(),
+            DeleteAction::make(),
         ];
     }
 }
