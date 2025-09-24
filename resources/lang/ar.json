@@ -178,5 +178,8 @@
     "Email address": "البريد الإلكتروني",
     "No books match your search criteria": "لا توجد كتب تطابق معايير البحث الخاصة بك",
     "No books found": "لم يتم العثور على كتب",
-    "Submitting...": "جاري الإرسال..."
+    "Submitting...": "جاري الإرسال...",
+    "Create category": "إنشاء فئة",
+    "Create author" : "إنشاء كاتب",
+    "Author created successfully": "تم إنشاء المؤلف بنجاح"
 }

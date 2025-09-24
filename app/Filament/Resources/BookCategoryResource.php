@@ -45,21 +45,22 @@ class BookCategoryResource extends Resource
                     ->schema([
                     \Filament\Forms\Components\FileUpload::make('image')
                         ->label(__("Image"))
-                        ->image()
-
-                        ->required(),
+                        ->image(),
                     ])
                     ->columnSpanFull(),
 
 
                 \Filament\Forms\Components\TextInput::make('name')
+                    ->unique()
                     ->label(__("Name"))
                     ->required()
                     ->maxLength(255),
-                \Filament\Forms\Components\Select::make('language_id')
-                    ->label(__("Language"))
-                    ->native(false)
-                    ->relationship('language', 'name'),
+
+                \Filament\Forms\Components\TextInput::make('title')
+                    ->label(__("Title"))
+                    ->unique()
+                    ->maxLength(255),
+
 
                 \Filament\Forms\Components\Textarea::make('description')
                     ->label(__("Description"))

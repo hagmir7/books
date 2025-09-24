@@ -12,6 +12,8 @@ class BookCategoryController extends Controller
     // public function
     public function show(BookCategory $category)
     {
-        return view("categories.show", compact("category"));
+        $title = $category->title ? $category->title : $category->name;
+        $description = $category->description;
+        return view("categories.show", compact("category", 'title', 'description'));
     }
 }

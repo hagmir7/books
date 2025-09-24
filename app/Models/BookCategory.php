@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 class BookCategory extends Model
 {
     use HasFactory;
-    protected $fillable = ["name", "image", "description", 'language', "slug"];
+    protected $fillable = ["name", 'title',  "image", "description", 'language', "slug"];
 
 
     public function books() : HasMany {

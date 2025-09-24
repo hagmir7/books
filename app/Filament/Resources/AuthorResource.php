@@ -64,15 +64,12 @@ class AuthorResource extends Resource
                             ])
                             ->columnSpan(2),
 
-
-
                         Section::make()
                             ->schema([
 
                                 FileUpload::make('image')
                                     ->label(__("Image"))
                                     ->avatar()
-                                    // ->label(false)
                                     ->alignment(Alignment::Center)
                                     ->columnSpanFull()
 

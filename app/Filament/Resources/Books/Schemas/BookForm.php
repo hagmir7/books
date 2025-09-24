@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Books\Schemas;
 
+use App\Models\Author;
+use App\Models\BookCategory;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Grid;
@@ -13,6 +15,8 @@ use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Notifications\Notification;
+use Filament\Support\Enums\Alignment;
 use Filament\Support\Icons\Heroicon;
 
 class BookForm
@@ -39,12 +43,87 @@ class BookForm
                                 ->relationship('author', 'full_name')
                                 ->searchable()
                                 ->preload()
-                                ->label(__("Author")),
+                                ->label(__("Author"))
+                                ->createOptionForm([
+                                    \Filament\Schemas\Components\Grid::make()
+                                        ->schema([
+
+                                            FileUpload::make('image')
+                                                ->label(__("Image"))
+                                                ->avatar()
+                                                ->alignment(Alignment::Center)
+                                                ->columnSpanFull(),
+
+                                            TextInput::make('full_name')
+                                                ->columnSpanFull()
+                                                ->label(__("Full name"))
+                                                ->unique()
+                                                ->required(),
+
+                                            RichEditor::make('description')
+                                                ->label(__("Description"))
+                                                ->extraInputAttributes(['style' => 'min-height: 20rem; max-height: 50vh; overflow-y: auto;'])
+                                                ->required()
+                                                ->columnSpanFull(),
+                                        ])->columns(2)
+
+                                ])
+                                ->createOptionModalHeading(__("Create author"))
+                                ->createOptionUsing(function (array $data): int {
+                                    $data['verified'] = true;
+                                    $category = Author::create($data);
+                                    Notification::make()
+                                        ->success()
+                                        ->title(__("Author created successfully"))
+                                        ->send();
+                                    return $category->getKey();
+                                }),
 
                             Select::make('book_category_id')
                                 ->relationship('category', 'name')
                                 ->searchable()
                                 ->preload()
+                                ->createOptionForm([
+                                    \Filament\Schemas\Components\Grid::make()
+                                        ->schema([
+                                            \Filament\Schemas\Components\Grid::make()
+                                                ->schema([
+                                                    \Filament\Forms\Components\FileUpload::make('image')
+                                                        ->label(__("Image"))
+                                                        ->image(),
+                                                ])
+                                                ->columnSpanFull(),
+
+
+                                            \Filament\Forms\Components\TextInput::make('name')
+                                                ->unique()
+                                                ->label(__("Name"))
+                                                ->required()
+                                                ->maxLength(255),
+
+                                            \Filament\Forms\Components\TextInput::make('title')
+                                                ->label(__("Title"))
+                                                ->unique()
+                                                ->maxLength(255),
+
+
+                                            \Filament\Forms\Components\Textarea::make('description')
+                                                ->label(__("Description"))
+                                                ->columnSpanFull(),
+                                        ])->columns(2)
+
+                                ])
+                                ->createOptionModalHeading(__("Create category"))
+                                ->createOptionUsing(function (array $data): int {
+                                    $data['language_id'] = app('site')->language_id;
+                                    $category = BookCategory::create($data);
+                                    Notification::make()
+                                        ->success()
+                                        ->title(__("Category created successfully"))
+                                        ->send();
+                                    return $category->getKey();
+                                })
+
                                 ->label(__("Category")),
 
                             TextInput::make('isbn')
@@ -142,10 +221,6 @@ class BookForm
                                 ->searchable()
                                 ->preload()
                                 ->label(__("Language")),
-
-
-
-
 
                         ])
                 ])
