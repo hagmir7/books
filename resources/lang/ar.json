@@ -181,5 +181,10 @@
     "Submitting...": "جاري الإرسال...",
     "Create category": "إنشاء فئة",
     "Create author" : "إنشاء كاتب",
-    "Author created successfully": "تم إنشاء المؤلف بنجاح"
+    "Author created successfully": "تم إنشاء المؤلف بنجاح",
+    "Are you sure you want to delete this author?": "هل أنت متأكد أنك تريد حذف هذا المؤلف؟",
+    "Are you sure you want to hide this author?": "هل أنت متأكد أنك تريد إخفاء هذا المؤلف؟",
+    "The author has been successfully hidden." : "تم إخفاء المؤلف بنجاح",
+    "The author successfully deleted." : "تم حذف المؤلف بنجاح."
+
 }

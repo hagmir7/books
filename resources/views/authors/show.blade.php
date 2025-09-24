@@ -18,6 +18,10 @@
                                 {!! $author->description !!}
                             </div>
                         </div>
+
+                        @if (auth()?->user()?->email_verified_at)
+                            @livewire('author-actions', ['author' => $author, key($author->slug)])
+                        @endif
                     </div>
                     <div class="mt-5 d-flex justify-content-center">
                         <nav aria-label="Next and Previous navigation" class="w-100">
