@@ -37,11 +37,18 @@ class AuthorController extends Controller
     public function show(Author $author)
     {
         !$author->verified && abort(404);
+
         if (!$author->description) {
             $this->generate($author);
         }
-        $books = $author->books()->where('verified', true)->paginate(18);
+
+        $books = $author->books()
+            ->where('verified', true)
+            ->whereNull('copyright_date')
+            ->paginate(18);
+
         $title = str_replace(":attr", $author->full_name, app('site')->site_options['author_title']);
+
         return view('authors.show', compact('author', 'books', 'title'));
     }
 }
