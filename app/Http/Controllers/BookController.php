@@ -27,7 +27,6 @@ class BookController extends Controller
         return view('home', [
             'books' => Book::with(['author', 'category'])
                 ->whereHas('language', fn(Builder $query) => ($query->where('code', app()->getLocale())))
-                ->whereNull('copyright_date')
                 ->where('verified', true)
                 ->latest()->paginate(30)
         ]);
