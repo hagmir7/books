@@ -89,7 +89,7 @@ class Book extends Model
     {
         return SlugOptions::create()
             ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug')
+            ->saveSlugsTo('slug', 'id')
             ->slugsShouldBeNoLongerThan(55)
             ->doNotGenerateSlugsOnUpdate();
     }

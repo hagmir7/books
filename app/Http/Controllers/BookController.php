@@ -39,7 +39,7 @@ class BookController extends Controller
         !$book->verified && abort(404);
 
         if(app('site')->domain == 'file.best'){
-            return redirect('https://yakk.shop/books/'. $book->slug);
+            return redirect('https://www.lacabook.com/books/'. $book->slug);
         }
 
 
