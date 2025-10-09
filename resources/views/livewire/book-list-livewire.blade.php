@@ -19,9 +19,9 @@
                                 </a>
                             </div>
                             <div class="book-info w-3/4 pl-4 rtl:pl-0 rtl:pr-4">
-                                <div class="book-title mb-2">
+                                <div class="book-title mb-2 whitespace-nowrap text-ellipsis overflow-hidden">
                                     <a href="{{ route('book.show', $book->slug) }}"
-                                        class="text-lg font-semibold hover:text-primary transition-colors">
+                                        class="text-lg font-semibold hover:text-primary transition-colors ">
                                         {{ $book->name }}
                                     </a>
                                 </div>
@@ -60,23 +60,19 @@
                 </div>
 
                 @if ($total >= $amount)
-                <div class="books-per-page flex">
-                    <nav class="mx-auto">
-                        <ul class="flex py-4">
-                            <li>
-                                <button wire:click='loadMore'
-                                    class="px-8 py-2 bg-primary text-white rounded hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                                    wire:loading.attr="disabled">
-                                    <div class="loader animate-spin rounded-full h-4 w-4 border-b-2 border-white"
-                                        wire:loading></div>
-                                    <div>{{ __("Load More") }}</div>
-                                </button>
-                            </li>
-                        </ul>
-                    </nav>
+                <div class="books-per-page flex justify-center py-6">
+                    <button wire:click="loadMore" wire:loading.attr="disabled"
+                        class="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-gray-500 font-medium rounded-lg shadow-sm hover:bg-primary/90 hover:shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary/50">
+                        <svg wire:loading class="w-5 h-5 animate-spin text-gray-500" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                        </svg>
+                        <span wire:loading.remove>{{ __('Load More') }}</span>
+                    </button>
                 </div>
                 @endif
-
             </div>
         </div>
     </div>
