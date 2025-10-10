@@ -26,9 +26,9 @@
 
                 <!-- Modal Header -->
                 <div class="flex items-center justify-between p-4 border-b">
-                    <h3 class="text-lg font-semibold" id="reportModalLabel">
+                    <p class="text-lg font-semibold" id="reportModalLabel">
                         {{ __("Report The Book") }}
-                    </h3>
+                    </p>
                     <button type="button" @click="open = false" class="text-gray-400 hover:text-gray-600 transition cursor-pointer"
                         aria-label="{{ __('Close') }}">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

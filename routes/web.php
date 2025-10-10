@@ -7,6 +7,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\UserController;
 use App\Models\Book;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -24,6 +25,12 @@ Route::get('/livewire/update', function () {
 
 Route::get('/ads.txt', function () {
     return response(app('site')->ads_txt, 200);
+});
+
+
+
+Route::controller(UserController::class)->prefix('auth')->group(function () {
+    Route::get('login', 'login')->name("auth.login");
 });
 
 
