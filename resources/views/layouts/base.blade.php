@@ -62,7 +62,7 @@
 
 <body class="bg-gray-50">
 
-<header class="header bg-white shadow-sm" x-data="{ mobileOpen: false, searchOpen: false }"
+<header class="header bg-white shadow-sm relative" x-data="{ mobileOpen: false, searchOpen: false }"
     @keydown.escape.window="mobileOpen = false; searchOpen = false">
     <div class="px-4">
         <div class="flex items-center justify-between gap-4 py-4">
@@ -186,50 +186,100 @@
             </div>
         </div>
 
-        <!-- Mobile menu (collapsible) -->
-        <div id="mobile-menu" class="lg:hidden mt-3" x-show="mobileOpen" x-cloak
-            x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2"
-            x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150"
-            x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
-            :aria-hidden="(!mobileOpen).toString()">
+    <!-- Mobile menu (collapsible dropdown) -->
+    <div id="mobile-menu" class="lg:hidden" x-show="mobileOpen" x-cloak
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-4"
+        x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-4"
+        :aria-hidden="(!mobileOpen).toString()" class="absolute  top-full mt-2 z-50">
+        <div class="bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden absolute w-full">
             <nav aria-label="Mobile Primary">
-                <ul class="flex flex-col gap-2 text-base font-medium">
+                <ul class="flex flex-col text-base py-2">
                     @if ($site->site_options['books_url'])
-                    <li><a href="/books" class="block px-3 py-2 rounded hover:bg-gray-50">{{ __('Books') }}</a></li>
+                    <li class="border-b border-gray-50 last:border-b-0">
+                        <a href="/books"
+                            class="block px-4 py-3 hover:bg-gradient-to-r hover:from-primary/5 hover:to-transparent transition-all duration-200 hover:pl-5 active:bg-primary/10">
+                            <span class="font-medium text-gray-700 hover:text-primary transition-colors">{{ __('Books')
+                                }}</span>
+                        </a>
+                    </li>
                     @endif
+
                     @if ($site->site_options['authors_url'])
-                    <li><a href="/authors" class="block px-3 py-2 rounded hover:bg-gray-50">{{ __('Authors') }}</a></li>
+                    <li class="border-b border-gray-50 last:border-b-0">
+                        <a href="/authors"
+                            class="block px-4 py-3 hover:bg-gradient-to-r hover:from-primary/5 hover:to-transparent transition-all duration-200 hover:pl-5 active:bg-primary/10">
+                            <span class="font-medium text-gray-700 hover:text-primary transition-colors">{{ __('Authors')
+                                }}</span>
+                        </a>
+                    </li>
                     @endif
+
                     @if ($site->site_options['blogs_url'])
-                    <li><a href="/blog" class="block px-3 py-2 rounded hover:bg-gray-50">{{ __('Blog') }}</a></li>
+                    <li class="border-b border-gray-50 last:border-b-0">
+                        <a href="/blog"
+                            class="block px-4 py-3 hover:bg-gradient-to-r hover:from-primary/5 hover:to-transparent transition-all duration-200 hover:pl-5 active:bg-primary/10">
+                            <span class="font-medium text-gray-700 hover:text-primary transition-colors">{{ __('Blog')
+                                }}</span>
+                        </a>
+                    </li>
                     @endif
+
                     @if ($site->site_options['contact_url'])
-                    <li><a href="{{ route('contact') }}" class="block px-3 py-2 rounded hover:bg-gray-50">{{ __('Contact
-                            Us') }}</a></li>
+                    <li class="border-b border-gray-50 last:border-b-0">
+                        <a href="{{ route('contact') }}"
+                            class="block px-4 py-3 hover:bg-gradient-to-r hover:from-primary/5 hover:to-transparent transition-all duration-200 hover:pl-5 active:bg-primary/10">
+                            <span class="font-medium text-gray-700 hover:text-primary transition-colors">{{ __('Contact Us')
+                                }}</span>
+                        </a>
+                    </li>
                     @endif
 
                     @foreach ($site->urls as $url)
                     @if ($url->header)
-                    <li><a href="{{ $url->url }}" @if ($url->new_tab) target="_blank" rel="noopener" @endif class="block
-                            px-3 py-2 rounded hover:bg-gray-50">{{ $url->name }}</a></li>
+                    <li class="border-b border-gray-50 last:border-b-0">
+                        <a href="{{ $url->url }}" @if ($url->new_tab) target="_blank" rel="noopener" @endif
+                            class="block px-4 py-3 hover:bg-gradient-to-r hover:from-primary/5 hover:to-transparent
+                            transition-all duration-200 hover:pl-5 active:bg-primary/10">
+                            <span
+                                class="font-medium text-gray-700 hover:text-primary transition-colors inline-flex items-center gap-2">
+                                {{ $url->name }}
+                                @if ($url->new_tab)
+                                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                                @endif
+                            </span>
+                        </a>
+                    </li>
                     @endif
                     @endforeach
-
-                    <!-- Mobile search (toggle shows this) -->
-                    <li id="mobile-search-wrapper" class="pt-2 border-t border-gray-100" x-show="searchOpen" x-cloak
-                        x-transition>
-                        <form action="/book/search" method="post" role="search" aria-label="Mobile search">
-                            @csrf
-                            <div class="flex gap-2">
-                                <input name="searchText" type="search" placeholder="{{ __('Search') }}..."
-                                    class="flex-1 px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                                <button type="submit" class="px-3 py-2 bg-primary text-white rounded-lg">{{ __('Search') }}</button>
-                            </div>
-                        </form>
-                    </li>
                 </ul>
             </nav>
         </div>
+    </div>
+
+    <!-- Mobile search (separate floating panel) -->
+    <div id="mobile-search-wrapper" class="lg:hidden absolute left-4 right-4 top-full mt-2 z-50" x-show="searchOpen" x-cloak
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-4"
+        x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-4">
+        <div class="bg-white rounded-lg shadow-xl border border-gray-100 p-4">
+            <form action="/book/search" method="post" role="search" aria-label="Mobile search">
+                @csrf
+                <div class="flex gap-2">
+                    <input name="searchText" type="search" placeholder="{{ __('Search') }}..."
+                        class="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white shadow-sm text-sm"
+                        autofocus>
+                    <button type="submit"
+                        class="px-5 py-2.5 bg-primary rounded-lg font-medium hover:bg-primary/90 active:bg-primary/80 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 whitespace-nowrap">
+                        {{ __('Search') }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     </div>
 </header>
 

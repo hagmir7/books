@@ -14,7 +14,7 @@
         </div>
         @endif
 
-        <div class="md:grid grid-cols-1 lg:grid-cols-6 gap-6">
+        <div class="lg:grid grid-cols-1 lg:grid-cols-6 gap-6">
             <div class="col-span-2 xl:col-span-1 w-full">
                 <div class="lg:sticky lg:top-4">
                     <div class="mb-4 flex justify-center">
@@ -100,7 +100,7 @@
 
                 @livewire('review-form-livewire', ['book' => $book], key($book->slug))
             </div>
-            <aside class="md:col-span-6 xl:col-span-2 gap-2 w-full md:grid  md:grid-cols-2  xl:grid-cols-1 xl:block">
+            <aside class="mt-5 md:mt-0 md:col-span-6 xl:col-span-2 gap-2 w-full md:grid  md:grid-cols-2  xl:grid-cols-1 xl:block">
                 @forelse (
                 $book->category->books()
                 ->with(['author', 'language']) {{-- ✅ Eager load relations --}}
