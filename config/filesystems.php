@@ -37,12 +37,15 @@ return [
         ],
 
         'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => app('site')->domain ==  "dev.norkitab.com" ? 'https://norkitab.com' : env('APP_URL').'/storage',
-            'visibility' => 'public',
-            'throw' => false,
+            'driver' => 'local', // Uses the local file system
+            'root' => storage_path('app/public'), // Physical storage location on the server
+            'url' => app('site')->domain == "dev.norkitab.com"
+                ? 'https://norkitab.com' // Production URL
+                : env('APP_URL') . '/storage', // Local or fallback URL
+            'visibility' => 'public', // Files are publicly accessible
+            'throw' => false, // Don’t throw exceptions for errors (optional)
         ],
+
 
         's3' => [
             'driver' => 's3',
