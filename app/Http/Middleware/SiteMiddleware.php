@@ -19,7 +19,7 @@ class SiteMiddleware
         app()->setLocale($site->language->code);
         $currentUrl = request()->getSchemeAndHttpHost();
         // config(['app.locale' => ]);
-        config(['app.url' => $currentUrl]);
+        config(['app.url' => str_replace('dev', '', $currentUrl)]);
 
         View::share('site', $site);
         return $next($request);
