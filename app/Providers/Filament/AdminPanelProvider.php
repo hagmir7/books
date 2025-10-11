@@ -35,8 +35,8 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->brandLogo(asset('storage/'. $site->logo))
-            ->favicon(asset('storage/' . $site->icon))
+            ->brandLogo('https://norkitab.com' . Storage::url($site->logo))
+            ->favicon('https://norkitab.com' . Storage::url($site->icon))
             ->login()
             ->colors([
                 'primary' => Color::Rose,

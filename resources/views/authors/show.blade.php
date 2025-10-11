@@ -62,7 +62,7 @@
                                         <meta itemprop="datePublished" content="{{ $book->created_at->format("Y") }}" />
                                         <div class="book-cover col-lg-3 col-3">
                                             <a href="{{ route("book.show", $book->slug) }}">
-                                                <img src="{{ asset('storage/'.$book->image) }}" alt="{{ $book->name }}" class="img-fluid">
+                                                <img src="{{ 'https://norkitab.com' . Storage::url($book->image) }}" alt="{{ $book->name }}" class="img-fluid">
                                             </a>
                                         </div>
                                         <div class="book-info col-lg-9 col-9">

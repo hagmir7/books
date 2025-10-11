@@ -4,7 +4,7 @@
             <!-- Header -->
             <div class="flex flex-col items-center mb-8">
                 <a href="/" class="block">
-                    <img src="{{ asset('storage/'.$site->logo) }}" alt="{{ $site->name }}" class="h-16 object-contain" />
+                    <img src="{{ 'https://norkitab.com' . Storage::url($site->logo) }}" alt="{{ $site->name }}" class="h-16 object-contain" />
                 </a>
                 <h1 class="mt-3 text-center text-xl font-semibold">{{ $site->name }}</h1>
             </div>

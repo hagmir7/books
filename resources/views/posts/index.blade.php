@@ -35,7 +35,7 @@
                 <div class="post bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
                     <div class="post-img overflow-hidden">
                         <a href="{{ route('blog.show', $post->slug) }}" class="block">
-                            <img src="{{ asset('storage/'.$post->image) }}" alt="{{ $post->title }}"
+                            <img src="{{ 'https://norkitab.com' . Storage::url($post->image) }}" alt="{{ $post->title }}"
                                 class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
                         </a>
                     </div>
