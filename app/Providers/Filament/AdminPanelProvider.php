@@ -35,8 +35,8 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->brandLogo(Storage::url($site->logo))
-            ->favicon(Storage::url($site->icon))
+            ->brandLogo(asset('storage/'. $site->logo))
+            ->favicon(asset('storage/' . $site->icon))
             ->login()
             ->colors([
                 'primary' => Color::Rose,

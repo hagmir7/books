@@ -31,7 +31,7 @@
         <span>{{ __("Read") }}</span>
     </a>
     @else
-    <a rel="nofollow" href="{{ Storage::url($book->file) }}"
+    <a rel="nofollow" href="{{ asset('storage/'.$book->file) }}"
         class="flex items-center justify-center gap-3 ustify-center cursor-pointer transition-colors duration-200 ease-in px-4 py-2 rounded-lg bg-teal-500 text-white hover:bg-teal-400 w-full"
         aria-label="{{ __('Download file') }}">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none"
@@ -43,7 +43,7 @@
         <span>{{ __("Download") }}</span>
     </a>
 
-    <a rel="nofollow" href="{{ Storage::url($book->file) }}"
+    <a rel="nofollow" href="{{ asset('storage/'.$book->file) }}"
         class="flex items-center justify-center gap-3 ustify-center cursor-pointer transition-colors duration-200 ease-in px-4 py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-400 w-full"
         aria-label="{{ __('Read file') }}">
 

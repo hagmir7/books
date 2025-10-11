@@ -14,7 +14,7 @@
                         <div class="flex book shadow-sm bg-white rounded p-3">
                             <div class="book-cover w-1/4">
                                 <a href="{{ route('book.show', $book->slug) }}">
-                                    <img src="{{ Storage::url($book->image) }}" alt="{{ $book->name }}"
+                                    <img src="{{ asset('storage/'.$book->image) }}" alt="{{ $book->name }}"
                                         class="w-full h-auto rounded">
                                 </a>
                             </div>

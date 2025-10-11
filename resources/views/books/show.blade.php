@@ -18,7 +18,7 @@
             <div class="col-span-2 xl:col-span-1 w-full">
                 <div class="lg:sticky lg:top-4">
                     <div class="mb-4 flex justify-center">
-                        <img src="{{ Storage::url($book->image) }}" alt="{{ formatBookTitle($book->name) }}"
+                        <img src="{{ asset('storage/'.$book->image) }}" alt="{{ formatBookTitle($book->name) }}"
                             class="h-auto rounded-md object-cover w-1/2 md:w-1/3 lg:w-full" itemprop="image" />
                     </div>
                     <x-download-book :book="$book" />
@@ -114,8 +114,7 @@
                 <div class="flex book shadow-sm bg-white rounded p-3 mb-2 hover:shadow-md transition-shadow">
                     <div class="book-cover w-1/4">
                         <a href="{{ route('book.show', $relatedBook->slug) }}">
-                            <img src="{{ Storage::url($relatedBook->image) }}" alt="{{ $relatedBook->name }}"
-                                class="w-full h-auto rounded">
+                            <img src="{{ asset('storage/'.$relatedBook->image) }}" alt="{{ $relatedBook->name }}" class="w-full h-auto rounded">
                         </a>
                     </div>
 

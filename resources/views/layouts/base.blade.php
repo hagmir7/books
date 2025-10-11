@@ -7,8 +7,8 @@
     <meta name="description"
         content="{{ isset($description) ? Str::limit($description, 160) : Str::limit($site->description, 160) }}">
     <meta name="keywords" content="{{ isset($tags) ? $tags :  $site->keywords }}">
-    <link rel="icon" type="image/png" href="{{ Storage::url($site->icon) }}" />
-    <meta itemprop="image" content="{{ isset($image) ? Storage::url($image)  : Storage::url($site->image) }}">
+    <link rel="icon" type="image/png" href="{{ asset('storage/'.$site->icon) }}" />
+    <meta itemprop="image" content="{{ isset($image) ? asset('storage/'.$image)  : asset('storage/'.$site->image) }}">
     <link rel='canonical' href='{{ request()->fullUrl() }}' />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -70,7 +70,7 @@
             <!-- Logo -->
             <div class="flex-shrink-0">
                 <a href="/" class="block" :aria-label="$el?.querySelector('img')?.alt || '{{ $site->name }}'">
-                    <img src="{{ Storage::url($site->logo) }}" alt="{{ $site->name }}" loading="lazy" class="h-10 lg:h-12 object-contain">
+                    <img src="{{ asset('storage/'.$site->logo) }}" alt="{{ $site->name }}" loading="lazy" class="h-10 lg:h-12 object-contain">
                 </a>
             </div>
 

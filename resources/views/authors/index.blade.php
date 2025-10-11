@@ -13,7 +13,7 @@
                                 <div class="author overflow-hidden" style="border-radius: 17px">
                                     <div class="author-photo">
                                         <a href="{{ route("authors.show", $author->slug) }}" class="text-center rounded">
-                                            <img class="cover" src="{{ Storage::url($author->image) }}" alt="{{ $author->full_name }}">
+                                            <img class="cover" src="{{ asset("storage/". $author->image) }}" alt="{{ $author->full_name }}">
                                         </a>
                                     </div>
                                     <div class="author-info">

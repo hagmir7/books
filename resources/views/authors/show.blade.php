@@ -7,7 +7,7 @@
             <div class="row author">
                 <div class="col-lg-12">
                     <div class="author-photo m-auto">
-                        <img src="{{ Storage::url($author->image) }}" alt="{{ $author->full_name }}" class="img-fluid rounded">
+                        <img src="{{ asset("storage/" . $author->image) }}" alt="{{ $author->full_name }}" class="img-fluid rounded">
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -62,7 +62,7 @@
                                         <meta itemprop="datePublished" content="{{ $book->created_at->format("Y") }}" />
                                         <div class="book-cover col-lg-3 col-3">
                                             <a href="{{ route("book.show", $book->slug) }}">
-                                                <img src="{{ Storage::url($book->image) }}" alt="{{ $book->name }}" class="img-fluid">
+                                                <img src="{{ asset('storage/'.$book->image) }}" alt="{{ $book->name }}" class="img-fluid">
                                             </a>
                                         </div>
                                         <div class="book-info col-lg-9 col-9">
