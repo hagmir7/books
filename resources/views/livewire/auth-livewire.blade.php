@@ -5,7 +5,7 @@
         <!-- Header -->
         <div class="bg-gradient-to-r from-white to-primary/5 border-b px-6 py-4 rounded-t-lg">
             <div class="flex items-center gap-4">
-                <img width="100px" height="50px" src="{{ 'https://norkitab.com' . Storage::url($site->logo) }}" alt="{{ __('Site logo') }}"
+                <img width="100px" height="50px" src="{{ asset('storage/'.$site->logo) }}" alt="{{ __('Site logo') }}"
                     class="object-contain text-center w-full h-11">
                 <div>
                     <h2 id="authTitle" class="text-lg font-semibold text-gray-800">

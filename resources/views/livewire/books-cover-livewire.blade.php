@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="book-cover col-lg-4 col-4">
                     <a href="{{ route("book.show", $book->slug) }}">
-                        <img src="{{ 'https://norkitab.com' . Storage::url($book->image) }}" alt="{{ $book->name }}" class="img-fluid">
+                        <img src="{{ asset('storage/'.$book->image) }}" alt="{{ $book->name }}" class="img-fluid">
                     </a>
                 </div>
                 <div class="book-info col-lg-8 col-8">

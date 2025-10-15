@@ -7,8 +7,8 @@
     <meta name="description"
         content="{{ isset($description) ? Str::limit($description, 160) : Str::limit($site->description, 160) }}">
     <meta name="keywords" content="{{ isset($tags) ? $tags :  $site->keywords }}">
-    <link rel="icon" type="image/png" href="{{ 'https://norkitab.com' . Storage::url($site->icon) }}" />
-    <meta itemprop="image" content="{{ isset($image) ? 'https://norkitab.com' . Storage::url($image)  : 'https://norkitab.com' . Storage::url($site->image) }}">
+    <link rel="icon" type="image/png" href="{{ asset('storage/'.$site->icon) }}" />
+    <meta itemprop="image" content="{{ isset($image) ? asset('storage/'.$image)  : asset('storage/'.$site->image) }}">
     <link rel='canonical' href='{{ request()->fullUrl() }}' />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -25,10 +25,6 @@
             font-weight: 500;
             font-style: normal;
             font-variation-settings: "HEXP" 0;
-        }
-
-        .books-listing .book-grid .book .book-info {
-            padding: 0 31px 10px 0px !important;
         }
 
         .home-book-list .book-list .book .book-info {
@@ -65,12 +61,12 @@
 <header class="header bg-white shadow-sm relative" x-data="{ mobileOpen: false, searchOpen: false }"
     @keydown.escape.window="mobileOpen = false; searchOpen = false">
     <div class="px-4">
-        <div class="flex items-center justify-between gap-4 py-4">
+        <div class="flex items-center justify-between gap-4 py-2 sm:py-4">
 
             <!-- Logo -->
             <div class="flex-shrink-0">
                 <a href="/" class="block" :aria-label="$el?.querySelector('img')?.alt || '{{ $site->name }}'">
-                    <img src="{{ 'https://norkitab.com' . Storage::url($site->logo) }}" alt="{{ $site->name }}" loading="lazy" class="h-10 lg:h-12 object-contain">
+                    <img src="{{ asset('storage/'.$site->logo) }}" alt="{{ $site->name }}" loading="lazy" class="h-8 sm:h10 lg:h-12 object-contain">
                 </a>
             </div>
 
@@ -134,11 +130,10 @@
                 <div class="flex items-center gap-2">
                     @auth
                     <a href="#!"
-                        class="sm:inline-flex items-center gap-2 bg-primar font-medium px-5 py-2.5 rounded-xl border border-gray-200 hover:bg-primary/90 hover:shadow-lg active:scale-95 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary/50"
+                        class="sm:inline-flex items-center gap-2 bg-primar font-medium px-3 py-2.5 rounded-xl border border-gray-200 hover:bg-primary/90 hover:shadow-lg active:scale-95 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary/50"
                         title="Profile">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-                            class="inline-block">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
                             <path d="M6 20v-1a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v1"></path>
                         </svg>
@@ -148,8 +143,8 @@
 
                     @guest
                     @if ($site->site_options['login_url'])
-                    <a href="{{ route("auth.login") }}" class="sm:inline-flex items-center gap-2 bg-primar font-medium px-5 py-2.5 rounded-xl border border-gray-200 hover:bg-primary/90 hover:shadow-lg active:scale-95 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary/50">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    <a href="{{ route("auth.login") }}" class="sm:inline-flex items-center gap-2 bg-primar font-medium px-3 py-2.5 rounded-xl border border-gray-200 hover:bg-primary/90 hover:shadow-lg active:scale-95 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="icon icon-tabler icons-tabler-outline icon-tabler-user">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -164,9 +159,9 @@
 
                 <!-- Mobile: search toggle -->
                 <button @click="searchOpen = !searchOpen"
-                    class="md:hidden items-center gap-2 bg-primar font-medium px-5 py-2.5 rounded-xl border border-gray-200 hover:bg-primary/90 hover:shadow-lg active:scale-95 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    class="md:hidden items-center gap-2 bg-primar font-medium px-3 py-2.5 rounded-xl border border-gray-200 hover:bg-primary/90 hover:shadow-lg active:scale-95 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary/50"
                     :aria-pressed="searchOpen.toString()" aria-label="Toggle search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="7"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -176,9 +171,9 @@
                 <!-- Mobile: hamburger -->
                 <button @click="mobileOpen = !mobileOpen" :aria-expanded="mobileOpen.toString()"
                     aria-controls="mobile-menu"
-                    class="md:hidden items-center gap-2 bg-primar font-medium px-5 py-2.5 rounded-xl border border-gray-200 hover:bg-primary/90 hover:shadow-lg active:scale-95 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    class="md:hidden items-center gap-2 bg-primar font-medium px-3 py-2.5 rounded-xl border border-gray-200 hover:bg-primary/90 hover:shadow-lg active:scale-95 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary/50"
                     aria-label="Toggle navigation">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -192,7 +187,7 @@
         x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200"
         x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-4"
         :aria-hidden="(!mobileOpen).toString()" class="absolute  top-full mt-2 z-50">
-        <div class="bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden absolute w-full">
+        <div class="bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden absolute w-11/12">
             <nav aria-label="Mobile Primary">
                 <ul class="flex flex-col text-base py-2">
                     @if ($site->site_options['books_url'])

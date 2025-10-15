@@ -7,17 +7,17 @@
             <table class="w-full table-auto text-md book-meta">
                 <tbody class="divide-y divide-gray-200">
                     <tr>
-                        <td class="py-2 px-4 font-semibold w-1/3">{{ __("Book name") }}:</td>
+                        <td class="py-2 px-4 font-semibold w-1/3">{{ __("Name") }}:</td>
                         <td class="py-2 px-4">
                             <span itemprop="bookName">{{ $book->name }}</span>
-                            <span class="text-gray-500">({{ $book->updated_at->format("Y") }})</span>
+                            {{-- <span class="text-gray-500">({{ $book->updated_at->format("Y") }})</span> --}}
                         </td>
                     </tr>
 
                     @if ($book->category)
                     <tr>
                         <td class="py-2 px-4 font-semibold">{{ __("Category") }}:</td>
-                        <td class="py-2 px-4">
+                        <td class="py-2 px-4 whitespace-nowrap text-ellipsis overflow-hidden">
                             <a itemprop="category" href="{{ route('category.show', $book?->category?->slug) }}"
                                 class="text-blue-600 hover:text-blue-800">
                                 {{ $book?->category?->name }}
@@ -28,7 +28,7 @@
 
                     <tr>
                         <td class="py-2 px-4 font-semibold">{{ __("Authors") }}:</td>
-                        <td class="py-2 px-4">
+                        <td class="py-2 px-4 whitespace-nowrap text-ellipsis overflow-hidden">
                             @if(isset($book->author) && strlen($book->author->description) > 0 &&
                             $book->author->verified)
                             <span title="{{ __('Verified author') }}" class="inline-block mr-1 text-green-600"

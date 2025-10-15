@@ -18,7 +18,7 @@
             <div class="col-span-2 xl:col-span-1 w-full">
                 <div class="lg:sticky lg:top-4">
                     <div class="mb-4 flex justify-center">
-                        <img src="{{ 'https://norkitab.com' . Storage::url($book->image) }}" alt="{{ formatBookTitle($book->name) }}"
+                        <img src="{{ asset('storage/'.$book->image) }}" alt="{{ formatBookTitle($book->name) }}"
                             class="h-auto rounded-md object-cover w-1/2 md:w-1/3 lg:w-full" itemprop="image" />
                     </div>
                     <x-download-book :book="$book" />
@@ -100,7 +100,7 @@
 
                 @livewire('review-form-livewire', ['book' => $book], key($book->slug))
             </div>
-            <aside class="mt-5 md:mt-0 md:col-span-6 xl:col-span-2 gap-2 w-full md:grid  md:grid-cols-2  xl:grid-cols-1 xl:block">
+            <aside class="mt-5 md:mt-0 md:col-span-6 xl:col-span-2 gap-2 w-full md:grid  md:grid-cols-2  xl:grid-cols-1">
                 @forelse (
                 $book->category->books()
                 ->with(['author', 'language']) {{-- ✅ Eager load relations --}}
@@ -111,34 +111,61 @@
                 ->take(10)
                 ->get() as $relatedBook
                 )
-                <div class="flex book shadow-sm bg-white rounded p-3 mb-2 hover:shadow-md transition-shadow">
-                    <div class="book-cover w-1/4">
-                        <a href="{{ route('book.show', $relatedBook->slug) }}">
-                            <img src="{{ 'https://norkitab.com' . Storage::url($relatedBook->image) }}" alt="{{ $relatedBook->name }}" class="w-full h-auto rounded">
-                        </a>
-                    </div>
-
-                    <div class="book-info w-3/4 pl-4 rtl:pl-0 rtl:pr-4">
-                        <div class="book-title mb-2 whitespace-nowrap text-ellipsis overflow-hidden">
-                            <a href="{{ route('book.show', $relatedBook->slug) }}"
-                                class="text-lg font-semibold hover:text-primary transition-colors">
-                                {{ $relatedBook->name }}
+                <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden h-full mb-3">
+                    <div class="flex p-4 sm:p-5 gap-3 sm:gap-4">
+                        <!-- Book Cover -->
+                        <div class="flex-shrink-0 relative">
+                            <a href="{{ route('book.show', $relatedBook->slug) }}" class="block">
+                                <div class="relative transform transition-transform duration-300 group-hover:scale-105">
+                                    <img src="{{ asset('storage/'.$relatedBook->image) }}" alt="{{ $relatedBook->name }}"
+                                        class="w-20 h-28 sm:w-24 sm:h-32 md:w-28 md:h-40 rounded-md object-cover shadow-lg">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent rounded-md">
+                                    </div>
+                                </div>
                             </a>
                         </div>
 
-                        <div class="book-attr text-sm text-gray-600 mb-2">
-                            <span class="book-publishing-year">{{ $relatedBook->created_at->format('Y') }}, </span>
-                            <span class="book-author">{{ $relatedBook->author->full_name }}</span>
-                        </div>
+                        <!-- Book Info -->
+                        <div class="flex-1 flex flex-col min-w-0">
+                            <!-- Title -->
+                            <h3 class="mb-1.5 sm:mb-2 whitespace-nowrap text-ellipsis overflow-hidden">
+                                <a href="{{ route('book.show', $relatedBook->slug) }}"
+                                    class="text-sm sm:text-base md:text-lg font-semibold text-gray-900 hover:text-primary transition-colors duration-200 line-clamp-2 leading-snug">
+                                    {{ $relatedBook->name }}
+                                </a>
+                            </h3>
 
-                        <div class="book-rating flex gap-1 mb-2">
-                            @for ($i = 0; $i
-                            < 5; $i++) <x-stars />
-                            @endfor
-                        </div>
+                            <!-- Author & Year -->
+                            <div class="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3 truncate">
+                                <span class="inline-flex items-center gap-1">
+                                    <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-70" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="font-medium">{{ $relatedBook->author->full_name }}</span>
+                                </span>
+                                <span class="mx-1.5 text-gray-400">•</span>
+                                <span class="text-gray-500">{{ $relatedBook->created_at->format("Y") }}</span>
+                            </div>
 
-                        <div class="book-short-description text-sm text-gray-700">
-                            {{ Str::limit($relatedBook->description, 100, '...') }}
+                            <!-- Rating -->
+                            <div class="flex items-center gap-1 mb-2 sm:mb-3">
+                                <div class="flex gap-0.5">
+                                    @for($i = 0; $i < 5; $i++) <svg class="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400 fill-current"
+                                        viewBox="0 0 20 20">
+                                        <path
+                                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                        </svg>
+                                        @endfor
+                                </div>
+                                <span class="text-xs text-gray-500 ml-1">(4.5)</span>
+                            </div>
+
+                            <!-- Description -->
+                            <p class="text-xs sm:text-sm text-gray-600 line-clamp-2 sm:line-clamp-3 leading-relaxed mt-auto">
+                                {{ Str::limit($relatedBook->description, 120, '...') }}
+                            </p>
                         </div>
                     </div>
                 </div>

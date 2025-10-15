@@ -14,7 +14,7 @@
             },
             "headline": "{{ $post->title }}",
             "image": [
-                "{{ 'https://norkitab.com' . Storage::url($post->image) }}"
+                "{{ asset('storage/'.$post->image) }}"
             ],
             "datePublished": "{{ $post->created_at->toIso8601String() }}",
             "dateModified": "{{ $post->updated_at->toIso8601String() }}",
@@ -27,7 +27,7 @@
                 "name": "{{ $site->name }}",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "{{ 'https://norkitab.com' . Storage::url($site->image) }}"
+                    "url": "{{ asset('storage/'.$site->image) }}"
                 }
             },
             "description": "{{ $post->description }}"
@@ -141,7 +141,7 @@
                     <!-- Post Image -->
                     <div class="my-6">
                         <img width="100%" height="auto" class="rounded-lg shadow-md"
-                            src="{{ 'https://norkitab.com' . Storage::url($post->image) }}" alt="{{ $post->title }}">
+                            src="{{ asset('storage/'.$post->image) }}" alt="{{ $post->title }}">
                     </div>
 
                     <!-- Post Content -->

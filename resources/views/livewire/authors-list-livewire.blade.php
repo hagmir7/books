@@ -11,7 +11,7 @@
             <div class="flex gap-3 bg-gray-100 p-2 rounded">
                 <div>
                     <a href="{{ route("authors.show", $author->slug) }}" class="text-center">
-                        <img src="{{ $author->image ? 'https://norkitab.com' . Storage::url($author->image) : '/storage/default/author.png' }}"
+                        <img src="{{ $author->image ? asset('storage/'.$author->image) : '/storage/default/author.png' }}"
                             alt="{{ $author->full_name }}" class="rounded-full w-[43px] h-[43px] object-cover">
                     </a>
                 </div>
