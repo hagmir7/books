@@ -42,7 +42,6 @@ class BookController extends Controller
             return redirect('https://www.yakk.shop/books/'. $book->slug);
         }
 
-
         return view("books.show", [
             "book" => $book,
             "title" => str_replace(":attr", $book->name, app('site')->site_options['book_title']),
