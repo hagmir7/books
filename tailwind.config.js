@@ -5,6 +5,14 @@ module.exports = {
     },
     plugins: [
         require('@tailwindcss/typography'),
-        // ...
+        function ({ addUtilities }) {
+            addUtilities({
+                '.inline-table': {
+                    display: 'inline-table',
+                },
+            })
+        }
     ],
+
+
 }

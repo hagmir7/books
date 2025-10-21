@@ -100,7 +100,7 @@
 
                 @livewire('review-form-livewire', ['book' => $book], key($book->slug))
             </div>
-            <aside class="mt-5 md:mt-0 md:col-span-6 xl:col-span-2 gap-2 w-full md:grid  md:grid-cols-2  xl:grid-cols-1">
+            <aside class="mt-5 md:mt-0 md:col-span-6 xl:col-span-2 gap-2 w-full md:grid  md:grid-cols-2  xl:grid-cols-1 xl:inline-table">
                 @forelse (
                 $book->category->books()
                 ->with(['author', 'language']) {{-- ✅ Eager load relations --}}

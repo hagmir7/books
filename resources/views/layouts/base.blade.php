@@ -12,8 +12,10 @@
     <link rel='canonical' href='{{ request()->fullUrl() }}' />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @vite('resources/css/app.css')
+    {{-- @vite('resources/css/app.css') --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @yield('head')
+    @livewireStyles
 
     @if (app()->getLocale() == 'ar')
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
@@ -187,7 +189,7 @@
         x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200"
         x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-4"
         :aria-hidden="(!mobileOpen).toString()" class="absolute  top-full mt-2 z-50">
-        <div class="bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden absolute w-11/12">
+        <div class="bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden absolute w-11/12 z-50">
             <nav aria-label="Mobile Primary">
                 <ul class="flex flex-col text-base py-2">
                     @if ($site->site_options['books_url'])
@@ -224,8 +226,7 @@
                     <li class="border-b border-gray-50 last:border-b-0">
                         <a href="{{ route('contact') }}"
                             class="block px-4 py-3 hover:bg-gradient-to-r hover:from-primary/5 hover:to-transparent transition-all duration-200 hover:pl-5 active:bg-primary/10">
-                            <span class="font-medium text-gray-700 hover:text-primary transition-colors">{{ __('Contact Us')
-                                }}</span>
+                            <span class="font-medium text-gray-700 hover:text-primary transition-colors">{{ __('Contact Us') }}</span>
                         </a>
                     </li>
                     @endif
@@ -284,7 +285,8 @@
 
     <div class="hidden">{!! $site->footer !!}</div>
     <div id="fb-root"></div>
-
+    {{-- @livewireScripts --}}
+    @livewireScriptConfig
     @yield('footer')
 </body>
 
