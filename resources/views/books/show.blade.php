@@ -52,7 +52,7 @@
                 {!! app("site")->ads !!}
 
                 {{-- Description --}}
-                <div class="prose prose-lg prose-headings:mt-0 prose-headings:font-black prose-h2:text-[23px] prose-h3:text-[19px] prose-h4:text-[17px] max-w-none mt-6 leading-relaxed text-black prose-p:text-[16px] prose-p:text-gray-700 dark:text-gray-200 prose-headings:text-black dark:prose-headings:text-white prose-a:text-green-600 hover:prose-a:text-green-700 dark:prose-a:text-green-400 dark:hover:prose-a:text-green-300 prose-img:rounded-2xl prose-img:shadow-sm"
+                <div class="prose prose-lg prose-headings:mt-0 prose-headings:font-black prose-h2:text-[23px] prose-h3:text-[19px] prose-h4:text-[17px] max-w-none mt-6 leading-relaxed text-black prose-p:text-[16px] prose-p:text-gray-700  prose-headings:text-black  prose-a:text-green-600 hover:prose-a:text-green-700 dark:prose-a:text-green-400 dark:hover:prose-a:text-green-300 prose-img:rounded-2xl prose-img:shadow-sm"
                     itemprop="description">
                     {!! $book->body !!}
                 </div>
