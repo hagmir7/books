@@ -9,7 +9,7 @@ use Livewire\Component;
 class BookListLivewire extends Component
 {
 
-    public $amount = 30;
+    public $amount = 9;
     public $total = 0;
 
     public BookCategory $category;
@@ -25,27 +25,27 @@ class BookListLivewire extends Component
     {
         $this->amount += 30;
     }
+
     public function render()
     {
         $books = $this->category->name
             // if
             ? $this->category->books()
-                ->with(['author', 'language'])
-                ->where('verified', true)
-                ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
-                ->take($this->amount)
-                ->orderBy('updated_at', 'desc')
-                ->where('is_public', 1)
-                ->get()
+            ->with(['author', 'language', 'category'])
+            ->where('verified', true)
+            ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
+            ->where('is_public', 1)
+            ->orderBy('updated_at', 'desc')
+            ->take($this->amount)
+            ->get()
             // else
-            : Book::with(['author', 'language'])
-                ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
-                ->where('verified', true)
-                ->where('is_public', 1)
-                ->take($this->amount)
-
-                ->orderBy('updated_at', 'desc')
-                ->get();
+            : Book::with(['author', 'language', 'category'])
+            ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
+            ->where('verified', true)
+            ->where('is_public', 1)
+            ->orderBy('updated_at', 'desc')
+            ->take($this->amount)
+            ->get();
 
 
         return view('livewire.book-list-livewire', [

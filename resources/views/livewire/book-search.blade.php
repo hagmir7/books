@@ -1,189 +1,115 @@
 <div>
-    <style>
-        .search-container {
-            position: relative;
-            /* Added to make absolute positioning work properly */
-        }
-
-        .scroll-results {
-            position: absolute;
-            top: 100%;
-            /* directly under search bar */
-            left: 0;
-            right: 0;
-            z-index: 1050;
-            /* above other elements */
-            max-height: 350px;
-            /* limit height */
-            overflow-y: auto;
-            /* enable scroll */
-            margin-top: .5rem;
-            /* little space under input */
-            box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
-            /* Bootstrap shadow */
-            background: white;
-            /* Ensure background is white */
-            border-radius: 0.75rem;
-            /* Match Bootstrap rounded-3 */
-        }
-
-        /* Make the results container scrollable */
-        .results-container {
-            max-height: 280px;
-            /* Leave space for header */
-            overflow-y: auto;
-        }
-
-        /* Optional: nicer scrollbar */
-        .scroll-results::-webkit-scrollbar,
-        .results-container::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .scroll-results::-webkit-scrollbar-thumb,
-        .results-container::-webkit-scrollbar-thumb {
-            background-color: #bbb;
-            border-radius: 3px;
-        }
-
-        .scroll-results::-webkit-scrollbar-track,
-        .results-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        /* Hover effect for search results */
-        .hover-bg-light:hover {
-            background-color: #f8f9fa !important;
-        }
-    </style>
-
-    <section class="py-5">
-        <div class="container">
-            <!-- Search Header -->
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="d-flex justify-content-center">
-                        <div class="logo">
-                            <a href="/"><img src="{{ Storage::url($site->logo) }}" alt="{{ $site->name }}"></a>
-                        </div>
-                    </div>
-                    <h1 class="text-center h2 mt-3">{{ $site->name }}</h1>
-                </div>
+    <section class="py-12">
+        <div class="container mx-auto px-4">
+            <!-- Header -->
+            <div class="flex flex-col items-center mb-8">
+                <a href="/" class="block">
+                    <img src="{{ asset('storage/'.$site->logo) }}" alt="{{ $site->name }}" class="h-16 object-contain" />
+                </a>
+                <h1 class="mt-3 text-center text-xl font-semibold">{{ $site->name }}</h1>
             </div>
 
-            <!-- Search Bar -->
-            <div class="row justify-content-center">
-                <div class="col-12 col-sm-11 col-md-10 col-lg-8 col-xl-8">
-                    <div class="search-container">
-                        <!-- Fixed: Added search-container wrapper -->
-                        <div class="card border-0 rounded-3 shadow-sm overflow-hidden">
-                            <div class="card-body p-0">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="position-relative">
-                                            <!-- Fixed: corrected typo -->
-                                            <input type="text" class="form-control form-control-lg ps-5 border-0 fs-6"
-                                                placeholder="{{ __('Start search by book, author...') }}"
-                                                wire:model.live.debounce.500ms="search">
+            <!-- Search -->
+            <div class="flex justify-center">
+                <div class="w-full sm:w-10/12 md:w-8/12 lg:w-7/12">
+                    <div class="relative">
+                        <!-- Card -->
+                        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                            <div class="p-0">
+                                <div class="p-3">
+                                    <div class="relative">
+                                        <!-- Input -->
+                                        <input type="text" aria-label="{{ __('Search books, authors...') }}"
+                                            placeholder="{{ __('Start search by book, author...') }}"
+                                            wire:model.live.debounce.500ms="search"
+                                            class="w-full pl-10 pr-4 py-2 text-base rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-primary" />
 
-                                            <!-- Search Icon (hidden when loading) -->
-                                            <svg wire:loading.remove xmlns="http://www.w3.org/2000/svg" width="20"
-                                                height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                                                <path d="M21 21l-6 -6" />
-                                            </svg>
+                                        <!-- Search Icon (hidden while loading) -->
+                                        <svg wire:loading.remove xmlns="http://www.w3.org/2000/svg"
+                                            class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M21 21l-4.35-4.35" />
+                                            <circle cx="11" cy="11" r="6" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
 
-                                            <!-- Spinner (shown when loading) -->
-                                            <div wire:loading
-                                                class="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"
-                                                style="width: 20px; height: 20px;">
-                                                <div class="spinner-border text-muted" role="status"
-                                                    style="width: 20px; height: 20px;">
-                                                    <span class="visually-hidden">Loading...</span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <!-- Spinner (shown while loading) -->
+                                        <svg wire:loading
+                                            class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 animate-spin text-gray-500"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                                stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor"
+                                                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Search Results -->
+                        <!-- Results dropdown -->
                         <div wire:loading.remove>
                             @if($search)
                             @forelse($books as $book)
                             @if($loop->first)
-                            <div class="scroll-results">
-                                <!-- Fixed: moved outside the loop -->
-                                <div class="card border-0 rounded-3 overflow-hidden">
-                                    <div class="card-header bg-light border-0 py-2 py-md-3 mb-0">
-                                        <h5 class="mb-0 text-secondary fw-bold fs-6 fs-md-5">
-                                            {{ __('Search Results') }}
-                                        </h5>
-                                    </div>
-                                    <div class="results-container">
-                                        <!-- Fixed: Added scrollable container -->
-                                        @endif
+                            <div class="absolute z-50 mt-2 w-full max-h-80 overflow-auto bg-white rounded-xl shadow-lg ring-1 ring-black/5"
+                                role="listbox" aria-label="{{ __('Search results') }}">
+                                <div class="px-4 py-3 bg-gray-50 rounded-t-xl">
+                                    <h5 class="text-base font-semibold text-gray-600 mb-0">{{ __('Search Results') }}
+                                    </h5>
+                                </div>
+                                <div class="divide-y divide-gray-100">
+                                    @endif
 
-                                        <div class="p-0 m-0">
-                                            <div class="list-group-item border-0 py-2 px-3 bg-white hover-bg-light">
-                                                <div class="d-flex flex-column">
-                                                    <h4 class="mb-2 text-dark fw-bold fs-6">
-                                                        <a href="{{ route('book.show', $book?->slug) }}"
-                                                            class="text-decoration-none text-dark">
-                                                            {{ $book->name }}
-                                                        </a>
-                                                    </h4>
-                                                    @if($book->author)
-                                                    <a href="{{ route('authors.show', $book->author->slug) }}"
-                                                        class="text-decoration-none">
-                                                        <p class="mb-2 text-secondary d-flex align-items-center gap-2">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="18"
-                                                                height="18" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-user flex-shrink-0">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                                                                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                                                            </svg>
-                                                            <span class="fw-semibold small">{{
-                                                                $book->author->full_name}}</span>
-                                                        </p>
-                                                    </a>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            @if(!$loop->last)
-                                            <hr class="text-secondary mx-3 my-2">
+                                    <div class="px-3 py-3 hover:bg-gray-50 transition-colors cursor-pointer"
+                                        role="option" tabindex="0">
+                                        <div class="flex flex-col">
+                                            <h4 class="text-base font-bold text-gray-900 mb-1">
+                                                <a href="{{ route('book.show', $book?->slug) }}"
+                                                    class="no-underline hover:text-primary">
+                                                    {{ $book->name }}
+                                                </a>
+                                            </h4>
+
+                                            @if($book->author)
+                                            <a href="{{ route('authors.show', $book->author->slug) }}"
+                                                class="no-underline">
+                                                <p class="text-sm text-gray-600 flex items-center gap-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                                                        stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M8 7a4 4 0 118 0 4 4 0 01-8 0z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
+                                                    </svg>
+                                                    <span class="font-semibold">{{ $book->author->full_name }}</span>
+                                                </p>
+                                            </a>
                                             @endif
                                         </div>
+                                    </div>
 
-                                        @if($loop->last)
-                                    </div> <!-- Close results-container -->
-                                </div> <!-- Close card -->
-                            </div> <!-- Close scroll-results -->
+                                    @if($loop->last)
+                                </div> <!-- .divide wrapper -->
+                            </div> <!-- dropdown -->
                             @endif
 
                             @empty
-                            <div class="scroll-results">
-                                <div class="card border-0 rounded-3 shadow-sm">
-                                    <div class="card-body text-center py-4 py-md-5 px-3">
-                                        <h4 class="text-muted mb-3 fs-5 fs-md-4">{{ __('No books found') }}</h4>
-                                        <p class="text-muted mb-4 small">
-                                            {{ __('No books match your search criteria') }} "<strong>{{ $search
-                                                }}</strong>"
-                                        </p>
-                                    </div>
+                            <div
+                                class="absolute z-50 mt-2 w-full max-h-80 overflow-auto bg-white rounded-xl shadow-lg ring-1 ring-black/5">
+                                <div class="text-center py-8 px-4">
+                                    <h4 class="text-gray-500 mb-3 text-lg">{{ __('No books found') }}</h4>
+                                    <p class="text-gray-500 text-sm">
+                                        {{ __('No books match your search criteria') }} "<strong>{{ $search }}</strong>"
+                                    </p>
                                 </div>
                             </div>
                             @endforelse
                             @endif
                         </div>
-                    </div> <!-- Close search-container -->
+                    </div>
                 </div>
             </div>
         </div>
