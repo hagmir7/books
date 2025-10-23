@@ -59,6 +59,7 @@ Route::controller(PostController::class)->prefix('blog')->group(function(){
 Route::controller(BookController::class)->prefix('books')->group(function () {
     Route::get('', 'index')->name('books.index');
     Route::get("{book:slug}", 'show')->name("book.show");
+    Route::get("read/{book:slug}", 'read')->name("book.read");
 });
 
 

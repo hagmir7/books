@@ -5,41 +5,57 @@ namespace App\Livewire;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class AuthLivewire extends Component
 {
-    public $email;
-    public $password;
-    public $password_confirmation;
-    public $first_name;
-    public $last_name;
-    public $remember = false;
-    public $isRegister = false;
+    // --- State ---
+    public bool $isRegister = false;
+    public bool $remember = false;
 
-    public function toggleMode()
+    #[Validate('required|email', attribute:'Email', translate:true)]
+    public string $email = '';
+
+    #[Validate('required|min:6')]
+    public string $password = '';
+
+    #[Validate('required_with:isRegister|same:password')]
+    public ?string $password_confirmation = null;
+
+    #[Validate('required_with:isRegister|string|max:255')]
+    public ?string $first_name = null;
+
+    #[Validate('required_with:isRegister|string|max:255')]
+    public ?string $last_name = null;
+
+
+    // --- Mode Switch ---
+    public function toggleMode(): void
     {
         $this->isRegister = !$this->isRegister;
         $this->reset(['email', 'password', 'password_confirmation', 'first_name', 'last_name']);
         $this->resetValidation();
     }
 
-    public function login()
+    // --- Auth Methods ---
+    public function login(): void
     {
-        $this->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6',
-        ]);
+        $this->validateOnly('email');
+        $this->validateOnly('password');
 
-        if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-            session()->regenerate();
-            return redirect()->route('home');
+        if (!Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+            $this->addError('email', __('auth.failed'));
+            return;
         }
 
-        $this->addError('email', __("Invalid credentials"));
+        session()->regenerate();
+
+        $this->redirectRoute('home', navigate: true);
     }
 
-    public function register()
+    public function register(): void
     {
         $validated = $this->validate([
             'first_name' => 'required|string|max:255',
@@ -50,17 +66,19 @@ class AuthLivewire extends Component
 
         $user = User::create([
             'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
+            'last_name'  => $validated['last_name'],
+            'email'      => $validated['email'],
+            'password'   => Hash::make($validated['password']),
         ]);
 
         Auth::login($user);
         session()->regenerate();
 
-        return redirect()->route('home');
+        $this->redirectRoute('home', navigate: true);
     }
 
+    // --- View ---
+    #[Layout('layouts.guest')] // Optional: specify layout
     public function render()
     {
         return view('livewire.auth-livewire');

@@ -43,7 +43,7 @@
         <span>{{ __("Download") }}</span>
     </a>
 
-    <a rel="nofollow" href="{{ asset('storage/'.$book->file) }}"
+    <a rel="nofollow" href="{{ route('book.read', $book->slug) }}"
         class="flex items-center justify-center gap-3 ustify-center cursor-pointer transition-colors duration-200 ease-in px-4 py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-400 w-full"
         aria-label="{{ __('Read file') }}">
 

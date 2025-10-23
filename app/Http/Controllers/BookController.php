@@ -32,6 +32,27 @@ class BookController extends Controller
         ]);
     }
 
+    public function read(Book $book){
+        !$book->is_public && abort(403);
+        !$book->verified && abort(404);
+
+        if (app('site')->domain == 'file.best') {
+            return redirect('https://www.lacabook.com/books/' . $book->slug);
+        }
+
+        $book->load(['author', 'language', 'category']);
+
+        return view("books.read", [
+            "book" => $book,
+            "title" => str_replace(":attr", $book->name, app('site')->site_options['read_book_title']),
+            "description" => \Illuminate\Support\Str::limit($book->description, 160),
+            "tags" => $book->tags,
+            "author" => $book->author->full_name,
+            "image" => $book->image,
+            "rating" => Comment::where("book_id", $book->id)->avg('stars')
+        ]);
+    }
+
 
     public function show(Book $book)
     {
