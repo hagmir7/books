@@ -101,16 +101,16 @@
                 @livewire('review-form-livewire', ['book' => $book], key($book->slug))
             </div>
             <aside class="mt-5 md:mt-0 md:col-span-6 xl:col-span-2 gap-2 w-full md:grid  md:grid-cols-2  xl:grid-cols-1 xl:inline-table">
-                @forelse (
-                $book->category->books()
-                ->with(['author', 'language'])
-                ->where('verified', true)
-                ->whereHas('language', fn($query) => $query->where('code', app()->getLocale()))
-                ->where('is_public', 1)
-                ->orderBy('updated_at', 'desc')
-                ->take(10)
-                ->get() as $relatedBook
-                )
+               @forelse (
+                    $book->category?->books()
+                    ->with(['author', 'language'])
+                    ->where('verified', true)
+                    ->whereHas('language', fn($query) => $query->where('code', app()->getLocale()))
+                    ->where('is_public', 1)
+                    ->orderBy('updated_at', 'desc')
+                    ->take(10)
+                    ->get() ?? [] as $relatedBook
+                    )
                 <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden h-full mb-3">
                     <div class="flex p-4 sm:p-5 gap-3 sm:gap-4">
                         <!-- Book Cover -->
