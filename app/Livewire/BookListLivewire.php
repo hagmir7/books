@@ -9,7 +9,7 @@ use Livewire\Component;
 class BookListLivewire extends Component
 {
 
-    public $amount = 9;
+    public $amount = 27;
     public $total = 0;
 
     public BookCategory $category;
@@ -23,7 +23,7 @@ class BookListLivewire extends Component
 
     public function loadMore()
     {
-        $this->amount += 30;
+        $this->amount += 27;
     }
 
     public function render()
