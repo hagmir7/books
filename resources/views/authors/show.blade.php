@@ -7,7 +7,7 @@
         <div class="flex flex-wrap author mb-12">
             <div class="w-full">
                 <div class="author-photo mx-auto mb-8">
-                    <img src="{{ asset(" storage/" . $author->image) }}" alt="{{ $author->full_name }}"
+                    <img src="{{ asset("storage/" . $author->image) }}" alt="{{ $author->full_name }}"
                     class="rounded-full w-30 h-30 object-cover mx-auto shadow-sm ring-4 ring-white">
                 </div>
             </div>

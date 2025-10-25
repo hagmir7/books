@@ -1,30 +1,29 @@
-{{-- Authors --}}
+{{-- Authors Section --}}
 <div class="w-full lg:w-3/12 px-4">
-    <div class="flex flex-wrap -mx-4">
-        <div class="w-full px-4">
-            <div class="mb-4">
-                <h2 class="text-2xl font-bold mb-3">{{ __("Popular Authors") }}</h2>
-            </div>
+    <div class="space-y-4">
+        <div>
+            <h2 class="text-2xl font-bold mb-3">{{ __("Popular Authors") }}</h2>
         </div>
-        @foreach ($authors as $author)
-        <div class="w-full md:w-1/2 lg:w-full px-4 mb-3">
-            <div class="flex gap-3 bg-gray-100 p-2 rounded">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+            @foreach ($authors as $author)
+            <div
+                class="flex items-center gap-3 bg-gray-100 hover:bg-gray-200 transition-colors p-3 rounded-xl shadow-sm">
+                <a href="{{ route('authors.show', $author->slug) }}" class="flex-shrink-0">
+                    <img src="{{ $author->image ? asset('storage/' . $author->image) : '/storage/default/author.png' }}"
+                        alt="{{ $author->full_name }}" class="w-12 h-12 rounded-full object-cover">
+                </a>
                 <div>
-                    <a href="{{ route("authors.show", $author->slug) }}" class="text-center">
-                        <img src="{{ $author->image ? asset('storage/'.$author->image) : '/storage/default/author.png' }}"
-                            alt="{{ $author->full_name }}" class="rounded-full w-[43px] h-[43px] object-cover">
-                    </a>
-                </div>
-                <div>
-                    <h3 class="text-base font-semibold mb-1">
-                        <a href="{{ route("authors.show", $author->slug) }}" class="no-underline hover:underline">
+                    <h3 class="text-base font-semibold text-gray-800 leading-tight">
+                        <a href="{{ route('authors.show', $author->slug) }}"
+                            class="hover:underline hover:text-blue-600 transition-colors">
                             {{ $author->full_name }}
                         </a>
                     </h3>
-                    <small class="text-gray-500 text-sm">{{ $author->books_count }} {{ __("books") }}</small>
+                    <p class="text-sm text-gray-500">{{ $author->books_count }} {{ __("books") }}</p>
                 </div>
             </div>
+            @endforeach
         </div>
-        @endforeach
     </div>
 </div>
