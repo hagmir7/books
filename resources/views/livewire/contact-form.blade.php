@@ -85,7 +85,7 @@
         <!-- Submit Button -->
         <div class="w-full px-2">
             <button type="submit"
-                class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors font-medium inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="bg-primar border px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors font-medium inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 wire:loading.attr="disabled">
                 <span>{{ __("Send Message") }}</span>
                 <span wire:loading class="inline-block">

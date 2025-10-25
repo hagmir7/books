@@ -29,32 +29,30 @@
                 </div>
 
                 <!-- Navigation Buttons -->
-                <div class="mt-10 flex justify-center">
-                    <nav aria-label="Next and Previous navigation" class="w-full max-w-2xl">
-                        <ul class="flex justify-between gap-4">
+                <div class="mt-12 flex justify-center">
+                    <nav aria-label="Author navigation" class="w-full max-w-3xl">
+                        <ul class="flex justify-between items-center gap-6 px-4">
                             @if($author->previous())
                             <li>
-                                <a class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-medium shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform hover:-translate-y-0.5"
-                                    href="{{ route('authors.show', $author->previous()->slug) }}" aria-label="Previous">
+                                <a href="{{ route('authors.show', $author->previous()->slug) }}" aria-label="Previous author"
+                                    class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold shadow-md hover:shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 ease-in-out hover:-translate-y-0.5">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 19l-7-7 7-7" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                                     </svg>
                                     <span>{{ __("Previous") }}</span>
                                 </a>
                             </li>
                             @else
-                            <li></li>
+                            <li class="invisible"><span class="px-6 py-3">.</span></li>
                             @endif
 
                             @if($author->next())
                             <li>
-                                <a class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-medium shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform hover:-translate-y-0.5"
-                                    href="{{ route('authors.show', $author->next()->slug) }}" aria-label="Next">
+                                <a href="{{ route('authors.show', $author->next()->slug) }}" aria-label="Next author"
+                                    class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold shadow-md hover:shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 ease-in-out hover:-translate-y-0.5">
                                     <span>{{ __("Next") }}</span>
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                                     </svg>
                                 </a>
                             </li>
