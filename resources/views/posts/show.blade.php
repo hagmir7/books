@@ -39,7 +39,7 @@
             <div class="w-full">
                 <div class="post-content max-w-4xl mx-auto">
                     <!-- Post Title -->
-                    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">
+                    <h1 class="text-xl md:text-2xl font-bold text-gray-900 mb-4 text-center">
                         {{ $post->title }}
                     </h1>
 
@@ -145,7 +145,7 @@
                     </div>
 
                     <!-- Post Content -->
-                    <div class="post-text prose prose-lg max-w-none">
+                    <div class="prose prose-lg prose-headings:mt-0 prose-headings:font-black prose-h2:text-[23px] prose-h3:text-[19px] prose-h4:text-[17px] max-w-none mt-6 leading-relaxed text-black prose-p:text-[16px] prose-ul:text-[16px] prose-ol:text-[16px] prose-p:text-gray-700 prose-ul:text-gray-700 prose-ol:text-gray-700  prose-headings:text-black  prose-a:text-green-600 hover:prose-a:text-green-700 dark:prose-a:text-green-400 dark:hover:prose-a:text-green-300 prose-img:rounded-2xl prose-img:shadow-sm">
                         {!! $post->body !!}
                     </div>
 
@@ -155,81 +155,4 @@
         </div>
     </div>
 </section>
-
-<style>
-    /* Tailwind Typography styles for post content */
-    .post-text {
-        @apply text-gray-800 leading-relaxed;
-    }
-
-    .post-text h2 {
-        @apply text-2xl font-bold mt-8 mb-4 text-gray-900;
-    }
-
-    .post-text h3 {
-        @apply text-xl font-bold mt-6 mb-3 text-gray-900;
-    }
-
-    .post-text h4 {
-        @apply text-lg font-bold mt-4 mb-2 text-gray-900;
-    }
-
-    .post-text p {
-        @apply mb-4 text-base leading-relaxed;
-    }
-
-    .post-text ul,
-    .post-text ol {
-        @apply mb-4 ml-6 space-y-2;
-    }
-
-    .post-text ul {
-        @apply list-disc;
-    }
-
-    .post-text ol {
-        @apply list-decimal;
-    }
-
-    .post-text li {
-        @apply text-base;
-    }
-
-    .post-text a {
-        @apply text-primary underline hover: text-primary/80 transition-colors;
-    }
-
-    .post-text img {
-        @apply rounded-lg shadow-md my-6 max-w-full h-auto;
-    }
-
-    .post-text blockquote {
-        @apply border-l-4 border-primary pl-4 italic my-4 text-gray-700;
-    }
-
-    .post-text code {
-        @apply bg-gray-100 px-2 py-1 rounded text-sm font-mono;
-    }
-
-    .post-text pre {
-        @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4;
-    }
-
-    .post-text pre code {
-        @apply bg-transparent p-0;
-    }
-
-    .post-text table {
-        @apply w-full border-collapse my-6;
-    }
-
-    .post-text th,
-    .post-text td {
-        @apply border border-gray-300 px-4 py-2;
-    }
-
-    .post-text th {
-        @apply bg-gray-100 font-bold;
-    }
-</style>
 @endsection

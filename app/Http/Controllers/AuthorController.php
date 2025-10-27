@@ -29,7 +29,7 @@ class AuthorController extends Controller
     public function index()
     {
         return view("authors.index", [
-            "authors" => Author::withCount('books')->where('verified', true)->orderBy('books_count', 'desc')->paginate(20),
+            "authors" => Author::withCount('books')->where('verified', true)->orderBy('books_count', 'desc')->paginate(24),
             "title" => __("Popular Authors")
         ]);
     }
