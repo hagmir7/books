@@ -1,11 +1,13 @@
 @extends('layouts.base')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-6 px-3">
+<!-- Wrapper sets language and direction for the page -->
+<div dir="rtl" lang="ar" class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-6 px-3">
     <div class="max-w-4xl mx-auto">
         <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-            <!-- Canvas Container -->
-            <div id="canvasContainer" class="bg-slate-200 overflow-auto touch-pan-y" style="min-height:70vh;">
+            <!-- Canvas Container - Remove RTL from here to let PDF render naturally -->
+            <div id="canvasContainer" class="bg-slate-200 overflow-auto touch-pan-y"
+                style="min-height:70vh; direction: ltr;">
                 <div class="flex items-center justify-center w-full h-full p-0 md:p-4">
                     <canvas id="pdfCanvas" class="shadow-sm rounded-xl max-w-full h-auto block"
                         style="touch-action: none;"></canvas>
@@ -19,7 +21,7 @@
                 <div class="pointer-events-auto mb-safe rounded-t-2xl bg-white/95 backdrop-blur-sm border border-slate-200 shadow-lg overflow-hidden"
                     style="margin-bottom: env(safe-area-inset-bottom);">
                     <div class="flex items-center justify-between gap-2 px-3 py-2">
-                        <!-- Left: Prev / Next -->
+                        <!-- Left: Prev / Next (visually on the right for RTL) -->
                         <div class="flex items-center gap-2">
                             <button id="prev"
                                 class="flex items-center gap-2 px-2 py-2 bg-slate-50 text-slate-700 rounded-lg hover:bg-slate-100 transition disabled:opacity-50"
@@ -66,7 +68,7 @@
                                 class="hidden sm:block w-36 h-2 accent-slate-600" aria-label="Zoom slider">
                         </div>
 
-                        <!-- Right: Actions -->
+                        <!-- Right: Actions (visually left in RTL) -->
                         <div class="flex items-center gap-2">
                             <button id="rotate" title="{{ __('Rotate') }}"
                                 class="flex items-center gap-2 px-3 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition shadow-sm">
@@ -104,21 +106,21 @@
         <div class="mt-6 bg-white rounded-xl shadow-sm p-4">
             <h3 class="font-semibold text-slate-700 mb-2">{{ __('Keyboard Shortcuts') }}</h3>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-slate-600">
-                <div class="flex items-center gap-2">
-                    <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-300">←</kbd>
+                <div class="flex items-center gap-2 justify-end">
                     <span>{{ __('Previous page') }}</span>
+                    <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-300">←</kbd>
                 </div>
-                <div class="flex items-center gap-2">
-                    <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-300">→</kbd>
+                <div class="flex items-center gap-2 justify-end">
                     <span>{{ __('Next page') }}</span>
+                    <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-300">→</kbd>
                 </div>
-                <div class="flex items-center gap-2">
-                    <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-300">+</kbd>
+                <div class="flex items-center gap-2 justify-end">
                     <span>{{ __('Zoom in') }}</span>
+                    <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-300">+</kbd>
                 </div>
-                <div class="flex items-center gap-2">
-                    <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-300">-</kbd>
+                <div class="flex items-center gap-2 justify-end">
                     <span>{{ __('Zoom out') }}</span>
+                    <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-300">-</kbd>
                 </div>
             </div>
         </div>
@@ -153,9 +155,7 @@
   let currentPage = 1;
   let rotation = 0;
   let scale = 1.0;
-  if (zoomSel && zoomSel.value) {
-    const v = parseFloat(zoomSel.value); if (!isNaN(v)) scale = v;
-  }
+  if (zoomSel && zoomSel.value) { const v = parseFloat(zoomSel.value); if (!isNaN(v)) scale = v; }
 
   function updatePageInfo() {
     if (!pageInfo) return;
@@ -176,14 +176,21 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const renderContext = { canvasContext: ctx, viewport: page.getViewport({ scale: scale, rotation: rotation }) };
+      const renderContext = {
+        canvasContext: ctx,
+        viewport: vp
+      };
+
       await page.render(renderContext).promise;
 
-      // Ensure container scroll positions center the canvas horizontally on small screens
+      // Center canvas in container
       if (container) {
-        // smooth scroll center if page fits smaller width
-        const left = (canvas.offsetWidth - container.clientWidth) / 2;
-        if (Math.abs(left) > 0) container.scrollTo({ left, behavior: 'smooth' });
+        const offset = (canvas.offsetWidth - container.clientWidth) / 2;
+        if (offset > 0) {
+          container.scrollTo({ left: Math.round(offset), behavior: 'smooth' });
+        } else {
+          container.scrollLeft = 0;
+        }
       }
     } catch (err) {
       console.error('Error rendering page:', err);
@@ -192,7 +199,12 @@
 
   async function loadPdfFromUrl(url) {
     try {
-      const loadingTask = pdfjsLib.getDocument(url);
+      const loadingTask = pdfjsLib.getDocument({
+        url: url,
+        cMapUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/cmaps/',
+        cMapPacked: true,
+        standardFontDataUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/standard_fonts/'
+      });
       pdfDoc = await loadingTask.promise;
       currentPage = 1;
       updatePageInfo();
@@ -268,7 +280,7 @@
     }
   });
 
-  // Touch gestures: swipe & pinch-to-zoom
+  // Touch gestures
   (function setupTouchGestures() {
     let touchStartX = 0;
     let touchStartY = 0;
@@ -293,7 +305,6 @@
         isSwiping = true;
         lastTouchDistance = null;
       } else if (e.touches.length === 2) {
-        // start pinch
         lastTouchDistance = getDistance(e.touches[0], e.touches[1]);
         initialScale = scale;
         isSwiping = false;
@@ -308,18 +319,15 @@
         const dx = e.touches[0].clientX - touchStartX;
         const dy = e.touches[0].clientY - touchStartY;
 
-        // If mostly horizontal movement and abs(dx) > 20px, prevent vertical scroll to allow swipe
         if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
-          e.preventDefault(); // prevent page horizontal drift
+          e.preventDefault();
         }
       } else if (e.touches.length === 2) {
-        // pinch handling
         e.preventDefault();
         const dist = getDistance(e.touches[0], e.touches[1]);
         if (lastTouchDistance !== null && lastTouchDistance > 0) {
           const factor = dist / lastTouchDistance;
           let newScale = initialScale * factor;
-          // clamp
           newScale = Math.max(0.25, Math.min(3, newScale));
           if (Math.abs(newScale - scale) > 0.01) {
             scale = newScale;
@@ -327,7 +335,6 @@
             if (zoomRange) zoomRange.value = Math.round(scale * 100);
             const label = document.getElementById('zoomLabel');
             if (label) label.textContent = Math.round(scale * 100) + '%';
-            // live render (throttle by requestAnimationFrame)
             window.requestAnimationFrame(() => renderPage(currentPage));
           }
         }
@@ -341,27 +348,23 @@
       if (isSwiping && e.changedTouches && e.changedTouches.length === 1) {
         const dx = e.changedTouches[0].clientX - touchStartX;
         const dy = e.changedTouches[0].clientY - touchStartY;
-        // swipe threshold
         const absDx = Math.abs(dx);
         const absDy = Math.abs(dy);
         if (absDx > 40 && absDx > absDy) {
           if (dx < 0) {
-            // left swipe -> next page
             if (nextBtn) nextBtn.click();
           } else {
-            // right swipe -> prev page
             if (prevBtn) prevBtn.click();
           }
         }
       }
-      // reset
       isSwiping = false;
       lastTouchDistance = null;
       initialScale = scale;
     }, { passive: true });
   })();
 
-  // Load PDF URL from blade Storage helper (ensure valid url string)
+  // Load PDF URL from blade Storage helper
   const pdfUrl = `{{ Storage::url($book->file) }}`;
   if (pdfUrl && pdfUrl.length > 0) {
     loadPdfFromUrl(pdfUrl);
