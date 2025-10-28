@@ -21,7 +21,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
     <style>
         * {
-            text-align: right;
+            /* text-align: right; */
             font-family: "Readex Pro", serif !important;
             font-optical-sizing: auto;
             font-weight: 500;

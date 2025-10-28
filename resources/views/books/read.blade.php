@@ -20,7 +20,7 @@
             <div class="max-w-5xl mx-auto px-3">
                 <div class="pointer-events-auto mb-safe rounded-t-2xl bg-white/95 backdrop-blur-sm border border-slate-200 shadow-lg overflow-hidden"
                     style="margin-bottom: env(safe-area-inset-bottom);">
-                    <div class="flex items-center justify-between gap-2 px-3 py-2">
+                    <div class="flex items-center justify-between gap-2 px-3 py-2 overflow-auto">
                         <!-- Left: Prev / Next (visually on the right for RTL) -->
                         <div class="flex items-center gap-2">
                             <button id="prev"

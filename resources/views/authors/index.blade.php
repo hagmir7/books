@@ -39,58 +39,100 @@
                 <!-- Pagination -->
                 <div class="mt-6 flex justify-center">
                     <nav aria-label="Authors pagination">
-                        <ul class="inline-flex items-center -space-x-px">
-                            {{-- Page numbers --}}
-                            @foreach ($authors->links()->elements[0] as $page => $url)
-                            @if ($page == $authors->currentPage())
-                            <li>
-                                <span class="px-3 py-1.5 mx-0.5 rounded-md bg-indigo-600 text-white text-sm font-medium"
-                                    aria-current="page">{{ $page }}</span>
-                            </li>
-                            @else
-                            <li>
-                                <a href="{{ $url }}"
-                                    class="ajax-page px-3 py-1.5 mx-0.5 rounded-md bg-white border border-gray-200 text-sm text-gray-700 hover:bg-gray-50">
-                                    {{ $page }}
-                                </a>
-                            </li>
-                            @endif
-                            @endforeach
+                        <ul class="inline-flex items-center -space-x-px gap-2">
 
-                            {{-- Next / Last --}}
-                            @if ($authors->hasMorePages())
-                            <li>
-                                <a href="{{ $authors->nextPageUrl() }}"
-                                    class="ajax-page ml-2 inline-flex items-center px-3 py-1.5 rounded-md bg-white border border-gray-200 text-sm text-gray-700 hover:bg-gray-50"
-                                    aria-label="Next page">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 24 24"
-                                        fill="currentColor" aria-hidden="true">
-                                        <path
-                                            d="M7 6l-.112 .006a1 1 0 0 0-.669 1.619l3.501 4.375-3.5 4.375a1 1 0 0 0 .78 1.625h6a1 1 0 0 0 .78-.375l4-5a1 1 0 0 0 0-1.25l-4-5a1 1 0 0 0-.78-.375h-6z" />
-                                    </svg>
-                                    {{ __("Next") }}
-                                </a>
-                            </li>
-                            <li>
-                                <a href="?page={{ $authors->lastPage() }}"
-                                    class="ajax-page ml-2 inline-flex items-center px-3 py-1.5 rounded-md bg-white border border-gray-200 text-sm text-gray-700 hover:bg-gray-50">
-                                    {{ __("Last Page") }}
-                                </a>
-                            </li>
-                            @else
+                            {{-- Prev --}}
+                            @if ($authors->onFirstPage())
                             <li>
                                 <span
-                                    class="ml-2 inline-flex items-center px-3 py-1.5 rounded-md bg-gray-100 border border-gray-200 text-sm text-gray-400"
+                                    class="inline-flex items-center px-3 py-1.5 rounded-md bg-gray-100 border border-gray-200 text-sm text-gray-400"
                                     aria-hidden="true">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 24 24"
-                                        fill="currentColor">
-                                        <path
-                                            d="M17 6h-6a1 1 0 0 0-.78.375l-4 5a1 1 0 0 0 0 1.25l4 5a1 1 0 0 0 .78.375h6l.112-.006a1 1 0 0 0 .669-1.619l-3.501-4.375 3.5-4.375a1 1 0 0 0-.78-1.625z" />
-                                    </svg>
-                                    {{ __("Last Page") }}
+                                    « {{ __("Prev") }}
                                 </span>
                             </li>
+                            @else
+                            <li>
+                                <a href="{{ $authors->previousPageUrl() }}"
+                                    class="ajax-page inline-flex items-center px-3 py-1.5 rounded-md bg-white border border-gray-200 text-sm text-gray-700 hover:bg-gray-50"
+                                    aria-label="Previous page">« {{ __("Prev") }}</a>
+                            </li>
                             @endif
+
+                            {{-- Build window around current page --}}
+                            @php
+                            $last = $authors->lastPage();
+                            $current = $authors->currentPage();
+                            $window = 2; // pages on either side of current to show
+                            $start = max(1, $current - $window);
+                            $end = min($last, $current + $window);
+                            @endphp
+
+                            {{-- First page --}}
+                            @if ($start > 1)
+                            <li>
+                                <a href="{{ $authors->url(1) }}"
+                                    class="ajax-page px-3 py-1.5 mx-0.5 rounded-md bg-white border border-gray-200 text-sm text-gray-700 hover:bg-gray-50">
+                                    1
+                                </a>
+                            </li>
+
+                            {{-- Ellipsis if gap --}}
+                            @if ($start > 2)
+                            <li>
+                                <span class="px-3 py-1.5 mx-0.5 text-sm text-gray-500">…</span>
+                            </li>
+                            @endif
+                            @endif
+
+                            {{-- Page numbers window --}}
+                            @for ($page = $start; $page <= $end; $page++) @if ($page==$current) <li>
+                                <span class="px-3 py-1.5 mx-0.5 rounded-md bg-indigo-600 text-white text-sm font-medium"
+                                    aria-current="page">
+                                    {{ $page }}
+                                </span>
+                                </li>
+                                @else
+                                <li>
+                                    <a href="{{ $authors->url($page) }}"
+                                        class="ajax-page px-3 py-1.5 mx-0.5 rounded-md bg-white border border-gray-200 text-sm text-gray-700 hover:bg-gray-50">
+                                        {{ $page }}
+                                    </a>
+                                </li>
+                                @endif
+                                @endfor
+
+                                {{-- Ellipsis before last if needed --}}
+                                @if ($end < $last) @if ($end < $last - 1) <li>
+                                    <span class="px-3 py-1.5 mx-0.5 text-sm text-gray-500">…</span>
+                                    </li>
+                                    @endif
+
+                                    {{-- Last page --}}
+                                    <li>
+                                        <a href="{{ $authors->url($last) }}"
+                                            class="ajax-page px-3 py-1.5 mx-0.5 rounded-md bg-white border border-gray-200 text-sm text-gray-700 hover:bg-gray-50">
+                                            {{ $last }}
+                                        </a>
+                                    </li>
+                                    @endif
+
+                                    {{-- Next --}}
+                                    @if ($authors->hasMorePages())
+                                    <li>
+                                        <a href="{{ $authors->nextPageUrl() }}"
+                                            class="ajax-page ml-2 inline-flex items-center px-3 py-1.5 rounded-md bg-white border border-gray-200 text-sm text-gray-700 hover:bg-gray-50"
+                                            aria-label="Next page">{{ __("Next") }} »</a>
+                                    </li>
+                                    @else
+                                    <li>
+                                        <span
+                                            class="ml-2 inline-flex items-center px-3 py-1.5 rounded-md bg-gray-100 border border-gray-200 text-sm text-gray-400"
+                                            aria-hidden="true">
+                                            {{ __("Next") }} »
+                                        </span>
+                                    </li>
+                                    @endif
+
                         </ul>
                     </nav>
                 </div>
