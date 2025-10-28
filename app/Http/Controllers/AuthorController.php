@@ -43,6 +43,7 @@ class AuthorController extends Controller
         }
 
         $books = $author->books()
+            ->with(['category', 'author'])
             ->where('verified', true)
             ->whereNull('copyright_date')
             ->paginate(18);
