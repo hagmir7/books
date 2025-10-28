@@ -17,7 +17,7 @@
                         {{ str_replace(":attr", $author->full_name, $site->site_options['author_title']) }}
                     </h1>
                     <div
-                        class="prose max-w-4xl mx-auto prose-headings:text-gray-900 prose-p:text-gray-700 prose-li:text-gray-700 prose-a:text-blue-600 prose-a:underline prose-strong:text-gray-900 text-center leading-relaxed prose-hr:p-1 prose-hr:m-1 prose-p:mt-0 prose-p:mb-0 ">
+                        class="prose max-w-4xl mx-auto prose-headings:text-gray-900 prose-p:text-gray-700 prose-li:text-gray-700 prose-a:text-blue-600 prose-a:underline prose-strong:text-gray-900 leading-relaxed prose-hr:p-1 prose-hr:m-1 prose-p:mt-0 prose-p:mb-0 ">
                         {!! $author->description !!}
                     </div>
 
