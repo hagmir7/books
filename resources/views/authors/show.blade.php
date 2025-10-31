@@ -166,10 +166,9 @@
                                     </g>
                                 </svg>
                             </div>
-                            <h3 class="text-lg font-semibold text-gray-700 mb-2">No books found</h3>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-2">{{ __("No books found") }}</h3>
                             <p class="text-sm text-gray-500 text-center max-w-sm">
-                                We couldn't find any books matching your criteria. Try adjusting your filters or check
-                                back later.
+                                {{ __("We couldn't find any books.") }}
                             </p>
                         </div>
                         @endforelse

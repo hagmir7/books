@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -92,6 +93,11 @@ class BookCategoryResource extends Resource
             ])
             ->recordActions([
                 \Filament\Actions\EditAction::make(),
+                \Filament\Actions\Action::make('view')
+                    ->url(fn(BookCategory $record): string => route('category.show', $record))
+                    ->openUrlInNewTab()
+                    ->label(__("View"))
+                    ->icon(Heroicon::Eye)
             ])
             ->toolbarActions([
                 \Filament\Actions\BulkActionGroup::make([

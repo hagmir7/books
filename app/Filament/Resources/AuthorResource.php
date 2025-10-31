@@ -14,6 +14,7 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -115,6 +116,11 @@ class AuthorResource extends Resource
             ])
             ->recordActions([
                 \Filament\Actions\EditAction::make(),
+                \Filament\Actions\Action::make('view')
+                    ->url(fn(Author $record): string => route('authors.show', $record))
+                    ->openUrlInNewTab()
+                    ->label(__("View"))
+                    ->icon(Heroicon::Eye),
             ])
             ->toolbarActions([
                 \Filament\Actions\DeleteBulkAction::make(),

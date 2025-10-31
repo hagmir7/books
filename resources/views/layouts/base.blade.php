@@ -262,10 +262,9 @@
         x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200"
         x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-4">
         <div class="bg-white rounded-lg shadow-xl border border-gray-100 p-4">
-            <form action="/book/search" method="post" role="search" aria-label="Mobile search">
-                @csrf
+            <form action="/books" method="GET" role="search" aria-label="Mobile search">
                 <div class="flex gap-2">
-                    <input name="searchText" type="search" placeholder="{{ __('Search') }}..."
+                    <input name="search" type="search" placeholder="{{ __('Search') }}..."
                         class="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white shadow-sm text-sm"
                         autofocus>
                     <button type="submit"
@@ -282,6 +281,7 @@
     @yield('content')
 
     <x-footer />
+    <x-telegram-button />
 
     <div class="hidden">{!! $site->footer !!}</div>
     <div id="fb-root"></div>

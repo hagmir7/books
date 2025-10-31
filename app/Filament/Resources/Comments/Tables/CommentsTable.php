@@ -32,16 +32,17 @@ class CommentsTable
                     ->numeric()
                     ->sortable(),
 
+                TextColumn::make('created_at')
+                    ->label(__("Created at"))
+                    ->dateTime()
+                    ->sortable(),
+
                 TextColumn::make('deleted_at')
                     ->label(__("Deleted at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('created_at')
-                    ->label(__("Created at"))
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('updated_at')
                     ->label(__("Updated at"))
                     ->dateTime()
