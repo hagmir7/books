@@ -36,7 +36,7 @@
                         <!-- Left: Prev / Next (visually on the right for RTL) -->
                         <div class="flex items-center gap-2">
                             <button id="prev"
-                                class="flex items-center gap-2 px-2 py-2 bg-slate-50 text-slate-700 rounded-lg hover:bg-slate-100 transition disabled:opacity-50"
+                                class="hidden lg:flex items-center gap-2 px-2 py-2 bg-slate-50 text-slate-700 rounded-lg hover:bg-slate-100 transition disabled:opacity-50"
                                 aria-label="Previous page" title="Previous">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -51,7 +51,7 @@
                             </div>
 
                             <button id="next"
-                                class="flex items-center gap-2 px-2 py-2 bg-slate-50 text-slate-700 rounded-lg hover:bg-slate-100 transition disabled:opacity-50"
+                                class=" hidden lg:flex items-center gap-2 px-2 py-2 bg-slate-50 text-slate-700 rounded-lg hover:bg-slate-100 transition disabled:opacity-50"
                                 aria-label="Next page" title="Next">
                                 <span class="hidden lg:inline text-sm font-medium">{{ __("Next") }}</span>
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -63,17 +63,38 @@
 
                         <!-- Center: Zoom -->
                         <div class="flex items-center gap-2">
-                            <div class="flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-2 py-1">
-                                <select id="zoomSel"
-                                    class="appearance-none px-2 py-1 text-sm outline-none bg-transparent cursor-pointer">
-                                    <option value="0.5">50%</option>
-                                    <option value="0.75">75%</option>
-                                    <option value="1" selected>100%</option>
-                                    <option value="1.25">125%</option>
-                                    <option value="1.5">150%</option>
-                                    <option value="2">200%</option>
-                                </select>
-                                <span id="zoomLabel" class="text-sm text-slate-600 w-12 text-right">100%</span>
+                            <div
+                                class="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-2 py-1">
+                                <!-- wrap select & icon in label so clicking icon opens select on all browsers -->
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <!-- the select: appearance-none keeps the chevron hidden if you want custom icon.
+                                     If you want the native chevron keep 'appearance-auto' -->
+                                    <select id="zoomSel" name="zoomSel"
+                                        class="appearance-none px-2 py-1 text-sm outline-none bg-transparent cursor-pointer"
+                                        aria-label="Zoom">
+                                        <option value="0.5">50%</option>
+                                        <option value="0.75">75%</option>
+                                        <option value="1" selected>100%</option>
+                                        <option value="1.25">125%</option>
+                                        <option value="1.5">150%</option>
+                                        <option value="2">200%</option>
+                                    </select>
+
+                                    <!-- desktop label text -->
+                                    <span id="zoomLabel"
+                                        class="hidden lg:block text-sm text-slate-600 w-12 text-right">100%</span>
+
+                                    <!-- mobile icon (visible only <lg) -->
+                                    <span class="lg:hidden inline-flex items-center justify-center w-8 h-8">
+                                        <!-- SVG icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="icon">
+                                            <circle cx="11" cy="11" r="7" />
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                        </svg>
+                                    </span>
+                                </label>
                             </div>
 
                             <input id="zoomRange" type="range" min="50" max="200" step="5" value="100"
@@ -101,7 +122,7 @@
                             </button>
 
                             <button id="fitToWidth" title="Fit to width"
-                                class="flex items-center gap-2 px-2 py-2 bg-slate-50 text-slate-700 rounded-lg hover:bg-slate-100 transition">
+                                class="hidden lg:flex items-center gap-2 px-2 py-2 bg-slate-50 text-slate-700 rounded-lg hover:bg-slate-100 transition  ">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M8 3H5a2 2 0 00-2 2v3m0 8v3a2 2 0 002 2h3m8-18h3a2 2 0 012 2v3M8 21h8" />
@@ -507,6 +528,55 @@
   } else {
     console.error('PDF URL is empty: {{ Storage::url($book->file) }}');
   }
+
+
+(function () {
+const sel = document.getElementById('zoomSel');
+
+// If browser supports showPicker (Chromium), it's best UX:
+function openSelect() {
+if (!sel) return;
+if (typeof sel.showPicker === 'function') {
+try {
+sel.showPicker();
+return;
+} catch (e) {
+// fallthrough to synthetic events
+console.warn('showPicker error', e);
+}
+}
+
+// Focus and try synthetic events (fallback)
+sel.focus();
+
+try {
+sel.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window }));
+sel.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+} catch (err) {
+// final fallback: key event
+try {
+sel.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }));
+} catch (e) {
+console.warn('Could not open select programmatically', e);
+}
+}
+}
+
+// Attach to the label wrapper so clicks on icon/text open
+// Label wrapping means native click will already target <select>, but keep defensive handler:
+    const wrapperLabel = sel.closest('label');
+    if (wrapperLabel) {
+    wrapperLabel.addEventListener('click', function (ev) {
+    // If user clicked directly on select, let native behavior happen
+    if (ev.target === sel) return;
+    // prevent double-handling in some browsers
+    ev.preventDefault();
+    openSelect();
+    });
+    }
+    })();
+
+
 });
 </script>
 @endsection
