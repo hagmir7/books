@@ -2,15 +2,27 @@
 
 @section('content')
 <!-- Wrapper sets language and direction for the page -->
-<div dir="rtl" lang="ar" class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-6 px-3">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-4 px-3">
     <div class="max-w-4xl mx-auto">
+        <h1 class="text-md md:text-xl lg:text-2xl py-2">{{ str_replace(":attr", $book->name,
+            app('site')->site_options['read_book_title']) }}</h1>
         <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
             <!-- Canvas Container - Remove RTL from here to let PDF render naturally -->
             <div id="canvasContainer" class="bg-slate-200 overflow-auto touch-pan-y"
                 style="min-height:70vh; direction: ltr;">
                 <div class="flex items-center justify-center w-full h-full p-0 md:p-4">
-                    <canvas id="pdfCanvas" class="shadow-sm rounded-xl max-w-full h-auto block"
-                        style="touch-action: none;"></canvas>
+                    <!-- Loading Spinner (only for initial load) -->
+                    <div id="loadingSpinner"
+                        class="absolute inset-0 flex items-center justify-center bg-slate-200 z-10">
+                        <div class="flex flex-col items-center gap-3">
+                            <div
+                                class="w-12 h-12 border-4 border-violet-200 border-t-violet-600 rounded-full animate-spin">
+                            </div>
+                            <p class="text-slate-600 text-sm font-medium">{{ __('Loading PDF...') }}</p>
+                        </div>
+                    </div>
+                    <canvas id="pdfCanvas"
+                        class="shadow-sm rounded-xl max-w-full h-auto block transition-opacity duration-300"></canvas>
                 </div>
             </div>
         </div>
@@ -103,8 +115,8 @@
         </div>
 
         <!-- Keyboard Shortcuts Help -->
-        <div class="mt-6 bg-white rounded-xl shadow-sm p-4">
-            <h3 class="font-semibold text-slate-700 mb-2">{{ __('Keyboard Shortcuts') }}</h3>
+        <div class="mt-6 bg-white rounded-xl shadow-sm p-4 hidden md:block">
+            <h2 class="font-semibold text-slate-700 mb-2">{{ __('Keyboard Shortcuts') }}</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-slate-600">
                 <div class="flex items-center gap-2 justify-end">
                     <span>{{ __('Previous page') }}</span>
@@ -147,8 +159,40 @@
   const zoomRange = document.getElementById('zoomRange');
   const fitToWidthBtn = document.getElementById('fitToWidth');
   const container = document.getElementById('canvasContainer');
+  const loadingSpinner = document.getElementById('loadingSpinner');
 
   if (!canvas || !ctx) { console.error('pdfCanvas or its 2D context not found.'); return; }
+
+  // Show/hide loading spinner (only for initial load)
+  let isInitialLoad = true;
+
+  function showLoading() {
+    if (loadingSpinner && isInitialLoad) loadingSpinner.style.display = 'flex';
+  }
+
+  function hideLoading() {
+    if (loadingSpinner) {
+      loadingSpinner.style.display = 'none';
+      isInitialLoad = false;
+    }
+  }
+
+  // Page transition animation
+  function fadeOut(callback) {
+    canvas.style.opacity = '0';
+    setTimeout(callback, 150);
+  }
+
+  function fadeIn() {
+    setTimeout(() => {
+      canvas.style.opacity = '1';
+    }, 50);
+  }
+
+  // Detect RTL direction from document or html element
+  const isRTL = document.documentElement.dir === 'rtl' ||
+                document.body.dir === 'rtl' ||
+                getComputedStyle(document.documentElement).direction === 'rtl';
 
   // State
   let pdfDoc = null;
@@ -162,9 +206,26 @@
     pageInfo.innerHTML = pdfDoc ? `<span class="hidden md:block">{{ __('Page') }}</span> ${currentPage} / ${pdfDoc.numPages}` : '{{ __("Page - / -") }}';
   }
 
+  function goToNextPage() {
+    if (!pdfDoc || currentPage >= pdfDoc.numPages) return;
+    fadeOut(() => {
+      currentPage++;
+      renderPage(currentPage);
+    });
+  }
+
+  function goToPrevPage() {
+    if (!pdfDoc || currentPage <= 1) return;
+    fadeOut(() => {
+      currentPage--;
+      renderPage(currentPage);
+    });
+  }
+
   async function renderPage(pageNum) {
     if (!pdfDoc) return;
     try {
+      if (isInitialLoad) showLoading();
       updatePageInfo();
       const page = await pdfDoc.getPage(pageNum);
       const vp = page.getViewport({ scale: scale, rotation: rotation });
@@ -173,6 +234,8 @@
       canvas.height = Math.floor(vp.height * dpr);
       canvas.style.width = Math.floor(vp.width) + 'px';
       canvas.style.height = Math.floor(vp.height) + 'px';
+      canvas.style.maxWidth = '100%';
+      canvas.style.height = 'auto';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -192,13 +255,20 @@
           container.scrollLeft = 0;
         }
       }
+
+      if (isInitialLoad) {
+        hideLoading();
+      }
+      fadeIn();
     } catch (err) {
       console.error('Error rendering page:', err);
+      hideLoading();
     }
   }
 
   async function loadPdfFromUrl(url) {
     try {
+      showLoading();
       const loadingTask = pdfjsLib.getDocument({
         url: url,
         cMapUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/cmaps/',
@@ -213,17 +283,26 @@
     } catch (err) {
       console.error('Failed to load PDF:', err);
       alert('{{ __("Failed to load PDF") }}: ' + (err && err.message ? err.message : err));
+      hideLoading();
     }
   }
 
-  // Navigation
-  if (prevBtn) prevBtn.addEventListener('click', () => { if (!pdfDoc || currentPage <= 1) return; currentPage--; renderPage(currentPage); });
-  if (nextBtn) nextBtn.addEventListener('click', () => { if (!pdfDoc || currentPage >= pdfDoc.numPages) return; currentPage++; renderPage(currentPage); });
+  // Navigation - RTL aware
+  if (prevBtn) prevBtn.addEventListener('click', goToPrevPage);
+  if (nextBtn) nextBtn.addEventListener('click', goToNextPage);
 
   // Zoom select
   if (zoomSel) zoomSel.addEventListener('change', () => {
     const v = parseFloat(zoomSel.value);
-    if (!isNaN(v)) { scale = v; if (zoomRange) zoomRange.value = Math.round(scale * 100); const label = document.getElementById('zoomLabel'); if (label) label.textContent = Math.round(scale * 100) + '%'; if (pdfDoc) renderPage(currentPage); }
+    if (!isNaN(v)) {
+      scale = v;
+      if (zoomRange) zoomRange.value = Math.round(scale * 100);
+      const label = document.getElementById('zoomLabel');
+      if (label) label.textContent = Math.round(scale * 100) + '%';
+      if (pdfDoc) {
+        fadeOut(() => renderPage(currentPage));
+      }
+    }
   });
 
   // Zoom range
@@ -235,13 +314,20 @@
         if (zoomSel) zoomSel.value = v.toString();
         const label = document.getElementById('zoomLabel');
         if (label) label.textContent = Math.round(v * 100) + '%';
-        if (pdfDoc) renderPage(currentPage);
+        if (pdfDoc) {
+          fadeOut(() => renderPage(currentPage));
+        }
       }
     });
   }
 
   // Rotate
-  if (rotateBtn) rotateBtn.addEventListener('click', () => { rotation = (rotation + 90) % 360; if (pdfDoc) renderPage(currentPage); });
+  if (rotateBtn) rotateBtn.addEventListener('click', () => {
+    rotation = (rotation + 90) % 360;
+    if (pdfDoc) {
+      fadeOut(() => renderPage(currentPage));
+    }
+  });
 
   // Fit to width
   if (fitToWidthBtn) {
@@ -255,17 +341,36 @@
         scale = Math.max(0.25, Math.min(3, targetScale));
         if (zoomSel) zoomSel.value = scale.toString();
         if (zoomRange) zoomRange.value = Math.round(scale * 100);
-        const label = document.getElementById('zoomLabel'); if (label) label.textContent = Math.round(scale * 100) + '%';
-        await renderPage(currentPage);
+        const label = document.getElementById('zoomLabel');
+        if (label) label.textContent = Math.round(scale * 100) + '%';
+        fadeOut(() => renderPage(currentPage));
       } catch (err) { console.error('Fit to width error:', err); }
     });
   }
 
-  // Keyboard
+  // Keyboard - RTL aware
   window.addEventListener('keydown', (e) => {
     if (!pdfDoc) return;
-    if (e.key === 'ArrowRight') { e.preventDefault(); if (nextBtn) nextBtn.click(); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); if (prevBtn) prevBtn.click(); }
+
+    // For RTL: Right arrow = Previous, Left arrow = Next
+    // For LTR: Right arrow = Next, Left arrow = Previous
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      if (isRTL) {
+        goToPrevPage();
+      } else {
+        goToNextPage();
+      }
+    }
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      if (isRTL) {
+        goToNextPage();
+      } else {
+        goToPrevPage();
+      }
+    }
+
     if (e.key === '+') {
       if (!zoomSel) return;
       const opts = Array.from(zoomSel.options).map(o => parseFloat(o.value));
@@ -280,12 +385,13 @@
     }
   });
 
-  // Touch gestures
+  // Touch gestures - RTL aware
   (function setupTouchGestures() {
     let touchStartX = 0;
     let touchStartY = 0;
     let touchStartTime = 0;
     let isSwiping = false;
+    let isScrolling = false;
 
     let lastTouchDistance = null;
     let initialScale = scale;
@@ -302,26 +408,43 @@
       if (e.touches.length === 1) {
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
-        isSwiping = true;
+        isSwiping = false;
+        isScrolling = false;
         lastTouchDistance = null;
       } else if (e.touches.length === 2) {
         lastTouchDistance = getDistance(e.touches[0], e.touches[1]);
         initialScale = scale;
         isSwiping = false;
-      } else {
-        isSwiping = false;
+        isScrolling = false;
       }
     }, { passive: true });
 
     container.addEventListener('touchmove', function (e) {
       if (!pdfDoc) return;
-      if (e.touches.length === 1 && isSwiping) {
+      if (e.touches.length === 1) {
         const dx = e.touches[0].clientX - touchStartX;
         const dy = e.touches[0].clientY - touchStartY;
+        const absDx = Math.abs(dx);
+        const absDy = Math.abs(dy);
 
-        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
+        // Determine direction on first significant movement
+        if (!isSwiping && !isScrolling && (absDx > 10 || absDy > 10)) {
+          if (absDx > absDy) {
+            // Horizontal swipe for page navigation
+            isSwiping = true;
+            isScrolling = false;
+          } else {
+            // Vertical movement for scrolling
+            isScrolling = true;
+            isSwiping = false;
+          }
+        }
+
+        // Prevent default only for horizontal page swipes
+        if (isSwiping && absDx > 10) {
           e.preventDefault();
         }
+        // Allow native scrolling for vertical movement
       } else if (e.touches.length === 2) {
         e.preventDefault();
         const dist = getDistance(e.touches[0], e.touches[1]);
@@ -350,15 +473,28 @@
         const dy = e.changedTouches[0].clientY - touchStartY;
         const absDx = Math.abs(dx);
         const absDy = Math.abs(dy);
-        if (absDx > 40 && absDx > absDy) {
-          if (dx < 0) {
-            if (nextBtn) nextBtn.click();
-          } else {
-            if (prevBtn) prevBtn.click();
+
+        // Only trigger page change if horizontal swipe is dominant
+        if (absDx > 50 && absDx > absDy * 1.5) {
+          // For RTL: Swipe left = Next, Swipe right = Previous
+          // For LTR: Swipe left = Previous, Swipe right = Next
+          if (dx < 0) { // Swipe left
+            if (isRTL) {
+              goToNextPage();
+            } else {
+              goToPrevPage();
+            }
+          } else { // Swipe right
+            if (isRTL) {
+              goToPrevPage();
+            } else {
+              goToNextPage();
+            }
           }
         }
       }
       isSwiping = false;
+      isScrolling = false;
       lastTouchDistance = null;
       initialScale = scale;
     }, { passive: true });
