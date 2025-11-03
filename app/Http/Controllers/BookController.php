@@ -225,7 +225,6 @@ class BookController extends Controller
                         ],
                         ['role' => 'user', 'content' => $prompt],
                     ],
-                    'temperature' => 0.5,
                 ]);
 
                 $content = trim($result->choices[0]->message->content);
