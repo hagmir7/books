@@ -204,9 +204,9 @@ class BookController extends Controller
         Return only a valid JSON object. Do not include markdown or code block formatting.
 
         Keys to include in the JSON:
-        - "meta_description": a short, SEO-optimized details in Arabic, between 140 and 159 characters, ignore (اكتشف).
+        - "meta_description": a short, SEO-optimized details in Arabic, between 140 and 159 characters (important for seo), ignore (اكتشف).
         - "content": a long, detailed Arabic description of the book (NOT a summary, don't use Introduction (خاتمة) and conclusen (مقدمة)). Write in rich HTML format using only <h2>, <h3>, and <p> tags. The content must be more than 1000 characters.
-        - "tags": 5 to 6 relevant Arabic meta keywords related to the book, genre, author, and themes, separated by commas, Type of camma is (,).
+        - "tags": 8 to 12 relevant Arabic meta keywords related to the book, genre, author, and themes, separated by commas, Type of camma is (,).
 
         Avoid repeating the same meta description for different books. Do not add introductions or explanations.
 
@@ -226,6 +226,7 @@ class BookController extends Controller
                         ['role' => 'user', 'content' => $prompt],
                     ],
                 ]);
+
 
                 $content = trim($result->choices[0]->message->content);
 
@@ -255,6 +256,7 @@ class BookController extends Controller
                         'body' => $data['content'],
                         'tags' => $data['tags'],
                         'verified' => true,
+                        'is_public' => true
                     ]);
 
                     $updated++;
