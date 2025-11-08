@@ -1,5 +1,5 @@
 <script>
     setTimeout(() => {
-    window.location.href = "https://yakk.com/books/{{ $book->slug }}";
+    window.location.href = "https://yakk.shop/books/{{ $book->slug }}";
     }, 1000);
 </script>
