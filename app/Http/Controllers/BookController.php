@@ -37,7 +37,7 @@ class BookController extends Controller
         !$book->verified && abort(404);
 
         if (app('site')->domain == 'agmir.shop') {
-            return redirect('https://www.lacabook.com/books/' . $book->slug);
+            return view('books.redirect');
         }
 
         $book->load(['author', 'language', 'category']);
@@ -60,7 +60,7 @@ class BookController extends Controller
         !$book->verified && abort(404);
 
         if(app('site')->domain == 'agmir.shop'){
-            return redirect('https://www.lacabook.com/books/'. $book->slug);
+            return redirect('https://www.yakk.shop/books/'. $book->slug);
         }
 
         return view("books.show", [
@@ -282,5 +282,9 @@ class BookController extends Controller
             'updated' => $updated,
             'failed' => $failed,
         ]);
+    }
+    public function redirector(Book $book)
+    {
+        return view('books.redirect', compact($book));
     }
 }
