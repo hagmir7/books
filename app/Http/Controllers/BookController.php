@@ -37,7 +37,7 @@ class BookController extends Controller
         !$book->verified && abort(404);
 
         if (app('site')->domain == 'agmir.shop') {
-            return view('books.redirect');
+            return view('books.redirect', $book);
         }
 
         $book->load(['author', 'language', 'category']);
@@ -60,7 +60,7 @@ class BookController extends Controller
         !$book->verified && abort(404);
 
         if (app('site')->domain == 'agmir.shop') {
-            return view('books.redirect');
+            return view('books.redirect', compact($book));
         }
 
         return view("books.show", [
