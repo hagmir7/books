@@ -59,8 +59,8 @@ class BookController extends Controller
         !$book->is_public && abort(403);
         !$book->verified && abort(404);
 
-        if(app('site')->domain == 'agmir.shop'){
-            return redirect('https://www.yakk.shop/books/'. $book->slug);
+        if (app('site')->domain == 'agmir.shop') {
+            return view('books.redirect');
         }
 
         return view("books.show", [
