@@ -36,9 +36,9 @@ class BookController extends Controller
         !$book->is_public && abort(403);
         !$book->verified && abort(404);
 
-        if (app('site')->domain == 'agmir.shop') {
-            return view('books.redirect', compact('book'));
-        }
+        // if (app('site')->domain == 'agmir.shop') {
+        //     return view('books.redirect', compact('book'));
+        // }
 
         $book->load(['author', 'language', 'category']);
 
@@ -59,9 +59,9 @@ class BookController extends Controller
         !$book->is_public && abort(403);
         !$book->verified && abort(404);
 
-        if (app('site')->domain == 'agmir.shop') {
-            return view('books.redirect', compact('book'));
-        }
+        // if (app('site')->domain == 'agmir.shop') {
+        //     return view('books.redirect', compact('book'));
+        // }
 
 
         return view("books.show", [
