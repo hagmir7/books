@@ -4,7 +4,7 @@
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="mx-auto">
         <!-- Search / title -->
-        <div class="flex flex-col items-center justify-center text-center gap-6">
+        {{-- <div class="flex flex-col items-center justify-center text-center gap-6">
             <div class="w-full md:w-3/5 lg:w-1/2">
                 <div class="flex justify-center">
                     <h1 class="text-xl sm:text-2xl font-semibold mb-4">{{ $site->site_options['blog_title'] }}</h1>
@@ -19,7 +19,10 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> --}}
+
+
+        @livewire('post-search')
 
         <!-- Posts grid -->
         <div class="mt-8">
