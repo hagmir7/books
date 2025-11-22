@@ -67,8 +67,8 @@
                                         role="option" tabindex="0">
                                         <div class="flex flex-col">
                                             <h4 class="text-base font-bold text-gray-900 mb-1">
-                                                <!-- Route name: adjust to your actual route (post.show or posts.show) -->
-                                                <a href="{{ route('post.show', $post?->slug) }}"
+                                                <!-- Route name: adjust to your actual route (blog.show or posts.show) -->
+                                                <a href="{{ route('blog.show', $post?->slug) }}"
                                                     class="no-underline hover:text-primary">
                                                     {{ $post->title }}
                                                 </a>
