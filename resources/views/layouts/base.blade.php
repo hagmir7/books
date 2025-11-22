@@ -41,6 +41,24 @@
             box-shadow: 0 10px 60px 0 rgba(29, 29, 31, .09);
         }
     </style>
+    @else
+    <style>
+        *{
+            font-weight: 600!important;
+        }
+        body {
+            font-family: "Raleway", sans-serif;
+        }
+        p{
+            font-size: 17px!important;
+            font-weight: 600!important;
+        }
+        hr{
+            padding: 0!important;
+            margin: 0!important;
+            padding-bottom: 10px!important;
+        }
+    </style>
     @endif
 
     @vite(['resources/js/app.js'])
