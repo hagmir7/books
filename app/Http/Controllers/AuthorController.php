@@ -33,7 +33,7 @@ class AuthorController extends Controller
                 ->where('verified', true)
                 ->orderBy('books_count', 'desc')
                 ->whereNotNull('description')
-                ->paginate(24),
+                ->paginate(48),
 
             "title" => __("Popular Authors")
         ]);
