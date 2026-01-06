@@ -32,7 +32,7 @@ class AuthorController extends Controller
             "authors" => Author::withCount('books')
                 ->where('verified', true)
                 ->orderBy('books_count', 'desc')
-                ->whereNotNull('descriptioin')
+                ->whereNotNull('description')
                 ->paginate(24),
 
             "title" => __("Popular Authors")
