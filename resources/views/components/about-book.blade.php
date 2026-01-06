@@ -29,8 +29,7 @@
                     <tr>
                         <td class="py-2 px-4 font-semibold">{{ __("Authors") }}:</td>
                         <td class="py-2 px-4 whitespace-nowrap text-ellipsis overflow-hidden">
-                            @if(isset($book->author) && strlen($book->author->description) > 0 &&
-                            $book->author->verified)
+                            @if(isset($book->author) && strlen($book->author->description) > 0 && $book->author->verified)
                             <span title="{{ __('Verified author') }}" class="inline-block mr-1 text-green-600"
                                 aria-hidden="true">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 24 24"
@@ -41,10 +40,13 @@
                             </span>
                             @endif
 
-                            <a href="{{ route('authors.show', $book->author->slug) }}" itemprop="author"
-                                class="text-blue-600 hover:text-blue-800">
+                            @if(isset($book->author) && strlen($book->author->description) > 0 && $book->author->verified)
+                            <a href="{{ route('authors.show', $book->author->slug) }}" itemprop="author" class="text-blue-600 hover:text-blue-800">
                                 {{ $book->author->full_name }}
                             </a>
+                            @else
+                            <span>{{ $book->author->full_name }}</span>
+                            @endif
 
                             @if (auth()?->user()?->email_verified_at)
                             -
@@ -64,8 +66,7 @@
                     <tr>
                         <td class="py-2 px-4 font-semibold">{{ __("Pages") }}:</td>
                         <td class="py-2 px-4">
-                            <span itemprop="numberOfPages">{{ $book->pages ? $book->pages : "__" }} {{
-                                __("pages") }}</span>
+                            <span itemprop="numberOfPages">{{ $book->pages ? $book->pages : "__" }} {{__("pages") }}</span>
                         </td>
                     </tr>
 

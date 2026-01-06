@@ -26,9 +26,9 @@ class PostController extends Controller
                         ELSE 3
                     END
                 ", ['%' . $search_query . '%', '%' . $search_query . '%'])
-                ->paginate(15);
+                ->paginate(20);
         }else{
-            $posts = Post::where("site_id", $site->id)->paginate(15);
+            $posts = Post::where("site_id", $site->id)->paginate(20);
         }
 
 

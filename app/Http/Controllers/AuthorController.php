@@ -46,6 +46,7 @@ class AuthorController extends Controller
             ->with(['category', 'author'])
             ->where('verified', true)
             ->whereNull('copyright_date')
+            ->where('is_public')
             ->paginate(18);
 
         $title = str_replace(":attr", $author->full_name, app('site')->site_options['author_title']);
