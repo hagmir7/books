@@ -30,10 +30,10 @@ class AuthorController extends Controller
     {
         return view("authors.index", [
             "authors" => Author::withCount('books')
-            ->where('verified', true)
-            ->orderBy('books_count', 'desc')
-            ->whereNotNull('descriptioin')
-            ->paginate(24),
+                ->where('verified', true)
+                ->orderBy('books_count', 'desc')
+                ->whereNotNull('descriptioin')
+                ->paginate(24),
 
             "title" => __("Popular Authors")
         ]);
