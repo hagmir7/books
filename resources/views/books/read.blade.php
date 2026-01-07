@@ -161,9 +161,9 @@
 
 <!-- Bottom Controls -->
 <div class="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
-    <div class="max-w-[1400px] mx-auto px-2 pb-2 md:px-4 md:pb-4">
+    <div class="max-w-[1400px] mx-auto px-2 pb-2  md:px-4 md:pb-4">
         <div
-            class="pointer-events-auto bg-white/98 backdrop-blur-xl rounded-t-xl md:rounded-t-2xl border border-slate-200 border-b-0 p-2 md:p-4">
+            class="pointer-events-auto bg-white/98 backdrop-blur-xl py-3 rounded-t-xl md:rounded-t-2xl border border-slate-200 border-b-0 p-2 md:p-4">
 
             <div class="flex items-center justify-between gap-2 flex-wrap">
 
