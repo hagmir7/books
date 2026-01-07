@@ -1,582 +1,379 @@
 @extends('layouts.base')
 
 @section('content')
-<!-- Wrapper sets language and direction for the page -->
-<div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-4 px-3">
-    <div class="max-w-4xl mx-auto">
-        <h1 class="text-md md:text-xl lg:text-2xl py-2">{{ str_replace(":attr", $book->name,
-            app('site')->site_options['read_book_title']) }}</h1>
-        <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-            <!-- Canvas Container - Remove RTL from here to let PDF render naturally -->
-            <div id="canvasContainer" class="bg-slate-200 overflow-auto touch-pan-y"
-                style="min-height:70vh; direction: ltr;">
-                <div class="flex items-center justify-center w-full h-full p-0 md:p-4">
-                    <!-- Loading Spinner (only for initial load) -->
-                    <div id="loadingSpinner"
-                        class="absolute inset-0 flex items-center justify-center bg-slate-200 z-10">
-                        <div class="flex flex-col items-center gap-3">
+<style>
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    #canvasContainer {
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
+
+    #pdfCanvas {
+        transition: opacity 0.3s ease-in-out, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .control-btn {
+        transition: all 0.2s ease;
+        touch-action: manipulation;
+        user-select: none;
+    }
+
+    .control-btn:active {
+        transform: scale(0.95);
+        opacity: 0.9;
+    }
+
+    #canvasContainer::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    #canvasContainer::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 4px;
+    }
+
+    #canvasContainer::-webkit-scrollbar-thumb {
+        background: #94a3b8;
+        border-radius: 4px;
+        border: 2px solid #f1f5f9;
+    }
+
+    #canvasContainer::-webkit-scrollbar-thumb:hover {
+        background: #64748b;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    .animate-spin {
+        animation: spin 1s linear infinite;
+    }
+
+    .animate-pulse {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .page-transition-up {
+        animation: slideInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .page-transition-down {
+        animation: slideInDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    .fade-in {
+        animation: fadeIn 0.4s ease-out;
+    }
+
+    select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.5rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+        padding-right: 2.5rem;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    @keyframes swipeHint {
+
+        0%,
+        100% {
+            transform: translateY(0);
+            opacity: 0.7;
+        }
+
+        50% {
+            transform: translateY(-8px);
+            opacity: 1;
+        }
+    }
+
+    .swipe-hint {
+        animation: swipeHint 2s ease-in-out infinite;
+    }
+
+    /* Improved Mobile Responsiveness */
+    @media (max-width: 640px) {
+        .control-btn {
+            padding: 0.5rem !important;
+        }
+
+        .control-btn svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        #pageInfo {
+            min-width: 80px !important;
+            padding: 0.5rem 0.75rem !important;
+            font-size: 0.875rem;
+        }
+    }
+
+    @media (min-width: 641px) and (max-width: 1024px) {
+        #canvasContainer {
+            max-height: 75vh !important;
+        }
+    }
+
+    /* Better touch targets for mobile */
+    @media (hover: none) and (pointer: coarse) {
+        .control-btn {
+            min-height: 44px;
+            min-width: 44px;
+        }
+    }
+
+    footer{
+        display: none!important;
+    }
+</style>
+
+<div
+    class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-2 px-2 pb-28 sm:py-4 sm:px-3 sm:pb-24 md:pb-20">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="mb-4 sm:mb-6 fade-in">
+            <h1
+                class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-800 mb-2 sm:mb-3 bg-gradient-to-r from-slate-800 via-blue-700 to-indigo-700 bg-clip-text text-transparent leading-tight">
+                {{ str_replace(":attr", $book->name, app('site')->site_options['read_book_title']) }}
+            </h1>
+            {{-- <div class="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-slate-600">
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                    </svg>
+                    <span class="font-medium">{{ __('Swipe up/down to navigate') }}</span>
+                </div>
+                <span class="hidden sm:inline text-slate-400">•</span>
+                <span class="hidden sm:inline">{{ __('Pinch to zoom') }}</span>
+            </div> --}}
+        </div>
+
+        <!-- PDF Viewer Container -->
+        <div class="bg-white rounded-xl  sm:rounded-2xl overflow-hidden border border-slate-200 fade-in">
+            <div id="canvasContainer"
+                class="bg-gradient-to-br pb-6 from-slate-100 to-slate-200 overflow-auto touch-pan-x touch-pan-y relative"
+                style="direction: ltr;">
+                <!-- Loading Spinner -->
+                <div id="loadingSpinner"
+                    class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 z-10">
+                    <div class="flex flex-col items-center gap-3 sm:gap-4">
+                        <div class="relative">
                             <div
-                                class="w-12 h-12 border-4 border-violet-200 border-t-violet-600 rounded-full animate-spin">
+                                class="w-12 h-12 sm:w-16 sm:h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin">
                             </div>
-                            <p class="text-slate-600 text-sm font-medium">{{ __('Loading PDF...') }}</p>
+                            <div class="absolute inset-0 w-12 h-12 sm:w-16 sm:h-16 border-4 border-transparent border-b-indigo-400 rounded-full animate-spin"
+                                style="animation-duration: 1.5s;"></div>
+                        </div>
+                        <div class="text-center px-4">
+                            <p class="text-slate-700 text-sm sm:text-base font-semibold mb-1">{{ __('Loading PDF...') }}
+                            </p>
+                            <p class="text-slate-500 text-xs sm:text-sm animate-pulse">{{ __('Please wait') }}</p>
                         </div>
                     </div>
-                    <canvas id="pdfCanvas"
-                        class="shadow-sm rounded-xl max-w-full h-auto block transition-opacity duration-300"></canvas>
+                </div>
+
+                <!-- Swipe Hint -->
+                <div id="swipeHint"
+                    class="absolute bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-20 pointer-events-none opacity-0 transition-opacity duration-500">
+                    <div
+                        class="bg-slate-800/90 backdrop-blur-sm text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium flex items-center gap-2 swipe-hint">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 11l5-5m0 0l5 5m-5-5v12" />
+                        </svg>
+                        {{ __('Swipe to navigate') }}
+                    </div>
+                </div>
+
+                <!-- Canvas -->
+                <div class="flex items-center justify-center w-full h-full p-2 sm:p-4">
+                    <canvas id="pdfCanvas" class="rounded-lg max-w-full h-auto block"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- Fixed Bottom Controls -->
-        <div class="fixed inset-x-0 bottom-0 z-50 pointer-events-none">
-            <div class="max-w-5xl mx-auto px-3">
-                <div class="pointer-events-auto mb-safe rounded-t-2xl bg-white/95 backdrop-blur-sm border border-slate-200 shadow-lg overflow-hidden"
-                    style="margin-bottom: env(safe-area-inset-bottom);">
-                    <div class="flex items-center justify-between gap-2 px-3 py-2 overflow-auto">
-                        <!-- Left: Prev / Next (visually on the right for RTL) -->
-                        <div class="flex items-center gap-2">
-                            <button id="prev"
-                                class="hidden lg:flex items-center gap-2 px-2 py-2 bg-slate-50 text-slate-700 rounded-lg hover:bg-slate-100 transition disabled:opacity-50"
-                                aria-label="Previous page" title="Previous">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 19l-7-7 7-7" />
-                                </svg>
-                                <span class="hidden lg:inline text-sm font-medium">{{ __("Prev") }}</span>
-                            </button>
+    </div>
+</div>
 
-                            <div id="pageInfo"
-                                class="flex items-center whitespace-nowrap gap-2 px-3 py-2 bg-white rounded-lg text-sm text-slate-700 font-medium border border-slate-200 min-w-[96px] justify-center">
-                                {{ __('Page - / -') }}
-                            </div>
+<!-- Fixed Bottom Controls -->
+<div class="fixed inset-x-0 bottom-0 z-50 pointer-events-none">
+    <div class="max-w-6xl mx-auto px-2 sm:px-3 pb-safe">
+        <div
+            class="pointer-events-auto rounded-t-xl sm:rounded-t-2xl bg-white/95 backdrop-blur-md border-t border-x border-slate-200">
+            <div class="px-2 py-2 sm:px-4 sm:py-3">
+                <!-- Main Controls Row -->
+                <div class="flex items-center justify-between gap-1.5 sm:gap-2 md:gap-3 flex-wrap">
+                    <!-- Navigation Controls -->
+                    <div class="flex items-center gap-1 sm:gap-2">
+                        <button id="prev"
+                            class="control-btn flex items-center justify-center gap-1 sm:gap-2 px-2 py-2 sm:px-3 sm:py-2 md:px-4 md:py-2.5 bg-gradient-to-r from-slate-600 to-slate-700 text-white rounded-lg sm:rounded-xl hover:from-slate-700 hover:to-slate-800 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+                            <span class="hidden sm:inline text-xs md:text-sm font-medium">{{ __('Prev') }}</span>
+                        </button>
 
-                            <button id="next"
-                                class=" hidden lg:flex items-center gap-2 px-2 py-2 bg-slate-50 text-slate-700 rounded-lg hover:bg-slate-100 transition disabled:opacity-50"
-                                aria-label="Next page" title="Next">
-                                <span class="hidden lg:inline text-sm font-medium">{{ __("Next") }}</span>
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
-                            </button>
+                        <div id="pageInfo"
+                            class="flex items-center gap-1 sm:gap-2 px-2 py-2 sm:px-4 sm:py-2 md:px-5 md:py-2.5 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg sm:rounded-xl text-xs sm:text-sm md:text-base text-slate-800 font-semibold border-2 border-blue-200 min-w-[80px] sm:min-w-[100px] md:min-w-[120px] justify-center">
+                            {{ __('Page - / -') }}
                         </div>
 
-                        <!-- Center: Zoom -->
-                        <div class="flex items-center gap-2">
-                            <div
-                                class="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-2 py-1">
-                                <!-- wrap select & icon in label so clicking icon opens select on all browsers -->
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <!-- the select: appearance-none keeps the chevron hidden if you want custom icon.
-                                     If you want the native chevron keep 'appearance-auto' -->
-                                    <select id="zoomSel" name="zoomSel"
-                                        class="appearance-none px-2 py-1 text-sm outline-none bg-transparent cursor-pointer"
-                                        aria-label="Zoom">
-                                        <option value="0.5">50%</option>
-                                        <option value="0.75">75%</option>
-                                        <option value="1" selected>100%</option>
-                                        <option value="1.25">125%</option>
-                                        <option value="1.5">150%</option>
-                                        <option value="2">200%</option>
-                                    </select>
-
-                                    <!-- desktop label text -->
-                                    <span id="zoomLabel"
-                                        class="hidden lg:block text-sm text-slate-600 w-12 text-right">100%</span>
-
-                                    <!-- mobile icon (visible only <lg) -->
-                                    <span class="lg:hidden inline-flex items-center justify-center w-8 h-8">
-                                        <!-- SVG icon -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="icon">
-                                            <circle cx="11" cy="11" r="7" />
-                                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                                        </svg>
-                                    </span>
-                                </label>
-                            </div>
-
-                            <input id="zoomRange" type="range" min="50" max="200" step="5" value="100"
-                                class="hidden sm:block w-36 h-2 accent-slate-600" aria-label="Zoom slider">
-                        </div>
-
-                        <!-- Right: Actions (visually left in RTL) -->
-                        <div class="flex items-center gap-2">
-                            <button id="rotate" title="{{ __('Rotate') }}"
-                                class="flex items-center gap-2 px-3 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition shadow-sm">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                </svg>
-                                <span class="hidden sm:inline text-sm font-medium">{{ __('Rotate') }}</span>
-                            </button>
-
-                            <button id="download" title="{{ __('Download PDF') }}"
-                                class="flex items-center gap-2 px-2 py-2 bg-green-600 text-white rounded-lg hover:bg-amber-700 transition shadow-sm">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                <span class="hidden sm:inline text-sm font-medium">{{ __('Download') }}</span>
-                            </button>
-
-                            <button id="fitToWidth" title="Fit to width"
-                                class="hidden lg:flex items-center gap-2 px-2 py-2 bg-slate-50 text-slate-700 rounded-lg hover:bg-slate-100 transition  ">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 3H5a2 2 0 00-2 2v3m0 8v3a2 2 0 002 2h3m8-18h3a2 2 0 012 2v3M8 21h8" />
-                                </svg>
-                                <span class="hidden sm:inline text-sm font-medium">{{ __("Fit") }}</span>
-                            </button>
-                        </div>
+                        <button id="next"
+                            class="control-btn flex items-center justify-center gap-1 sm:gap-2 px-2 py-2 sm:px-3 sm:py-2 md:px-4 md:py-2.5 bg-gradient-to-r from-slate-600 to-slate-700 text-white rounded-lg sm:rounded-xl hover:from-slate-700 hover:to-slate-800 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                            <span class="hidden sm:inline text-xs md:text-sm font-medium">{{ __('Next') }}</span>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Keyboard Shortcuts Help -->
-        <div class="mt-6 bg-white rounded-xl shadow-sm p-4 hidden md:block">
-            <h2 class="font-semibold text-slate-700 mb-2">{{ __('Keyboard Shortcuts') }}</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-slate-600">
-                <div class="flex items-center gap-2 justify-end">
-                    <span>{{ __('Previous page') }}</span>
-                    <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-300">←</kbd>
-                </div>
-                <div class="flex items-center gap-2 justify-end">
-                    <span>{{ __('Next page') }}</span>
-                    <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-300">→</kbd>
-                </div>
-                <div class="flex items-center gap-2 justify-end">
-                    <span>{{ __('Zoom in') }}</span>
-                    <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-300">+</kbd>
-                </div>
-                <div class="flex items-center gap-2 justify-end">
-                    <span>{{ __('Zoom out') }}</span>
-                    <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-300">-</kbd>
+                    <!-- Zoom Controls -->
+                    <div class="flex items-center gap-1 sm:gap-2">
+                        <div
+                            class="inline-flex items-center gap-1.5 sm:gap-2 bg-white border-2 border-slate-200 rounded-lg sm:rounded-xl px-2 py-1.5 sm:px-3 sm:py-2">
+                            <label class="flex items-center gap-1.5 sm:gap-2 cursor-pointer">
+                                <select id="zoomSel"
+                                    class="appearance-none px-1 sm:px-2 py-0.5 sm:py-1 text-xs sm:text-sm font-medium outline-none bg-transparent cursor-pointer text-slate-700">
+                                    <option value="0.5">50%</option>
+                                    <option value="0.75">75%</option>
+                                    <option value="1" selected>100%</option>
+                                    <option value="1.25">125%</option>
+                                    <option value="1.5">150%</option>
+                                    <option value="2">200%</option>
+                                </select>
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-slate-600 flex-shrink-0" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <circle cx="11" cy="11" r="7" stroke-width="2" />
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2" />
+                                </svg>
+                            </label>
+                        </div>
+                        <input id="zoomRange" type="range" min="50" max="200" step="5" value="100"
+                            class="hidden md:block w-24 lg:w-32 xl:w-40 h-2 accent-blue-600 cursor-pointer">
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex items-center gap-1 sm:gap-2">
+
+                        <!-- ROTATE -->
+                        <button id="rotate" class="control-btn flex items-center justify-center gap-1 sm:gap-2
+                                   px-2 py-2 sm:px-3 sm:py-2 md:px-4 md:py-2.5
+                                   bg-gradient-to-r from-purple-600 to-purple-700
+                                   text-white rounded-lg sm:rounded-xl
+                                   hover:from-purple-700 hover:to-purple-800 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="black"
+                                stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            <span class="hidden xl:inline text-xs md:text-sm font-medium">
+                                {{ __('Rotate') }}
+                            </span>
+                        </button>
+
+                        <!-- FIT TO WIDTH -->
+                        <button id="fitToWidth" class="control-btn hidden md:flex items-center justify-center gap-1 sm:gap-2
+                                   px-2 py-2 sm:px-3 sm:py-2 md:px-4 md:py-2.5
+                                   bg-gradient-to-r from-amber-500 to-amber-600
+                                   text-white rounded-lg sm:rounded-xl
+                                   hover:from-amber-600 hover:to-amber-700 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="black"
+                                stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                            </svg>
+                            <span class="hidden xl:inline text-xs md:text-sm font-medium">
+                                {{ __('Fit') }}
+                            </span>
+                        </button>
+
+                        <!-- DOWNLOAD -->
+                        <button id="download" class="control-btn flex items-center justify-center gap-1 sm:gap-2
+                                   px-2 py-2 sm:px-3 sm:py-2 md:px-4 md:py-2.5
+                                   bg-gradient-to-r from-green-600 to-green-700
+                                   text-white rounded-lg sm:rounded-xl
+                                   hover:from-green-700 hover:to-green-800 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="black"
+                                stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            <span class="hidden xl:inline text-xs md:text-sm font-medium">
+                                {{ __('Download') }}
+                            </span>
+                        </button>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- PDF.js -->
 <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.js"></script>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-  const pdfjsLib = window['pdfjsLib'];
-  if (!pdfjsLib) { console.error('pdfjsLib not found'); return; }
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.js';
-
-  const canvas = document.getElementById('pdfCanvas');
-  const ctx = canvas ? canvas.getContext('2d') : null;
-  const prevBtn = document.getElementById('prev');
-  const nextBtn = document.getElementById('next');
-  const pageInfo = document.getElementById('pageInfo');
-  const zoomSel = document.getElementById('zoomSel');
-  const rotateBtn = document.getElementById('rotate');
-  const downloadBtn = document.getElementById('download');
-  const zoomRange = document.getElementById('zoomRange');
-  const fitToWidthBtn = document.getElementById('fitToWidth');
-  const container = document.getElementById('canvasContainer');
-  const loadingSpinner = document.getElementById('loadingSpinner');
-
-  if (!canvas || !ctx) { console.error('pdfCanvas or its 2D context not found.'); return; }
-
-  // Show/hide loading spinner (only for initial load)
-  let isInitialLoad = true;
-
-  function showLoading() {
-    if (loadingSpinner && isInitialLoad) loadingSpinner.style.display = 'flex';
-  }
-
-  function hideLoading() {
-    if (loadingSpinner) {
-      loadingSpinner.style.display = 'none';
-      isInitialLoad = false;
-    }
-  }
-
-  // Page transition animation
-  function fadeOut(callback) {
-    canvas.style.opacity = '0';
-    setTimeout(callback, 150);
-  }
-
-  function fadeIn() {
-    setTimeout(() => {
-      canvas.style.opacity = '1';
-    }, 50);
-  }
-
-  // Detect RTL direction from document or html element
-  const isRTL = document.documentElement.dir === 'rtl' ||
-                document.body.dir === 'rtl' ||
-                getComputedStyle(document.documentElement).direction === 'rtl';
-
-  // State
-  let pdfDoc = null;
-  let currentPage = 1;
-  let rotation = 0;
-  let scale = 1.0;
-  if (zoomSel && zoomSel.value) { const v = parseFloat(zoomSel.value); if (!isNaN(v)) scale = v; }
-
-  function updatePageInfo() {
-    if (!pageInfo) return;
-    pageInfo.innerHTML = pdfDoc ? `<span class="hidden md:block">{{ __('Page') }}</span> ${currentPage} / ${pdfDoc.numPages}` : '{{ __("Page - / -") }}';
-  }
-
-  function goToNextPage() {
-    if (!pdfDoc || currentPage >= pdfDoc.numPages) return;
-    fadeOut(() => {
-      currentPage++;
-      renderPage(currentPage);
-    });
-  }
-
-  function goToPrevPage() {
-    if (!pdfDoc || currentPage <= 1) return;
-    fadeOut(() => {
-      currentPage--;
-      renderPage(currentPage);
-    });
-  }
-
-  async function renderPage(pageNum) {
-    if (!pdfDoc) return;
-    try {
-      if (isInitialLoad) showLoading();
-      updatePageInfo();
-      const page = await pdfDoc.getPage(pageNum);
-      const vp = page.getViewport({ scale: scale, rotation: rotation });
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = Math.floor(vp.width * dpr);
-      canvas.height = Math.floor(vp.height * dpr);
-      canvas.style.width = Math.floor(vp.width) + 'px';
-      canvas.style.height = Math.floor(vp.height) + 'px';
-      canvas.style.maxWidth = '100%';
-      canvas.style.height = 'auto';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const renderContext = {
-        canvasContext: ctx,
-        viewport: vp
-      };
-
-      await page.render(renderContext).promise;
-
-      // Center canvas in container
-      if (container) {
-        const offset = (canvas.offsetWidth - container.clientWidth) / 2;
-        if (offset > 0) {
-          container.scrollTo({ left: Math.round(offset), behavior: 'smooth' });
-        } else {
-          container.scrollLeft = 0;
-        }
-      }
-
-      if (isInitialLoad) {
-        hideLoading();
-      }
-      fadeIn();
-    } catch (err) {
-      console.error('Error rendering page:', err);
-      hideLoading();
-    }
-  }
-
-  async function loadPdfFromUrl(url) {
-    try {
-      showLoading();
-      const loadingTask = pdfjsLib.getDocument({
-        url: url,
-        cMapUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/cmaps/',
-        cMapPacked: true,
-        standardFontDataUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/standard_fonts/'
-      });
-      pdfDoc = await loadingTask.promise;
-      currentPage = 1;
-      updatePageInfo();
-      await renderPage(currentPage);
-      if (downloadBtn) downloadBtn.onclick = () => { window.open(url, '_blank'); };
-    } catch (err) {
-      console.error('Failed to load PDF:', err);
-      alert('{{ __("Failed to load PDF") }}: ' + (err && err.message ? err.message : err));
-      hideLoading();
-    }
-  }
-
-  // Navigation - RTL aware
-  if (prevBtn) prevBtn.addEventListener('click', goToPrevPage);
-  if (nextBtn) nextBtn.addEventListener('click', goToNextPage);
-
-  // Zoom select
-  if (zoomSel) zoomSel.addEventListener('change', () => {
-    const v = parseFloat(zoomSel.value);
-    if (!isNaN(v)) {
-      scale = v;
-      if (zoomRange) zoomRange.value = Math.round(scale * 100);
-      const label = document.getElementById('zoomLabel');
-      if (label) label.textContent = Math.round(scale * 100) + '%';
-      if (pdfDoc) {
-        fadeOut(() => renderPage(currentPage));
-      }
-    }
-  });
-
-  // Zoom range
-  if (zoomRange) {
-    zoomRange.addEventListener('input', () => {
-      const v = Number(zoomRange.value) / 100;
-      if (!isNaN(v)) {
-        scale = v;
-        if (zoomSel) zoomSel.value = v.toString();
-        const label = document.getElementById('zoomLabel');
-        if (label) label.textContent = Math.round(v * 100) + '%';
-        if (pdfDoc) {
-          fadeOut(() => renderPage(currentPage));
-        }
-      }
-    });
-  }
-
-  // Rotate
-  if (rotateBtn) rotateBtn.addEventListener('click', () => {
-    rotation = (rotation + 90) % 360;
-    if (pdfDoc) {
-      fadeOut(() => renderPage(currentPage));
-    }
-  });
-
-  // Fit to width
-  if (fitToWidthBtn) {
-    fitToWidthBtn.addEventListener('click', async () => {
-      if (!pdfDoc) return;
-      try {
-        const page = await pdfDoc.getPage(currentPage);
-        const unscaledViewport = page.getViewport({ scale: 1, rotation: rotation });
-        const containerWidth = container ? container.clientWidth - 32 : window.innerWidth;
-        const targetScale = (containerWidth / unscaledViewport.width);
-        scale = Math.max(0.25, Math.min(3, targetScale));
-        if (zoomSel) zoomSel.value = scale.toString();
-        if (zoomRange) zoomRange.value = Math.round(scale * 100);
-        const label = document.getElementById('zoomLabel');
-        if (label) label.textContent = Math.round(scale * 100) + '%';
-        fadeOut(() => renderPage(currentPage));
-      } catch (err) { console.error('Fit to width error:', err); }
-    });
-  }
-
-  // Keyboard - RTL aware
-  window.addEventListener('keydown', (e) => {
-    if (!pdfDoc) return;
-
-    // For RTL: Right arrow = Previous, Left arrow = Next
-    // For LTR: Right arrow = Next, Left arrow = Previous
-    if (e.key === 'ArrowRight') {
-      e.preventDefault();
-      if (isRTL) {
-        goToPrevPage();
-      } else {
-        goToNextPage();
-      }
-    }
-    if (e.key === 'ArrowLeft') {
-      e.preventDefault();
-      if (isRTL) {
-        goToNextPage();
-      } else {
-        goToPrevPage();
-      }
-    }
-
-    if (e.key === '+') {
-      if (!zoomSel) return;
-      const opts = Array.from(zoomSel.options).map(o => parseFloat(o.value));
-      const idx = opts.indexOf(scale);
-      if (idx < opts.length - 1) { zoomSel.selectedIndex = idx + 1; zoomSel.dispatchEvent(new Event('change')); }
-    }
-    if (e.key === '-') {
-      if (!zoomSel) return;
-      const opts = Array.from(zoomSel.options).map(o => parseFloat(o.value));
-      const idx = opts.indexOf(scale);
-      if (idx > 0) { zoomSel.selectedIndex = idx - 1; zoomSel.dispatchEvent(new Event('change')); }
-    }
-  });
-
-  // Touch gestures - RTL aware
-  (function setupTouchGestures() {
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let touchStartTime = 0;
-    let isSwiping = false;
-    let isScrolling = false;
-
-    let lastTouchDistance = null;
-    let initialScale = scale;
-
-    function getDistance(t1, t2) {
-      const dx = t2.clientX - t1.clientX;
-      const dy = t2.clientY - t1.clientY;
-      return Math.sqrt(dx*dx + dy*dy);
-    }
-
-    container.addEventListener('touchstart', function (e) {
-      if (!pdfDoc) return;
-      touchStartTime = Date.now();
-      if (e.touches.length === 1) {
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
-        isSwiping = false;
-        isScrolling = false;
-        lastTouchDistance = null;
-      } else if (e.touches.length === 2) {
-        lastTouchDistance = getDistance(e.touches[0], e.touches[1]);
-        initialScale = scale;
-        isSwiping = false;
-        isScrolling = false;
-      }
-    }, { passive: true });
-
-    container.addEventListener('touchmove', function (e) {
-      if (!pdfDoc) return;
-      if (e.touches.length === 1) {
-        const dx = e.touches[0].clientX - touchStartX;
-        const dy = e.touches[0].clientY - touchStartY;
-        const absDx = Math.abs(dx);
-        const absDy = Math.abs(dy);
-
-        // Determine direction on first significant movement
-        if (!isSwiping && !isScrolling && (absDx > 10 || absDy > 10)) {
-          if (absDx > absDy) {
-            // Horizontal swipe for page navigation
-            isSwiping = true;
-            isScrolling = false;
-          } else {
-            // Vertical movement for scrolling
-            isScrolling = true;
-            isSwiping = false;
-          }
-        }
-
-        // Prevent default only for horizontal page swipes
-        if (isSwiping && absDx > 10) {
-          e.preventDefault();
-        }
-        // Allow native scrolling for vertical movement
-      } else if (e.touches.length === 2) {
-        e.preventDefault();
-        const dist = getDistance(e.touches[0], e.touches[1]);
-        if (lastTouchDistance !== null && lastTouchDistance > 0) {
-          const factor = dist / lastTouchDistance;
-          let newScale = initialScale * factor;
-          newScale = Math.max(0.25, Math.min(3, newScale));
-          if (Math.abs(newScale - scale) > 0.01) {
-            scale = newScale;
-            if (zoomSel) zoomSel.value = scale.toString();
-            if (zoomRange) zoomRange.value = Math.round(scale * 100);
-            const label = document.getElementById('zoomLabel');
-            if (label) label.textContent = Math.round(scale * 100) + '%';
-            window.requestAnimationFrame(() => renderPage(currentPage));
-          }
-        }
-        lastTouchDistance = dist;
-      }
-    }, { passive: false });
-
-    container.addEventListener('touchend', function (e) {
-      if (!pdfDoc) return;
-      const touchDuration = Date.now() - touchStartTime;
-      if (isSwiping && e.changedTouches && e.changedTouches.length === 1) {
-        const dx = e.changedTouches[0].clientX - touchStartX;
-        const dy = e.changedTouches[0].clientY - touchStartY;
-        const absDx = Math.abs(dx);
-        const absDy = Math.abs(dy);
-
-        // Only trigger page change if horizontal swipe is dominant
-        if (absDx > 50 && absDx > absDy * 1.5) {
-          // For RTL: Swipe left = Next, Swipe right = Previous
-          // For LTR: Swipe left = Previous, Swipe right = Next
-          if (dx < 0) { // Swipe left
-            if (isRTL) {
-              goToNextPage();
-            } else {
-              goToPrevPage();
-            }
-          } else { // Swipe right
-            if (isRTL) {
-              goToPrevPage();
-            } else {
-              goToNextPage();
-            }
-          }
-        }
-      }
-      isSwiping = false;
-      isScrolling = false;
-      lastTouchDistance = null;
-      initialScale = scale;
-    }, { passive: true });
-  })();
-
-  // Load PDF URL from blade Storage helper
-  const pdfUrl = `{{ Storage::url($book->file) }}`;
-  if (pdfUrl && pdfUrl.length > 0) {
-    loadPdfFromUrl(pdfUrl);
-  } else {
-    console.error('PDF URL is empty: {{ Storage::url($book->file) }}');
-  }
-
-
-(function () {
-const sel = document.getElementById('zoomSel');
-
-// If browser supports showPicker (Chromium), it's best UX:
-function openSelect() {
-if (!sel) return;
-if (typeof sel.showPicker === 'function') {
-try {
-sel.showPicker();
-return;
-} catch (e) {
-// fallthrough to synthetic events
-console.warn('showPicker error', e);
-}
-}
-
-// Focus and try synthetic events (fallback)
-sel.focus();
-
-try {
-sel.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window }));
-sel.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-} catch (err) {
-// final fallback: key event
-try {
-sel.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }));
-} catch (e) {
-console.warn('Could not open select programmatically', e);
-}
-}
-}
-
-// Attach to the label wrapper so clicks on icon/text open
-// Label wrapping means native click will already target <select>, but keep defensive handler:
-    const wrapperLabel = sel.closest('label');
-    if (wrapperLabel) {
-    wrapperLabel.addEventListener('click', function (ev) {
-    // If user clicked directly on select, let native behavior happen
-    if (ev.target === sel) return;
-    // prevent double-handling in some browsers
-    ev.preventDefault();
-    openSelect();
-    });
-    }
-    })();
-
-
-});
+    document.addEventListener('DOMContentLoaded',function(){const e=window.pdfjsLib;if(!e)return void console.error("pdfjsLib not found");e.GlobalWorkerOptions.workerSrc="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.js";const t=document.getElementById("pdfCanvas"),n=t?.getContext("2d"),a=document.getElementById("prev"),o=document.getElementById("next"),l=document.getElementById("pageInfo"),s=document.getElementById("zoomSel"),r=document.getElementById("rotate"),i=document.getElementById("download"),d=document.getElementById("zoomRange"),c=document.getElementById("fitToWidth"),u=document.getElementById("canvasContainer"),m=document.getElementById("loadingSpinner"),p=document.getElementById("swipeHint");if(!t||!n)return void console.error("Canvas not found");let g=!0,h=null;function f(){m&&g&&(m.style.display="flex")}function y(){m&&(m.style.display="none",g=!1,setTimeout(()=>{p&&(p.style.opacity="1",setTimeout(()=>p.style.opacity="0",3e3))},500))}function b(e){t.style.opacity="0",t.style.transform="scale(0.95)",setTimeout(e,150)}function E(e=null){"up"===e?t.classList.add("page-transition-up"):"down"===e&&t.classList.add("page-transition-down"),setTimeout(()=>{t.style.opacity="1",t.style.transform="scale(1)",setTimeout(()=>t.classList.remove("page-transition-up","page-transition-down"),300)},50)}const w="rtl"===document.documentElement.dir||"rtl"===document.body.dir||"rtl"===getComputedStyle(document.documentElement).direction;let v=null,k=1,T=0,L=1;if(s?.value){const e=parseFloat(s.value);isNaN(e)||(L=e)}function x(){l&&(l.innerHTML=v?`<span class="hidden sm:inline">{{ __('Page') }}</span> <span class="font-bold">${k}</span> <span class="text-slate-500">/</span> ${v.numPages}`:'{{ __("Page - / -") }}')}function I(){a&&(a.disabled=!v||k<=1),o&&(o.disabled=!v||k>=v.numPages)}function S(){v&&k<v.numPages&&(h="up",b(()=>{k++,N(k)}))}function C(){v&&k>1&&(h="down",b(()=>{k--,N(k)}))}async function N(e){if(!v)return;try{g&&f(),x(),I();const a=await v.getPage(e),o=a.getViewport({scale:L,rotation:T}),l=window.devicePixelRatio||1;t.width=Math.floor(o.width*l),t.height=Math.floor(o.height*l),t.style.width=o.width+"px",t.style.height=o.height+"px",t.style.maxWidth="100%",t.style.height="auto",n.setTransform(l,0,0,l,0,0),n.clearRect(0,0,t.width,t.height),await a.render({canvasContext:n,viewport:o}).promise,u&&u.scrollTo({left:(t.offsetWidth-u.clientWidth)/2>0?Math.round((t.offsetWidth-u.clientWidth)/2):0,behavior:"smooth"}),g&&y(),E(h),h=null}catch(e){console.error("Error rendering page:",e),y()}}a&&a.addEventListener("click",C),o&&o.addEventListener("click",S),s&&s.addEventListener("change",()=>{const e=parseFloat(s.value);isNaN(e)||(L=e,d&&(d.value=Math.round(100*L)),v&&b(()=>N(k)))}),d&&d.addEventListener("input",()=>{const e=Number(d.value)/100;isNaN(e)||(L=e,s&&(s.value=e.toString()),v&&b(()=>N(k)))}),r&&r.addEventListener("click",()=>{T=(T+90)%360,v&&b(()=>N(k))}),c&&c.addEventListener("click",async()=>{if(!v)return;try{const e=await v.getPage(k),t=e.getViewport({scale:1,rotation:T}),n=(u?u.clientWidth-32:window.innerWidth)/t.width;L=Math.max(.25,Math.min(3,n)),s&&(s.value=L.toString()),d&&(d.value=Math.round(100*L)),b(()=>N(k))}catch(e){console.error("Fit to width error:",e)}}),window.addEventListener("keydown",e=>{if(!v)return;if("ArrowRight"===e.key&&(e.preventDefault(),w?C():S()),"ArrowLeft"===e.key&&(e.preventDefault(),w?S():C()),"ArrowDown"===e.key&&(e.preventDefault(),S()),"ArrowUp"===e.key&&(e.preventDefault(),C()),"+"===e.key||"="===e.key){if(e.preventDefault(),!s)return;const t=Array.from(s.options).map(e=>parseFloat(e.value)),n=t.indexOf(L);n<t.length-1&&(s.selectedIndex=n+1,s.dispatchEvent(new Event("change")))}if("-"===e.key){if(e.preventDefault(),!s)return;const t=Array.from(s.options).map(e=>parseFloat(e.value)),n=t.indexOf(L);n>0&&(s.selectedIndex=n-1,s.dispatchEvent(new Event("change")))}}),function(){let e,t,n,a,o,l=null,s=L;function r(e,t){const n=t.clientX-e.clientX,a=t.clientY-e.clientY;return Math.sqrt(n*n+a*a)}u.addEventListener("touchstart",function(r){v&&(r.touches.length>=1&&(e=r.touches[0].clientX,t=r.touches[0].clientY,n=!1,a=!1,l=null),2===r.touches.length&&(l=r(r.touches[0],r.touches[1]),s=L,n=!1,a=!1))},{passive:!0}),u.addEventListener("touchmove",function(i){if(!v)return;if(1===i.touches.length){const o=i.touches[0].clientX-e,l=i.touches[0].clientY-t,s=Math.abs(o),r=Math.abs(l);!n&&!a&&(s>10||r>10)&&(r>1.5*s?(n=!0,a=!1):(a=!0,n=!1)),n&&r>10&&i.preventDefault()}else if(2===i.touches.length){i.preventDefault();const e=r(i.touches[0],i.touches[1]);if(null!==l&&l>0){const t=e/l;let n=s*t;n=Math.max(.25,Math.min(3,n)),Math.abs(n-L)>.01&&(L=n,o&&(o.value=L.toString()),d&&(d.value=Math.round(100*L)),window.requestAnimationFrame(()=>N(k)))}l=e}},{passive:!1}),u.addEventListener("touchend",function(o){if(!v)return;if(n&&o.changedTouches&&1===o.changedTouches.length){const l=o.changedTouches[0].clientX-e,s=o.changedTouches[0].clientY-t,r=Math.abs(l),i=Math.abs(s);i>50&&i>1.5*r&&(s<0?S():C())}n=!1,a=!1,l=null,s=L},{passive:!0})}();const A='{{ Storage::url($book->file) }}';A&&A.length>0?async function(t){try{f();const n=e.getDocument({url:t,cMapUrl:"https://unpkg.com/pdfjs-dist@3.11.174/cmaps/",cMapPacked:!0,standardFontDataUrl:"https://unpkg.com/pdfjs-dist@3.11.174/standard_fonts/"});v=await n.promise,k=1,x(),I(),await N(k),i&&(i.onclick=()=>window.open(t,"_blank"))}catch(e){console.error("Failed to load PDF:",e),alert('{{ __("Failed to load PDF") }}: '+(e?.message||e)),y()}}(A):console.error("PDF URL is empty")});
 </script>
 @endsection
