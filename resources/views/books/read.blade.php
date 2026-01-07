@@ -161,40 +161,64 @@
 
 <!-- Bottom Controls -->
 <div class="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
-    <div class="max-w-[1400px] mx-auto px-4 pb-4 md:px-2 md:pb-2">
+    <div class="max-w-[1400px] mx-auto px-2 pb-2 md:px-4 md:pb-4">
         <div
-            class="pointer-events-auto bg-white/98 backdrop-blur-xl rounded-t-2xl border border-slate-200 border-b-0 p-4 md:p-3">
-            <div class="flex items-center justify-between gap-3 flex-wrap">
+            class="pointer-events-auto bg-white/98 backdrop-blur-xl rounded-t-xl md:rounded-t-2xl border border-slate-200 border-b-0 p-2 md:p-4">
+
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+
                 <!-- Navigation -->
-                <div class="flex items-center gap-2 sm:gap-1">
-                    <button id="prev"
-                        class="inline-flex items-center justify-center gap-2 px-2.5 py-2.5 md:px-2 md:py-2 border-0 rounded-xl text-sm font-semibold cursor-pointer transition-all duration-200 select-none touch-manipulation min-h-[2.75rem] md:min-h-[2.5rem] min-w-[2.75rem] md:min-w-[2.5rem] bg-gradient-to-br from-slate-500 to-slate-600 text-white hover:opacity-90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none"
-                        title="{{ __('Previous') }}">
-                        <svg class="w-5 h-5 md:w-4 md:h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center gap-1 md:gap-2">
+                    <button id="prev" class="inline-flex items-center justify-center gap-2
+                        px-2 py-1.5 md:px-3 md:py-2.5
+                        min-h-[2.25rem] min-w-[2.25rem]
+                        md:min-h-[2.75rem] md:min-w-[2.75rem]
+                        rounded-lg md:rounded-xl
+                        bg-gradient-to-br from-slate-500 to-slate-600
+                        text-white transition-all duration-200
+                        active:scale-95 disabled:opacity-50">
+                        <svg class="w-5 h-5 md:w-5 md:h-5 text-black" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
 
-                    <div id="pageInfo"
-                        class="inline-flex items-center gap-2 px-5 py-2.5 md:px-3 md:py-2 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl border-2 border-blue-400  text-black font-bold  text-sm md:text-xs min-w-[7rem] md:min-w-[5rem] justify-center">
+                    <div id="pageInfo" class="inline-flex items-center justify-center
+                        px-3 py-1 md:px-5 md:py-2.5
+                        min-w-[4.5rem] md:min-w-[7rem]
+                        text-xs md:text-sm
+                        font-bold text-black
+                        rounded-lg md:rounded-xl
+                        bg-gradient-to-br from-blue-100 to-blue-200
+                        border border-blue-400">
                         {{ __('Page - / -') }}
                     </div>
 
-                    <button id="next"
-                        class="inline-flex items-center justify-center gap-2 px-2.5 py-2.5 md:px-2 md:py-2 border-0 rounded-xl text-sm font-semibold cursor-pointer transition-all duration-200 select-none touch-manipulation min-h-[2.75rem] md:min-h-[2.5rem] min-w-[2.75rem] md:min-w-[2.5rem] bg-gradient-to-br from-slate-500 to-slate-600 text-white hover:opacity-90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none"
-                        title="{{ __('Next') }}">
-                        <svg class="w-5 h-5 md:w-4 md:h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button id="next" class="inline-flex items-center justify-center gap-2
+                        px-2 py-1.5 md:px-3 md:py-2.5
+                        min-h-[2.25rem] min-w-[2.25rem]
+                        md:min-h-[2.75rem] md:min-w-[2.75rem]
+                        rounded-lg md:rounded-xl
+                        bg-gradient-to-br from-slate-500 to-slate-600
+                        text-white transition-all duration-200
+                        active:scale-95 disabled:opacity-50">
+                        <svg class="w-5 h-5 md:w-5 md:h-5 text-black" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </button>
                 </div>
 
                 <!-- Zoom Controls -->
-                <div class="flex items-center gap-2 sm:gap-1">
-                    <div
-                        class="inline-flex items-center gap-2 bg-white border-2 border-slate-200 rounded-xl px-3 py-2 md:px-2.5 md:py-1.5">
-                        <select id="zoomSel"
-                            class="zoom-select border-0 bg-transparent px-2 py-1 text-sm font-semibold text-slate-800 cursor-pointer outline-none pr-6 md:text-xs">
+                <div class="flex items-center gap-1 md:gap-2">
+                    <div class="inline-flex items-center gap-2
+                        px-2 py-1 md:px-3 md:py-2
+                        border-2 border-slate-200
+                        rounded-lg md:rounded-xl bg-white">
+                        <select id="zoomSel" class="border-0 bg-transparent
+                            px-1 md:px-2 py-1
+                            text-xs md:text-sm
+                            font-semibold outline-none cursor-pointer">
                             <option value="0.5">50%</option>
                             <option value="0.75">75%</option>
                             <option value="1" selected>100%</option>
@@ -202,47 +226,54 @@
                             <option value="1.5">150%</option>
                             <option value="2">200%</option>
                         </select>
-                        <svg class="w-5 h-5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <circle cx="11" cy="11" r="7" stroke-width="2" />
                             <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2" />
                         </svg>
                     </div>
+
                     <input id="zoomRange" type="range" min="50" max="200" step="5" value="100"
                         class="hidden md:block w-32 h-2 accent-blue-600 cursor-pointer">
                 </div>
 
                 <!-- Actions -->
-                <div class="flex items-center gap-2 sm:gap-1">
-                    <button id="rotate"
-                        class="inline-flex items-center justify-center gap-2 px-4 py-2.5 md:px-2 md:py-2 border-0 rounded-xl text-sm md:text-xs font-semibold cursor-pointer transition-all duration-200 select-none touch-manipulation min-h-[2.75rem] md:min-h-[2.5rem] md:min-w-[2.5rem] bg-gradient-to-br from-amber-500 to-amber-600 text-white hover:opacity-90 active:scale-95"
-                        title="{{ __('Rotate') }}">
-                        <svg class="w-5 h-5 md:w-4 md:h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                <div class="flex items-center gap-1 md:gap-2">
+                    <button id="rotate" class="inline-flex items-center justify-center gap-2
+                        px-2 py-1.5 md:px-4 md:py-2.5
+                        min-h-[2.25rem] md:min-h-[2.75rem]
+                        rounded-lg md:rounded-xl
+                        bg-gradient-to-br from-amber-500 to-amber-600
+                        text-white transition-all duration-200
+                        active:scale-95">
+                        <svg class="w-5 h-5 md:w-5 md:h-5 text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-rotate">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M19.95 11a8 8 0 1 0 -.5 4m.5 5v-5h-5" />
                         </svg>
                         <span class="hidden xl:inline text-black">{{ __('Rotate') }}</span>
                     </button>
 
-                    <button id="fitToWidth"
-                        class="hidden md:inline-flex items-center  justify-center gap-2 px-4 py-2.5 md:px-2 md:py-2 border-0 rounded-xl text-sm md:text-xs font-semibold cursor-pointer transition-all duration-200 select-none touch-manipulation min-h-[2.75rem] md:min-h-[2.5rem] md:min-w-[2.5rem] bg-gradient-to-br from-amber-500 to-amber-600 text-white hover:opacity-90 active:scale-95"
-                        title="{{ __('Fit to width') }}">
-                        <svg class="w-5 h-5 md:w-4 md:h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                        </svg>
-                        <span class="hidden xl:inline text-black">{{ __('Fit') }}</span>
-                    </button>
 
-                    <button id="download"
-                        class="inline-flex items-center justify-center gap-2 px-4 py-2.5 md:px-2 md:py-2 border-0 rounded-xl text-sm md:text-xs font-semibold cursor-pointer transition-all duration-200 select-none touch-manipulation min-h-[2.75rem] md:min-h-[2.5rem] md:min-w-[2.5rem] bg-gradient-to-br from-emerald-500 to-emerald-600 text-white hover:opacity-90 active:scale-95"
-                        title="{{ __('Download') }}">
-                        <svg class="w-5 h-5 md:w-4 md:h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    <button id="download" class="inline-flex items-center justify-center gap-2
+                        px-2 py-1.5 md:px-4 md:py-2.5
+                        min-h-[2.25rem] md:min-h-[2.75rem]
+                        rounded-lg md:rounded-xl
+                        bg-gradient-to-br from-emerald-500 to-emerald-600
+                        text-white transition-all duration-200
+                        active:scale-95">
+                        <svg class="w-5 h-5 md:w-5 md:h-5 text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-download">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                            <path d="M7 11l5 5l5 -5" />
+                            <path d="M12 4l0 12" />
                         </svg>
                         <span class="hidden xl:inline">{{ __('Download') }}</span>
                     </button>
                 </div>
+
             </div>
         </div>
     </div>
