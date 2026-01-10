@@ -3,9 +3,12 @@
 @section('content')
 <!-- Wrapper sets language and direction for the page -->
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-4 px-3">
+    {!! app("site")->ads !!}
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-md md:text-xl lg:text-2xl py-2">{{ str_replace(":attr", $book->name,
-            app('site')->site_options['read_book_title']) }}</h1>
+        <h1 class="text-md md:text-xl lg:text-2xl py-2">
+            {{ str_replace(":attr", $book->name, app('site')->site_options['read_book_title']) }}
+        </h1>
+
         <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
             <!-- Canvas Container - Remove RTL from here to let PDF render naturally -->
             <div id="canvasContainer" class="bg-slate-200 overflow-auto touch-pan-y"
@@ -26,6 +29,7 @@
                 </div>
             </div>
         </div>
+        {!! app("site")->ads !!}
 
         <!-- Fixed Bottom Controls -->
         <div class="fixed inset-x-0 bottom-0 z-50 pointer-events-none">
