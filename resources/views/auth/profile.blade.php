@@ -8,10 +8,10 @@
             <div class="p-4 md:p-6">
                 <!-- Profile Header -->
                 <div class="text-center mb-6">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&size=96&background=4f46e5&color=fff"
+                    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->first_name) }}&size=96&background=4f46e5&color=fff"
                         alt="Profile" class="w-20 h-20 rounded-full mx-auto">
-                    <h2 class="mt-3 text-lg font-semibold text-gray-900">{{ Auth::user()->name }}</h2>
-                    <p class="text-sm text-gray-500">{{ Auth::user()->email }}</p>
+                    <h2 class="mt-3 text-lg font-semibold text-gray-900">{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</h2>
+                    <p class="text-sm text-gray-500">{{ auth()->user()->email }}</p>
                 </div>
 
                 <!-- Navigation -->
@@ -87,19 +87,19 @@
                     <div class="grid sm:grid-cols-2 gap-6">
                         <div>
                             <label class="text-sm font-medium text-gray-500">{{ __('Full Name') }}</label>
-                            <p class="mt-1 text-gray-900">{{ Auth::user()->name }}</p>
+                            <p class="mt-1 text-gray-900">{{ auth()->user()->name }}</p>
                         </div>
                         <div>
                             <label class="text-sm font-medium text-gray-500">{{ __('Email Address') }}</label>
-                            <p class="mt-1 text-gray-900">{{ Auth::user()->email }}</p>
+                            <p class="mt-1 text-gray-900">{{ auth()->user()->email }}</p>
                         </div>
                         <div>
                             <label class="text-sm font-medium text-gray-500">{{ __('Member Since') }}</label>
-                            <p class="mt-1 text-gray-900">{{ Auth::user()->created_at->format('F j, Y') }}</p>
+                            <p class="mt-1 text-gray-900">{{ auth()->user()->created_at->format('F j, Y') }}</p>
                         </div>
                         <div>
                             <label class="text-sm font-medium text-gray-500">{{ __('Total Books') }}</label>
-                            <p class="mt-1 text-gray-900">{{ Auth::user()->books->count() }} {{ __('Books') }}</p>
+                            <p class="mt-1 text-gray-900">{{ $user->books_count }} {{ __('Books') }}</p>
                         </div>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
                     </a>
                 </div>
 
-                @if(Auth::user()->books->isEmpty())
+                @if(auth()->user()->books->isEmpty())
                 <div class="bg-white rounded-lg border border-gray-200 p-12 text-center">
                     <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
@@ -135,7 +135,7 @@
                 </div>
                 @else
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    @foreach(Auth::user()->books as $book)
+                    @foreach(auth()->user()->books as $book)
                     <div
                         class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:border-gray-300 transition">
                         <div class="aspect-[3/4] bg-gray-100 relative">
@@ -175,7 +175,7 @@
 
                 <!-- Pagination -->
                 <div class="mt-6">
-                    {{ Auth::user()->books->links() }}
+                    {{ auth()->user()->books->links() }}
                 </div>
                 @endif
             </section>
