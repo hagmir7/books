@@ -13,7 +13,10 @@ class UserController extends Controller
 
     public function profile()
     {
-        $books = auth()->user()->books()->limit(10);
+        $books = auth()->user()
+            ->books()
+            ->latest()
+            ->paginate(10);
 
         return view('auth.profile', compact('books'));
     }
