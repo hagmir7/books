@@ -14,16 +14,13 @@ class UserController extends Controller
     public function profile()
     {
         $user = auth()->user();
-
-        if (! $user) {
-            abort(403);
-        }
+        abort_if(! $user, 403);
 
         $user->loadCount('books');
 
         $books = $user->books()
             ->latest()
-            ->paginate(10);
+            ->paginate(8);
 
         return view('auth.profile', compact('user', 'books'));
     }
