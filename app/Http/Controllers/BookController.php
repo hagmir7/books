@@ -76,6 +76,11 @@ class BookController extends Controller
     }
 
 
+    public function create(){
+        return view('books.create');
+    }
+
+
     public function store(Request $request)
     {
         $request->validate([

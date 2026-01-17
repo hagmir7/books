@@ -31,7 +31,12 @@ Route::get('/ads.txt', function () {
 
 Route::controller(UserController::class)->prefix('auth')->group(function () {
     Route::get('login', 'login')->name("auth.login");
+    Route::get('logout', 'logout')->name("logout");
+    Route::get('logout', 'logout')->name("auth.password");
 });
+
+
+Route::get("profile", [UserController::class, 'profile']);
 
 
 Route::get('/', function () {
@@ -59,6 +64,7 @@ Route::controller(PostController::class)->prefix('blog')->group(function(){
 Route::controller(BookController::class)->prefix('books')->group(function () {
     Route::get('', 'index')->name('books.index');
     Route::get("{book:slug}", 'show')->name("book.show");
+    Route::get("create", 'cerate')->name("book.create");
     Route::get("read/{book:slug}", 'read')->name("book.read");
 });
 
