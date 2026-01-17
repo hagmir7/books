@@ -13,8 +13,13 @@ class UserController extends Controller
 
     public function profile()
     {
-        $user = auth()->user()
-            ->loadCount('books');
+        $user = auth()->user();
+
+        if (! $user) {
+            abort(403);
+        }
+
+        $user->loadCount('books');
 
         $books = $user->books()
             ->latest()
