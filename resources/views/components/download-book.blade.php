@@ -1,6 +1,6 @@
 <div class="py-3 space-y-3">
 
-    @if (Str::upper($site->domain) == "NORKITAB.COM")
+    {{-- @if (Str::upper($site->domain) == "NORKITAB.COM")
     <a rel="nofollow" href="https://lacabook.com/{{ request()->path() }}"
         class="flex items-center justify-center gap-3 ustify-center cursor-pointer transition-colors duration-200 ease-in px-4 py-2 rounded-lg bg-teal-500 text-white hover:bg-teal-400 w-full"
         aria-label="{{ __('Download external') }}">
@@ -28,7 +28,7 @@
         </svg>
         <span>{{ __("Read") }}</span>
     </a>
-    @else
+    @else --}}
     <a rel="nofollow" href="{{ asset('storage/'.$book->file) }}"
         class="flex items-center justify-center gap-3 ustify-center cursor-pointer transition-colors duration-200 ease-in px-4 py-2 rounded-lg bg-teal-500 text-white hover:bg-teal-400 w-full"
         aria-label="{{ __('Download file') }}">
@@ -57,7 +57,7 @@
         </svg>
         <span>{{ __("Read") }}</span>
     </a>
-    @endif
+    {{-- @endif --}}
 
 
     {!! app("site")->ads !!}
