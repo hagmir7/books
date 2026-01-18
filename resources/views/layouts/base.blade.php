@@ -77,6 +77,15 @@
 </head>
 
 <body class="bg-gray-50">
+    {{-- Success Toast --}}
+    <div x-data="{ show: false, message: '' }" x-on:notify.window="
+                message = $event.detail.message;
+                show = true;
+                setTimeout(() => show = false, 3000);
+            " x-show="show" x-transition
+        class="fixed top-6 right-6 z-[100] bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg" style="display: none; z-index: 300;">
+        <span x-text="message"></span>
+    </div>
 
 <header class="header bg-white shadow-sm relative" x-data="{ mobileOpen: false, searchOpen: false }"
     @keydown.escape.window="mobileOpen = false; searchOpen = false">

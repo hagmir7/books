@@ -202,7 +202,19 @@
     "Keyboard Shortcuts": "اختصارات لوحة المفاتيح",
     "Fit": "ملاءمة",
     "We couldn't find any books.": "لم نتمكن من العثور على أي كتب",
-    "My Books" : "كتبي",
+    "My Books": "كتبي",
     "My Info": "معلوماتي",
-    "Create Book": "كتاب جديد"
+    "Create Book": "كتاب جديد",
+    "My library": "مكتبتي",
+    "First Name": "الاسم الأول",
+    "Last Name": "اسم العائلة",
+    "Profile Information": "معلومات الملف الشخصي",
+    "Change Password": "تغيير كلمة المرور",
+    "Current Password": "كلمة المرور الحالية",
+    "New Password": "كلمة المرور الجديدة",
+    "Update Password": "تغيير كلمة المرور",
+    "Save Changes": "حفظ التغييرات",
+    "Current password is incorrect.": "كلمة المرور الحالية غير صحيحة.",
+    "Password updated successfully.": "تم تحديث كلمة المرور بنجاح.",
+    "Profile information updated successfully.": "تم تحديث معلومات الملف الشخصي بنجاح."
 }

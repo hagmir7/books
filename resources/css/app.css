@@ -5,3 +5,17 @@
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
+
+
+
+.input {
+    @apply w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 focus:ring focus:ring-indigo-300;
+}
+
+.btn-primary {
+    @apply px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700;
+}
+
+.btn-danger {
+    @apply px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700;
+}

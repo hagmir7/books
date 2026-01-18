@@ -55,10 +55,10 @@
                         {{ __('Create Book') }}
                     </a>
 
-                    <button @click="activeSection = 'password'; sidebarOpen = false"
-                        :class="activeSection === 'password' ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'"
+                    <button @click="activeSection = 'library'; sidebarOpen = false"
+                        :class="activeSection === 'library' ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'"
                         class="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
-                        {{ __('Password') }}
+                        {{ __('My library') }}
                     </button>
                 </nav>
 
@@ -86,8 +86,6 @@
             </div>
 
             <nav class="space-y-1 md:hidden">
-
-
                 <button @click="activeSection = 'books'; sidebarOpen = false"
                     :class="activeSection === 'books' ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'"
                     class="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
@@ -104,40 +102,17 @@
                     {{ __('Create Book') }}
                 </a>
 
-                <button @click="activeSection = 'password'; sidebarOpen = false"
-                    :class="activeSection === 'password' ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'"
+                <button @click="activeSection = 'library'; sidebarOpen = false"
+                    :class="activeSection === 'library' ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'"
                     class="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
-                    {{ __('Password') }}
+                    {{ __('My library') }}
                 </button>
             </nav>
 
 
             <!-- INFO -->
             <template x-if="activeSection === 'info'">
-                <section class="mb-8">
-                    <div class="bg-white rounded-lg border p-6">
-                        <h1 class="text-2xl font-semibold mb-6">{{ __('User Information') }}</h1>
-
-                        <div class="grid sm:grid-cols-2 gap-6">
-                            <div>
-                                <label class="text-sm text-gray-500">{{ __('Full Name') }}</label>
-                                <p>{{ $user->first_name }} {{ $user->last_name }}</p>
-                            </div>
-                            <div>
-                                <label class="text-sm text-gray-500">{{ __('Email') }}</label>
-                                <p>{{ $user->email }}</p>
-                            </div>
-                            <div>
-                                <label class="text-sm text-gray-500">{{ __('Member Since') }}</label>
-                                <p>{{ $user->created_at->format('F j, Y') }}</p>
-                            </div>
-                            <div>
-                                <label class="text-sm text-gray-500">{{ __('Total Books') }}</label>
-                                <p>{{ $user->books_count }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                @livewire('update-user', ['user' => $user], key($user->id))
             </template>
 
             <!-- BOOKS -->
@@ -145,16 +120,10 @@
                @livewire('user-books')
             </template>
 
-            <!-- PASSWORD -->
-            <template x-if="activeSection === 'password'">
+            <!-- library -->
+            <template x-if="activeSection === 'library'">
                 <section>
-                    <form method="POST" action="{{ route('auth.password') }}">
-                        @csrf
-                        @method('PUT')
-                        <button class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded">
-                            {{ __('Update Password') }}
-                        </button>
-                    </form>
+                   library
                 </section>
             </template>
 
