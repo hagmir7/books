@@ -37,8 +37,8 @@
                 @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
-            <button class="btn-primary">
-                {{ __("Save Changes") }} <span wire:loading>...</span>
+            <button class="btn-primary" wire:loading.attr="disabled" >
+                {{ __("Save Changes") }} <span wire:loading wire:target="updateInfo">...</span>
             </button>
         </form>
     </div>
@@ -82,8 +82,8 @@
                 </div>
             </div>
 
-            <button class="btn-danger">
-                {{ __("Update Password") }} <span wire:loading>...</span>
+            <button class="btn-danger" wire:loading.attr="disabled" >
+                {{ __("Update Password") }} <span wire:loading wire:target="updatePassword">...</span>
             </button>
         </form>
     </div>

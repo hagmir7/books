@@ -158,7 +158,7 @@
                 <!-- Auth / Join -->
                 <div class="flex items-center gap-2">
                     @auth
-                    <a href="#!"
+                    <a href="/profile"
                         class="sm:inline-flex items-center gap-2 bg-primar font-medium px-3 py-2.5 rounded-xl border border-gray-200 hover:bg-primary/90 hover:shadow-lg active:scale-95 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary/50"
                         title="Profile">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
