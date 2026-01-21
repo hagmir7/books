@@ -29,6 +29,8 @@ class Book extends Model
         return static::with(['category', 'author'])->where('id', '>', $this->id)
             ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
             ->orderBy('id', 'asc')
+            ->where('is_public', true)
+            ->whereNull('copyright_date')
             ->where('verified', true)
             ->first();
     }
@@ -38,6 +40,8 @@ class Book extends Model
         return static::where('id', '<', $this->id)
             ->whereHas('language', fn($query) => ($query->where('code', app()->getLocale())))
             ->where('verified', true)
+            ->where('is_public', true)
+            ->whereNull('copyright_date')
             ->orderBy('id', 'desc')
             ->first();
     }

@@ -46,7 +46,7 @@ Route::get('/', function () {
         return view('books.list');
     }
 
-    $posts = Post::where('site_id', app('site')->id)->paginate(15);
+    $posts = Post::where('site_id', app('site')->id)->paginate(32);
     return view('posts.index', [
         'posts' => $posts,
         'title' => app('site')->site_options['blog_title']
