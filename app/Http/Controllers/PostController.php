@@ -16,6 +16,7 @@ class PostController extends Controller
         $search_query = request()->query('q');
         if($search_query){
             $posts = Post::where("site_id", $site->id)
+                ->where('language_id', app('site')->language_id)
                 ->where('title', $search_query)
                 ->orWhere('title', 'like', '%' . $search_query . '%')
                 ->orWhere('tags', 'like', '%' . $search_query . '%')
@@ -28,7 +29,9 @@ class PostController extends Controller
                 ", ['%' . $search_query . '%', '%' . $search_query . '%'])
                 ->paginate(20);
         }else{
-            $posts = Post::where("site_id", $site->id)->paginate(20);
+            $posts = Post::where("site_id", $site->id)
+                ->where('language_id', app('site')->language_id)
+                ->paginate(20);
         }
 
 

@@ -13,6 +13,7 @@ class StatsOverview extends BaseWidget
     protected function getStats(): array
     {
         $todayBlogs = Post::whereDate('created_at', today())
+            // ->where('language_id', app('site')->language_id)
             ->where('site_id', app('site')->id)
             ->count();
 
