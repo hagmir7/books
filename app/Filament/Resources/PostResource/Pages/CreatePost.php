@@ -12,10 +12,18 @@ class CreatePost extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-
         $data['user_id'] = auth()->user()->id;
         $data['site_id'] = app('site')->id;
-        $data['language_id'] = app("site")->language->id;
+        $data['language_id'] = app('site')->language->id;
+
+        if (!empty($data['body'])) {
+            $data['body'] = str_replace(
+                'chatgpt.com',
+                app('site')->domain,
+                $data['body']
+            );
+        }
+
         return $data;
     }
 }
