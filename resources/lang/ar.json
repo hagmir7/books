@@ -216,5 +216,6 @@
     "Save Changes": "حفظ التغييرات",
     "Current password is incorrect.": "كلمة المرور الحالية غير صحيحة.",
     "Password updated successfully.": "تم تحديث كلمة المرور بنجاح.",
-    "Profile information updated successfully.": "تم تحديث معلومات الملف الشخصي بنجاح."
+    "Profile information updated successfully.": "تم تحديث معلومات الملف الشخصي بنجاح.",
+    "Download redirect" : "إعادة توجيه التنزيل"
 }

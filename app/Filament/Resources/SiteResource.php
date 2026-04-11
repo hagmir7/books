@@ -122,6 +122,10 @@ class SiteResource extends Resource
                                     ->rows(5)
                                     ->label(__("Footer"))
                                     ->columnSpanFull(),
+
+                                Forms\Components\TextInput::make('download_redirect')
+                                    ->label(__("Download redirect"))
+                                    ->maxLength(255),
                                 Forms\Components\TextInput::make('ads_txt')
                                     ->label(__("Ads TXT"))
                                     ->maxLength(255),

@@ -10,8 +10,21 @@ class Site extends Model
     use HasFactory;
 
     protected $fillable = [
-        'domain', 'name', 'footer', 'header', 'keywords', 'description', 'email', 'language_id',
-        'icon', 'image', 'logo', 'ads_txt', 'site_options', 'ads'
+        'domain',
+        'name',
+        'footer',
+        'header',
+        'keywords',
+        'description',
+        'email',
+        'language_id',
+        'icon',
+        'image',
+        'logo',
+        'ads_txt',
+        'site_options',
+        'ads',
+        'download_redirect'
     ];
 
 

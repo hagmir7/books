@@ -1,7 +1,7 @@
 <div class="py-3 space-y-3">
 
-    {{-- @if (Str::upper($site->domain) == "NORKITAB.COM")
-    <a rel="nofollow" href="https://lacabook.com/{{ request()->path() }}"
+    @if (app("site")->download_redirect)
+    <a rel="nofollow" href="{{ rtrim(app('site')->download_redirect, '/') }}/{{ request()->path() }}"
         class="flex items-center justify-center gap-3 ustify-center cursor-pointer transition-colors duration-200 ease-in px-4 py-2 rounded-lg bg-teal-500 text-white hover:bg-teal-400 w-full"
         aria-label="{{ __('Download external') }}">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none"
@@ -13,12 +13,11 @@
         <span>{{ __("Download") }}</span>
     </a>
 
-    <a rel="nofollow" href="https://lacabook.com/{{ request()->path() }}"
-        class="flex items-center justify-center gap-3 ustify-center cursor-pointer transition-colors duration-200 ease-in px-4 py-2 rounded-lg bg-teal-500 text-white hover:bg-teal-400 w-full"
+    <a rel="nofollow" href="{{ rtrim(app('site')->download_redirect, '/') }}/{{ request()->path() }}"
+        class="flex items-center justify-center gap-3 ustify-center cursor-pointer transition-colors duration-200 ease-in px-4 py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-400 w-full"
         aria-label="{{ __('Read') }}">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="icon icon-tabler icons-tabler-outline icon-tabler-book">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
             <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
@@ -28,7 +27,7 @@
         </svg>
         <span>{{ __("Read") }}</span>
     </a>
-    @else --}}
+    @else
     <a rel="nofollow" href="{{ asset('storage/'.$book->file) }}"
         class="flex items-center justify-center gap-3 ustify-center cursor-pointer transition-colors duration-200 ease-in px-4 py-2 rounded-lg bg-teal-500 text-white hover:bg-teal-400 w-full"
         aria-label="{{ __('Download file') }}">
@@ -44,10 +43,8 @@
     <a rel="nofollow" href="{{ route('book.read', $book->slug) }}"
         class="flex items-center justify-center gap-3 ustify-center cursor-pointer transition-colors duration-200 ease-in px-4 py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-400 w-full"
         aria-label="{{ __('Read file') }}">
-
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="icon icon-tabler icons-tabler-outline icon-tabler-book">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
             <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
@@ -57,8 +54,7 @@
         </svg>
         <span>{{ __("Read") }}</span>
     </a>
-    {{-- @endif --}}
-
+    @endif
 
     {!! app("site")->ads !!}
 </div>
