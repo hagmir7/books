@@ -224,7 +224,7 @@
                         <h2 class="text-3xl font-bold text-gray-800">Change Password</h2>
                     </div>
 
-                    <form method="POST" action="{{ route('password.update') }}" class="max-w-md">
+                    <form method="POST" action="" class="max-w-md">
                         @csrf
                         @method('PUT')
 
