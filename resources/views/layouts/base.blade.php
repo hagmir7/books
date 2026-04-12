@@ -17,6 +17,7 @@
     @yield('head')
     @livewireStyles
 
+
     @if (app()->getLocale() == 'ar')
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
     <style>
@@ -74,6 +75,8 @@
             display: none !important;
         }
     </style>
+
+    @stack('styles')
 </head>
 
 <body class="bg-gray-50">
@@ -315,6 +318,8 @@
     {{-- @livewireScripts --}}
     @livewireScriptConfig
     @yield('footer')
+
+    @stack('scripts')
 </body>
 
 </html>
