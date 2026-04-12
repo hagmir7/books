@@ -195,7 +195,7 @@ class BookController extends Controller
 
     public function updateAndPublishBooksWithSdk(): \Illuminate\Http\JsonResponse
     {
-        $client = OpenAI::client(config('openai.api_key'));
+        $client = OpenAI::client(config('services.openai.api_key'));
 
         $books = Book::with('author')->where('verified', false)
             ->latest()
