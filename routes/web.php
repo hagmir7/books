@@ -8,6 +8,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\UserController;
+use App\Livewire\CreateBook;
 use App\Models\Book;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -27,7 +28,10 @@ Route::get('/ads.txt', function () {
     return response(app('site')->ads_txt, 200);
 });
 
-
+Route::get('logout', function(){
+    auth()->logout();
+    return redirect('/');
+})->name('logout');
 
 Route::controller(UserController::class)->prefix('auth')->group(function () {
     Route::get('login', 'login')->name("auth.login");
@@ -62,13 +66,19 @@ Route::controller(PostController::class)->prefix('blog')->group(function(){
 });
 
 
+
+// Route::get('books/create', CreateBook::class)->name('books.create');
+
 // Books
 Route::controller(BookController::class)->prefix('books')->group(function () {
     Route::get('', 'index')->name('books.index');
-    Route::get("{book:slug}", 'show')->name("book.show");
     Route::get("create", 'cerate')->name("book.create");
+    Route::get("{book:slug}", 'show')->name("book.show");
+
     Route::get("read/{book:slug}", 'read')->name("book.read");
 });
+
+
 
 
 // Categories

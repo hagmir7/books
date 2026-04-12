@@ -38,7 +38,7 @@
                         My Books
                     </a>
 
-                    <a href="{{ route('books.create') }}"
+                    <a href="{{ route('book.create') }}"
                         class="nav-item flex items-center px-4 py-3 text-gray-600 rounded-lg transition-all hover:bg-gray-100">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -126,7 +126,7 @@
                         </div>
                         <h2 class="text-3xl font-bold text-gray-800">My Books</h2>
                     </div>
-                    <a href="{{ route('books.create') }}"
+                    <a href="{{ route('book.create') }}"
                         class="px-6 py-3 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-all shadow-md hover:shadow-lg">
                         + Add New Book
                     </a>
@@ -141,7 +141,7 @@
                     </svg>
                     <h3 class="text-xl font-semibold text-gray-600 mb-2">No books yet</h3>
                     <p class="text-gray-500 mb-6">Start your collection by creating your first book!</p>
-                    <a href="{{ route('books.create') }}"
+                    <a href="{{ route('book.create') }}"
                         class="inline-block px-8 py-3 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-all">
                         Create Your First Book
                     </a>
@@ -195,11 +195,11 @@
                             </div>
 
                             <div class="flex gap-2">
-                                <a href="{{ route('books.show', $book->id) }}"
+                                <a href="{{ route('book.show', $book->id) }}"
                                     class="flex-1 px-4 py-2 bg-indigo-600 text-white text-center rounded-lg font-medium hover:bg-indigo-700 transition-all">
                                     View
                                 </a>
-                                <a href="{{ route('books.edit', $book->id) }}"
+                                <a href=""
                                     class="flex-1 px-4 py-2 bg-gray-100 text-gray-700 text-center rounded-lg font-medium hover:bg-gray-200 transition-all">
                                     Edit
                                 </a>

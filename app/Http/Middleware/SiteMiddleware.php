@@ -15,12 +15,30 @@ class SiteMiddleware
 
     public function handle(Request $request, Closure $next): Response
     {
-        $site = app("site");
-        app()->setLocale($site->language->code);
-        $currentUrl = request()->getSchemeAndHttpHost();
-        config(['app.url' => str_replace('dev.', '', $currentUrl)]);
+        // Skip middleware for excluded routes
+        foreach ($this->except as $except) {
+            if ($request->is($except)) {
+                return $next($request);
+            }
+        }
 
+        $site = app("site");
+
+        if ($site && $site->language) {
+            app()->setLocale($site->language->code);
+        }
+
+        // Use request instance instead of helper
+        $currentUrl = $request->getSchemeAndHttpHost();
+
+        // Remove "dev." safely
+        $cleanUrl = preg_replace('/^https?:\/\/dev\./', $request->getScheme() . '://', $currentUrl);
+
+        config(['app.url' => $cleanUrl]);
+
+        // Share site globally in views
         View::share('site', $site);
+
         return $next($request);
     }
 }

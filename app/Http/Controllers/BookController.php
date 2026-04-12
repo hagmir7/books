@@ -342,4 +342,9 @@ PROMPT;
     {
         return view('books.redirect', compact('book'));
     }
+
+
+    public function cerate(){
+        return view('books.create');
+    }
 }
