@@ -32,7 +32,8 @@ class BookController extends Controller
         ]);
     }
 
-    public function read(Book $book){
+    public function read(Book $book)
+    {
         !$book->is_public && abort(403);
         !$book->verified && abort(404);
 
@@ -76,7 +77,8 @@ class BookController extends Controller
     }
 
 
-    public function create(){
+    public function create()
+    {
         return view('books.create');
     }
 
@@ -193,12 +195,12 @@ class BookController extends Controller
 
     public function updateAndPublishBooksWithSdk(): \Illuminate\Http\JsonResponse
     {
-        $client = OpenAI::client(env('OPENAI_API_KEY'));
+        $client = OpenAI::client(config('services.openai.api_key'));
 
         $books = Book::with('author')->where('verified', false)
             ->latest()
             ->where('language_id', 2)
-            ->where('file', "like", "%pdf%")
+            ->where('file', 'like', '%pdf%')
             ->take(10)
             ->get();
 
@@ -206,39 +208,75 @@ class BookController extends Controller
         $failed = 0;
 
         foreach ($books as $book) {
-            $prompt = <<<PROMPT
-        Return only a valid JSON object. Do not include markdown or code block formatting.
+            $bookName = $book->name;
+            $authorName = $book->author->name;
 
-        Keys to include in the JSON:
-        - "meta_description": a short, SEO-optimized details in Arabic, between 140 and 159 characters (important for seo), ignore (اكتشف).
-        - "content": a long, detailed Arabic description of the book (NOT a summary, don't use Introduction (خاتمة) and conclusen (مقدمة)). Write in rich HTML format using only <h2>, <h3>, and <p> tags. The content must be more than 1000 characters.
-        - "tags": 8 to 12 relevant Arabic meta keywords related to the book, genre, author, and themes, separated by commas, Type of camma is (,).
+            $systemPrompt = <<<SYSTEM
+أنت كاتب محتوى عربي محترف ومتخصص في وصف الكتب وتحسين محركات البحث (SEO).
 
-        Avoid repeating the same meta description for different books. Do not add introductions or explanations.
+## مهمتك
+إنشاء وصف تفصيلي غني ووسوم وصفية لكتب عربية.
 
+## قواعد صارمة
+- أجب **فقط** بكائن JSON صالح. لا تضف أي نص قبله أو بعده.
+- لا تستخدم علامات markdown مثل ```json أو ```.
+- لا تبدأ أي نص بكلمة "اكتشف".
+- لا تكرر نفس الوصف التعريفي لكتب مختلفة.
 
-        Book Title: "{$book->name}"
-        Author: "{$book->author->name}"
-        PROMPT;
+## بنية JSON المطلوبة
+{
+  "meta_description": "...",
+  "content": "...",
+  "tags": "..."
+}
+SYSTEM;
+
+            $userPrompt = <<<PROMPT
+اكتب محتوى للكتاب التالي:
+- **عنوان الكتاب**: "{$bookName}"
+- **المؤلف**: "{$authorName}"
+
+---
+
+### meta_description
+وصف تعريفي قصير بالعربية محسّن لمحركات البحث.
+- الطول: بين 140 و 159 حرفاً بالضبط (هذا شرط أساسي).
+- يجب أن يكون جذاباً ويحتوي على اسم الكتاب والمؤلف.
+- لا تبدأ بكلمة "اكتشف".
+- لا تستخدم علامات HTML.
+
+### content
+وصف تفصيلي طويل وشامل للكتاب بالعربية — وليس ملخصاً.
+- **الطول**: أكثر من 1500 حرف (كلما كان أطول وأغنى كان أفضل).
+- **التنسيق**: HTML فقط باستخدام وسوم <h2> و <h3> و <p>. لا تستخدم أي وسوم أخرى.
+- **الأسلوب**: اكتب بأسلوب أدبي جذاب ومتنوع. نوّع في طول الجمل واستخدم لغة حية.
+- **البنية المقترحة**:
+  - تقديم عن الكتاب وسياقه الأدبي والثقافي
+  - أبرز المحاور والأفكار التي يتناولها الكتاب (3-5 محاور)
+  - أسلوب المؤلف وما يميز هذا العمل
+  - لمن يُنصح بقراءة هذا الكتاب ولماذا
+- **ممنوع**: لا تستخدم كلمة "مقدمة" أو "خاتمة" كعناوين. لا تكتب ملخصاً للفصول.
+- لا تكرر نفس الفكرة في أكثر من فقرة.
+
+### tags
+من 8 إلى 12 كلمة مفتاحية عربية مرتبطة بالكتاب.
+- تشمل: اسم الكتاب، اسم المؤلف، النوع الأدبي، الموضوعات الرئيسية.
+- مفصولة بفاصلة إنجليزية (,) وليست فاصلة عربية (،).
+- مثال: "رواية عربية,اسم المؤلف,اسم الكتاب,أدب معاصر,..."
+PROMPT;
 
             try {
                 $result = $client->chat()->create([
-                    'model' => 'gpt-5',
+                    'model' => 'gpt-4o',
                     'messages' => [
-                        [
-                            'role' => 'system',
-                            'content' => 'You are an assistant that creates improved book long descriptions and meta descriptions. Respond only in valid JSON format.',
-                        ],
-                        ['role' => 'user', 'content' => $prompt],
+                        ['role' => 'system', 'content' => $systemPrompt],
+                        ['role' => 'user', 'content' => $userPrompt],
                     ],
+                    'temperature' => 0.7,
+                    'response_format' => ['type' => 'json_object'],
                 ]);
 
-
                 $content = trim($result->choices[0]->message->content);
-
-                // Clean up markdown if accidentally added
-                $content = preg_replace('/^```(?:json)?|```$/', '', $content);
-
                 $data = json_decode($content, true);
 
                 if (json_last_error() !== JSON_ERROR_NONE) {
@@ -250,31 +288,40 @@ class BookController extends Controller
                     continue;
                 }
 
-                if (isset($data['meta_description'], $data['content'], $data['tags'])) {
-                    if (mb_strlen(strip_tags($data['content'])) < 1000) {
-                        Log::warning("Generated content too short for book ID {$book->id}");
-                        $failed++;
-                        continue;
-                    }
-
-                    $book->update([
-                        'description' => $data['meta_description'],
-                        'body' => $data['content'],
-                        'tags' => $data['tags'],
-                        'verified' => true,
-                        'is_public' => true
-                    ]);
-
-                    $updated++;
-                } else {
+                $missingKeys = array_diff(['meta_description', 'content', 'tags'], array_keys($data));
+                if (!empty($missingKeys)) {
                     Log::warning("Missing keys in OpenAI response for book ID {$book->id}", [
-                        'response' => $content,
+                        'missing' => $missingKeys,
                     ]);
                     $failed++;
+                    continue;
                 }
 
-                // Avoid rate limiting
-                usleep(500000); // 0.5 second
+                $contentLength = mb_strlen(strip_tags($data['content']));
+                $metaLength = mb_strlen($data['meta_description']);
+
+                if ($contentLength < 1000) {
+                    Log::warning("Content too short for book ID {$book->id}: {$contentLength} chars");
+                    $failed++;
+                    continue;
+                }
+
+                if ($metaLength < 140 || $metaLength > 159) {
+                    Log::warning("Meta description out of range for book ID {$book->id}: {$metaLength} chars");
+                    // Don't fail — truncate or let it pass, since content is valid
+                }
+
+                $book->update([
+                    'description' => $data['meta_description'],
+                    'body' => $data['content'],
+                    'tags' => $data['tags'],
+                    'verified' => true,
+                    'is_public' => true,
+                ]);
+
+                $updated++;
+
+                usleep(500000);
             } catch (\Exception $e) {
                 Log::error("OpenAI API call failed for book ID {$book->id}", [
                     'error' => $e->getMessage(),
@@ -289,6 +336,8 @@ class BookController extends Controller
             'failed' => $failed,
         ]);
     }
+
+
     public function redirector(Book $book)
     {
         return view('books.redirect', compact('book'));
