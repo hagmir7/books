@@ -60,10 +60,10 @@ class CreateBook extends Component
         $this->selectedAuthorName = '';
 
         if (strlen($this->authorSearch) >= 2) {
-            $this->authorResults = Author::where('name', 'like', '%' . $this->authorSearch . '%')
+            $this->authorResults = Author::where('full_name', 'like', '%' . $this->authorSearch . '%')
                 ->limit(10)
                 ->get()
-                ->map(fn($a) => ['id' => $a->id, 'name' => $a->name])
+                ->map(fn($a) => ['id' => $a->id, 'name' => $a->full_name])
                 ->toArray();
             $this->showAuthorDropdown = true;
         } else {
@@ -203,7 +203,7 @@ class CreateBook extends Component
 
         // Create new author
         $author = Author::create([
-            'name' => $name,
+            'full_name' => $name,
             'slug' => Str::slug($name),
         ]);
 

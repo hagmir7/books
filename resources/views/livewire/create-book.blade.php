@@ -25,54 +25,56 @@
 
     {{-- Header --}}
     <div class="mb-8">
-        <h1 class="text-2xl font-bold text-gray-900">Add New Book</h1>
-        <p class="mt-1 text-sm text-gray-500">Fill in the details below to add a new book to the library.</p>
+        <h1 class="text-2xl font-bold text-gray-900">{{ __("Add New Book") }}</h1>
+        <p class="mt-1 text-sm text-gray-500">{{ __("Fill in the details below to add a new book to the library.") }}</p>
     </div>
 
     <form wire:submit="save" class="space-y-8">
 
         {{-- ─── Basic Info Section ─── --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6">
-            <h2 class="text-lg font-semibold text-gray-800 border-b border-gray-100 pb-3">Basic Information</h2>
+            <h2 class="text-lg font-semibold text-gray-800 border-b border-gray-100 pb-3">{{ __("Basic Information") }}</h2>
 
+          <div class="flex gap-2">
             {{-- Name --}}
-            <div>
-                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Book Name <span
+            <div class="w-full">
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">{{ __("Book name") }} <span
                         class="text-red-500">*</span></label>
-                <input type="text" id="name" wire:model.blur="name" placeholder="Enter book name"
-                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm transition" />
+                <input type="text" id="name" wire:model.blur="name" placeholder="{{ __("Enter book name") }}"
+                    class="w-full rounded-lg p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm transition" />
                 @error('name') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
 
             {{-- ISBN --}}
-            <div>
-                <label for="isbn" class="block text-sm font-medium text-gray-700 mb-1">ISBN <span
+            <div class="w-full">
+                <label for="isbn" class="block text-sm font-medium text-gray-700 mb-1">{{ __("ISBN") }} <span
                         class="text-red-500">*</span></label>
                 <input type="text" id="isbn" wire:model.blur="isbn" placeholder="e.g. 978-3-16-148410-0"
-                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm transition" />
+                    class="w-full rounded-lg p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm transition" />
                 @error('isbn') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
+          </div>
 
             {{-- Description --}}
             <div>
-                <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Short Description <span
+                <label for="description" class="block text-sm font-medium text-gray-700 mb-1">{{ __("Short Description") }} <span
                         class="text-red-500">*</span></label>
                 <textarea id="description" wire:model.blur="description" rows="3" maxlength="500"
-                    placeholder="Brief summary of the book..."
-                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm transition"></textarea>
-                <p class="mt-1 text-xs text-gray-400">{{ strlen($description) }}/500 characters</p>
+                    placeholder="{{ __("Brief summary of the book...") }}"
+                    class="w-full rounded-lg p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm transition"></textarea>
+                <p class="mt-1 text-xs text-gray-400">{{ strlen($description) }}/500 {{ __("characters") }}</p>
                 @error('description') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
 
             {{-- Body (Rich Text) --}}
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Full Description <span
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ __("Full Description") }} <span
                         class="text-red-500">*</span></label>
                 <div wire:ignore x-data="{
                         init() {
                             const editor = new Quill(this.$refs.editor, {
                                 theme: 'snow',
-                                placeholder: 'Write the full book description...',
+                                placeholder: '{{ __("Write the full book description...") }}',
                                 modules: {
                                     toolbar: [
                                         [{ 'header': [2, 3, false] }],
@@ -97,27 +99,24 @@
 
         {{-- ─── Author & Category Section ─── --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6">
-            <h2 class="text-lg font-semibold text-gray-800 border-b border-gray-100 pb-3">Author & Category</h2>
+            <h2 class="text-lg font-semibold text-gray-800 border-b border-gray-100 pb-3">{{ __("Author & Category") }}</h2>
 
+          <div class="flex gap-2">
             {{-- Author Combobox --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Author <span
-                        class="text-red-500">*</span></label>
+            <div class="w-full">
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ __("Author") }} <span class="text-red-500">*</span></label>
                 <div class="relative" x-data="{ open: @entangle('showAuthorDropdown') }" @click.outside="open = false">
                     @if ($selectedAuthorName)
                     {{-- Selected state --}}
-                    <div
-                        class="flex items-center gap-2 px-3 py-2 rounded-lg border border-indigo-200 bg-indigo-50 text-sm">
+                    <div class="flex items-center gap-2 px-3 py-2 rounded-lg border border-indigo-200 bg-indigo-50 text-sm">
                         <svg class="w-4 h-4 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                clip-rule="evenodd" />
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                         </svg>
                         <span class="text-indigo-800 font-medium">{{ $selectedAuthorName }}</span>
                         <button type="button" wire:click="clearAuthor"
                             class="ml-auto text-indigo-400 hover:text-indigo-700 transition">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
@@ -125,9 +124,9 @@
                     {{-- Search input --}}
                     <div class="relative">
                         <input type="text" wire:model.live.debounce.300ms="authorSearch"
-                            placeholder="Search or type a new author name..."
+                            placeholder="{{ __("Search or type a new author name...") }}"
                             @focus="if ($wire.authorSearch.length >= 2) open = true"
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm pl-9 transition" />
+                            class="w-full rounded-lg p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm pl-9 transition" />
                         <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -135,25 +134,20 @@
                         </svg>
                         <div wire:loading wire:target="authorSearch" class="absolute right-3 top-1/2 -translate-y-1/2">
                             <svg class="animate-spin w-4 h-4 text-indigo-500" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                    stroke-width="4" />
-                                <path class="opacity-75" fill="currentColor"
-                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                             </svg>
                         </div>
                     </div>
 
                     {{-- Dropdown --}}
                     <div x-show="open" x-transition:enter="transition ease-out duration-150"
-                        x-transition:enter-start="opacity-0 -translate-y-1"
-                        x-transition:enter-end="opacity-100 translate-y-0"
-                        x-transition:leave="transition ease-in duration-100"
-                        x-transition:leave-start="opacity-100 translate-y-0"
+                        x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
+                        x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 translate-y-0"
                         x-transition:leave-end="opacity-0 -translate-y-1"
                         class="absolute z-30 mt-1 w-full bg-white rounded-lg shadow-lg border border-gray-200 max-h-48 overflow-y-auto">
                         @forelse ($authorResults as $author)
-                        <button type="button"
-                            wire:click="selectAuthor({{ $author['id'] }}, '{{ addslashes($author['name']) }}')"
+                        <button type="button" wire:click="selectAuthor({{ $author['id'] }}, '{{ addslashes($author['name']) }}')"
                             class="w-full text-left px-4 py-2.5 text-sm hover:bg-indigo-50 flex items-center gap-2 transition">
                             <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
@@ -164,10 +158,9 @@
                         @empty
                         @if (strlen($authorSearch) >= 2)
                         <div class="px-4 py-3 text-sm text-gray-500">
-                            <p>No author found.</p>
+                            <p>{{ __("No author found") }}.</p>
                             <p class="text-indigo-600 font-medium mt-1">
-                                "<span class="font-semibold">{{ $authorSearch }}</span>" will be created as a new
-                                author.
+                                "<span class="font-semibold">{{ $authorSearch }}</span>" {{ __("will be created as a new author") }}.
                             </p>
                         </div>
                         @endif
@@ -179,15 +172,12 @@
             </div>
 
             {{-- Category Combobox --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Category <span
-                        class="text-red-500">*</span></label>
-                <div class="relative" x-data="{ open: @entangle('showCategoryDropdown') }"
-                    @click.outside="open = false">
+            <div class="w-full">
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ __("Category") }} <span class="text-red-500">*</span></label>
+                <div class="relative" x-data="{ open: @entangle('showCategoryDropdown') }" @click.outside="open = false">
                     @if ($selectedCategoryName)
                     {{-- Selected state --}}
-                    <div
-                        class="flex items-center gap-2 px-3 py-2 rounded-lg border border-emerald-200 bg-emerald-50 text-sm">
+                    <div class="flex items-center gap-2 px-3 py-2 rounded-lg border border-emerald-200 bg-emerald-50 text-sm">
                         <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
@@ -197,8 +187,7 @@
                         <button type="button" wire:click="clearCategory"
                             class="ml-auto text-emerald-400 hover:text-emerald-700 transition">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
@@ -206,31 +195,26 @@
                     {{-- Search input --}}
                     <div class="relative">
                         <input type="text" wire:model.live.debounce.300ms="categorySearch"
-                            placeholder="Search or type a new category name..."
+                            placeholder="{{ __("Search or type a new category name...") }}"
                             @focus="if ($wire.categorySearch.length >= 2) open = true"
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm pl-9 transition" />
+                            class="w-full rounded-lg p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm pl-9 transition" />
                         <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
-                        <div wire:loading wire:target="categorySearch"
-                            class="absolute right-3 top-1/2 -translate-y-1/2">
+                        <div wire:loading wire:target="categorySearch" class="absolute right-3 top-1/2 -translate-y-1/2">
                             <svg class="animate-spin w-4 h-4 text-indigo-500" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                    stroke-width="4" />
-                                <path class="opacity-75" fill="currentColor"
-                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                             </svg>
                         </div>
                     </div>
 
                     {{-- Dropdown --}}
                     <div x-show="open" x-transition:enter="transition ease-out duration-150"
-                        x-transition:enter-start="opacity-0 -translate-y-1"
-                        x-transition:enter-end="opacity-100 translate-y-0"
-                        x-transition:leave="transition ease-in duration-100"
-                        x-transition:leave-start="opacity-100 translate-y-0"
+                        x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
+                        x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 translate-y-0"
                         x-transition:leave-end="opacity-0 -translate-y-1"
                         class="absolute z-30 mt-1 w-full bg-white rounded-lg shadow-lg border border-gray-200 max-h-48 overflow-y-auto">
                         @forelse ($categoryResults as $category)
@@ -260,26 +244,26 @@
                 </div>
                 @error('categorySearch') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
+          </div>
         </div>
 
         {{-- ─── Media Section ─── --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6">
-            <h2 class="text-lg font-semibold text-gray-800 border-b border-gray-100 pb-3">Media & Files</h2>
+            <h2 class="text-lg font-semibold text-gray-800 border-b border-gray-100 pb-3">{{ __("Media & Files") }}</h2>
 
-            {{-- Cover Image --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Cover Image</label>
-                <div x-data="{ dragging: false }" x-on:dragover.prevent="dragging = true"
-                    x-on:dragleave.prevent="dragging = false" x-on:drop.prevent="dragging = false" class="relative">
+           <div class="flex gap-2">
+           {{-- Cover Image --}}
+            <div class="w-full">
+                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __("Cover Image") }}</label>
+                <div x-data="{ dragging: false }" x-on:dragover.prevent="dragging = true" x-on:dragleave.prevent="dragging = false"
+                    x-on:drop.prevent="dragging = false" class="relative">
                     @if ($image)
                     <div class="relative rounded-lg overflow-hidden border-2 border-indigo-200 bg-gray-50">
-                        <img src="{{ $image->temporaryUrl() }}" alt="Preview"
-                            class="w-full h-56 object-contain bg-gray-100" />
+                        <img src="{{ $image->temporaryUrl() }}" alt="Preview" class="w-full h-56 object-contain bg-gray-100" />
                         <button type="button" wire:click="$set('image', null)"
                             class="absolute top-2 right-2 bg-white/90 backdrop-blur rounded-full p-1.5 shadow hover:bg-red-50 transition">
                             <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
@@ -290,20 +274,18 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <p class="text-sm text-gray-500">Click or drag to upload cover image</p>
-                        <p class="text-xs text-gray-400 mt-1">PNG, JPG up to 2MB</p>
+                        <p class="text-sm text-gray-500">{{ __("Click or drag to upload cover image") }}</p>
+                        <p class="text-xs text-gray-400 mt-1">{{ __("PNG, JPG up to 2MB") }}</p>
                         <input type="file" wire:model="image" accept="image/*" class="hidden" />
                     </label>
                     @endif
                     <div wire:loading wire:target="image" class="mt-2">
                         <div class="flex items-center gap-2 text-sm text-indigo-600">
                             <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                    stroke-width="4" />
-                                <path class="opacity-75" fill="currentColor"
-                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                             </svg>
-                            Uploading image...
+                            {{ __("Uploading image...") }}
                         </div>
                     </div>
                 </div>
@@ -311,11 +293,10 @@
             </div>
 
             {{-- PDF File --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">PDF File <span
-                        class="text-red-500">*</span></label>
-                <div x-data="{ dragging: false }" x-on:dragover.prevent="dragging = true"
-                    x-on:dragleave.prevent="dragging = false" x-on:drop.prevent="dragging = false">
+            <div class="w-full">
+                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __("PDF File") }} <span class="text-red-500">*</span></label>
+                <div x-data="{ dragging: false }" x-on:dragover.prevent="dragging = true" x-on:dragleave.prevent="dragging = false"
+                    x-on:drop.prevent="dragging = false">
                     @if ($file)
                     <div class="rounded-lg border-2 border-emerald-200 bg-emerald-50/50 p-4">
                         <div class="flex items-start gap-3">
@@ -345,7 +326,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                         </svg>
-                                        Pages: <strong>{{ $pdfPages }}</strong>
+                                        {{ __("Pages") }}: <strong>{{ $pdfPages }}</strong>
                                     </span>
                                     @endif
                                 </div>
@@ -366,32 +347,31 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                 d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                         </svg>
-                        <p class="text-sm text-gray-500">Click or drag to upload PDF</p>
-                        <p class="text-xs text-gray-400 mt-1">PDF up to 50MB</p>
+                        <p class="text-sm text-gray-500">{{ __("Click or drag to upload PDF") }}</p>
+                        <p class="text-xs text-gray-400 mt-1">{{ __("PDF up to 50MB") }}</p>
                         <input type="file" wire:model="file" accept=".pdf,application/pdf" class="hidden" />
                     </label>
                     @endif
                     <div wire:loading wire:target="file" class="mt-2">
                         <div class="flex items-center gap-2 text-sm text-indigo-600">
                             <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                    stroke-width="4" />
-                                <path class="opacity-75" fill="currentColor"
-                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                             </svg>
-                            Uploading & analyzing PDF...
+                            {{ __("Uploading & analyzing PDF...") }}
                         </div>
                     </div>
                 </div>
                 @error('file') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
+           </div>
         </div>
 
         {{-- ─── Submit ─── --}}
         <div class="flex items-center justify-end gap-3 pt-2">
             <a href="{{ route('books.index') }}"
                 class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-                Cancel
+                {{ __("Cancel") }}
             </a>
             <button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-not-allowed"
                 class="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition shadow-sm">
@@ -404,7 +384,7 @@
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                Save Book
+                {{ __("Save Book") }}
             </button>
         </div>
     </form>
