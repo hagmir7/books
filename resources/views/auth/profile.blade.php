@@ -21,13 +21,14 @@
                 <div class="flex-shrink-0 flex justify-center">
                     <a href="/" class="block" :aria-label="$el?.querySelector('img')?.alt || '{{ $site->name }}'">
                         <img src="{{ asset('storage/'.$site->logo) }}" alt="{{ $site->name }}" loading="lazy"
-                            class="h-8 sm:h10 lg:h-12 object-contain">
+                            class="h-8 sm:h-10 lg:h-12 object-contain">
                     </a>
                 </div>
+
                 <!-- Profile Header -->
                 <div class="text-center mb-6 mt-4">
                     <img src="https://ui-avatars.com/api/?name={{ urlencode($user->first_name) }}&size=96&background=4f46e5&color=fff"
-                        class="w-20 h-20 rounded-full mx-auto">
+                        class="w-20 h-20 rounded-full mx-auto" alt="{{ $user->first_name }}">
                     <h2 class="mt-3 text-lg font-semibold text-gray-900">
                         {{ $user->first_name }} {{ $user->last_name }}
                     </h2>
@@ -36,8 +37,6 @@
 
                 <!-- Navigation -->
                 <nav class="space-y-1">
-
-
                     <button @click="activeSection = 'books'; sidebarOpen = false"
                         :class="activeSection === 'books' ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'"
                         class="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
@@ -50,10 +49,12 @@
                         {{ __('My Info') }}
                     </button>
 
-                    <a href="{{ route('book.create') }}"
-                        class="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-md transition">
+
+                    <button @click="activeSection = 'create'; sidebarOpen = false"
+                        :class="activeSection === 'create' ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'"
+                        class="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
                         {{ __('Create Book') }}
-                    </a>
+                    </button>
 
                     <button @click="activeSection = 'library'; sidebarOpen = false"
                         :class="activeSection === 'library' ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'"
@@ -61,71 +62,67 @@
                         {{ __('My library') }}
                     </button>
                 </nav>
-
-                <!-- Logout -->
-                {{-- <div class="mt-6 pt-4 border-t">
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button class="w-full text-red-600">{{ __('Logout') }}</button>
-                    </form>
-                </div> --}}
-
             </div>
         </aside>
 
         <!-- Main Content -->
         <main class="flex-1 p-4 md:p-8 md:pt-8 {{ app()->getLocale() == 'ar' ? 'md:mr-64' : 'md:ml-64' }}">
 
+            <!-- Mobile Profile -->
             <div class="text-center mb-6 md:hidden">
                 <img src="https://ui-avatars.com/api/?name={{ urlencode($user->first_name) }}&size=96&background=4f46e5&color=fff"
-                    class="w-20 h-20 rounded-full mx-auto">
+                    class="w-20 h-20 rounded-full mx-auto" alt="{{ $user->first_name }}">
                 <h2 class="mt-3 text-lg font-semibold text-gray-900">
                     {{ $user->first_name }} {{ $user->last_name }}
                 </h2>
                 <p class="text-sm text-gray-500">{{ $user->email }}</p>
             </div>
 
-            <nav class="space-y-1 md:hidden">
-                <button @click="activeSection = 'books'; sidebarOpen = false"
+            <!-- Mobile Navigation -->
+            <nav class="space-y-1 md:hidden mb-6">
+                <button @click="activeSection = 'books'"
                     :class="activeSection === 'books' ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'"
                     class="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
                     {{ __('My Books') }}
                 </button>
-                <button @click="activeSection = 'info'; sidebarOpen = false"
+
+                <button @click="activeSection = 'info'"
                     :class="activeSection === 'info' ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'"
                     class="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
                     {{ __('My Info') }}
                 </button>
 
-                <a href="{{ route('book.create') }}"
-                    class="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-md transition">
-                    {{ __('Create Book') }}
-                </a>
+                <button @click="activeSection = 'create'"
+                    :class="activeSection === 'create' ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'"
+                    class="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
+                    {{ __('New book') }}
+                </button>
 
-                <button @click="activeSection = 'library'; sidebarOpen = false"
+                <button @click="activeSection = 'library'"
                     :class="activeSection === 'library' ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'"
                     class="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
                     {{ __('My library') }}
                 </button>
             </nav>
 
+            <!-- Sections -->
+            <div x-show="activeSection === 'info'" x-cloak>
+                @livewire('update-user', ['user' => $user], key('update-user-' . $user->id))
+            </div>
 
-            <!-- INFO -->
-            <template x-if="activeSection === 'info'">
-                @livewire('update-user', ['user' => $user], key($user->id))
-            </template>
+            <div x-show="activeSection === 'create'" x-cloak>
+                @livewire('create-book')
+            </div>
 
-            <!-- BOOKS -->
-            <template x-if="activeSection === 'books'">
-               @livewire('user-books')
-            </template>
+            <div x-show="activeSection === 'books'" x-cloak>
+                @livewire('user-books')
+            </div>
 
-            <!-- library -->
-            <template x-if="activeSection === 'library'">
+            <div x-show="activeSection === 'library'" x-cloak>
                 <section>
-                   library
+                    library
                 </section>
-            </template>
+            </div>
 
         </main>
     </div>

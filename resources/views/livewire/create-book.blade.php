@@ -1,5 +1,4 @@
 <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-
     {{-- Success / Error Flash --}}
     @if (session()->has('success'))
     <div class="mb-6 rounded-lg bg-emerald-50 border border-emerald-200 p-4 flex items-center gap-3">
@@ -33,8 +32,6 @@
 
         {{-- ─── Basic Info Section ─── --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6">
-            <h2 class="text-lg font-semibold text-gray-800 border-b border-gray-100 pb-3">{{ __("Basic Information") }}</h2>
-
           <div class="flex gap-2">
             {{-- Name --}}
             <div class="w-full">
@@ -308,8 +305,7 @@
                                 </svg>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium text-gray-800 truncate">{{ $file->getClientOriginalName()
-                                    }}</p>
+                                <p class="text-sm font-medium text-gray-800 truncate">{{ $file->getClientOriginalName() }}</p>
                                 <div class="flex flex-wrap gap-x-4 gap-y-1 mt-1.5">
                                     @if ($pdfSize)
                                     <span class="inline-flex items-center gap-1 text-xs text-gray-600">
@@ -317,7 +313,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0014.586 3H7c-2 0-3 1-3 3v1z" />
                                         </svg>
-                                        Size: <strong>{{ $pdfSize }}</strong>
+                                        {{ __("Size") }}: <strong>{{ $pdfSize }}</strong>
                                     </span>
                                     @endif
                                     @if ($pdfPages)
