@@ -60,10 +60,7 @@ class BookController extends Controller
         !$book->is_public && abort(403);
         !$book->verified && abort(404);
 
-        // if (app('site')->domain == 'agmir.shop') {
-        //     return view('books.redirect', compact('book'));
-        // }
-
+        app()->setLocale($book->language->code);
 
         return view("books.show", [
             "book" => $book,
