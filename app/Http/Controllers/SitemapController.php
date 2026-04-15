@@ -58,7 +58,6 @@ class SitemapController extends Controller
                 $sitemap->add(Url::create("/blog/{$post->slug}"));
             });
         }
-        $sitemap->writeTofile(public_path(app("site")->domain . '.xml'));
-        return "Sitemap generated successfully!";
+        return $sitemap->toResponse(request());
     }
 }

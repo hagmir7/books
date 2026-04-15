@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/sitemap', [SitemapController::class, 'index']);
+// Route::get('/sitemap', [SitemapController::class, 'index']);
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 
 Route::get('/livewire/update', function () {
