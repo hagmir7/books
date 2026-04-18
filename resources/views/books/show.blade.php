@@ -18,7 +18,7 @@
         "@type" => "Organization",
         "name" => app('site')->domain,
     ],
-    "datePublished" => optional($book->created_at)->toAtomString(),
+    "datePublished" => optional($book->updated_at)->toAtomString(),
     "aggregateRating" => [
         "@type" => "AggregateRating",
         "ratingValue" => $rating ?? 5,
