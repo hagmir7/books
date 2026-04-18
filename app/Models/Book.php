@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\Sluggable\SlugOptions;
@@ -103,7 +104,7 @@ class Book extends Model
             }
         });
 
-        // Delete files from storage whenever the book is deleted.
+        // Fires on both soft delete and force delete
         static::deleting(function ($book) {
             $book->deleteFiles();
         });
@@ -115,55 +116,79 @@ class Book extends Model
      */
     protected function deleteFiles(): void
     {
-        // Use getAttributes() to bypass any accessor that might transform the value
+        Log::info('[Book::deleteFiles] called', ['book_id' => $this->id]);
+
+        // Read raw DB values, bypassing any accessors
         $attributes = $this->getAttributes();
 
         foreach (['image', 'file'] as $key) {
             $raw = $attributes[$key] ?? null;
 
+            Log::info("[Book::deleteFiles] {$key} raw value", ['value' => $raw]);
+
             if (!$raw) {
                 continue;
             }
 
-            $this->deleteFromStorage($raw);
+            $this->deleteFromStorage($raw, $key);
         }
     }
 
 
     /**
-     * Delete a single file from storage, handling various path formats.
+     * Delete a single file from storage.
      */
-    protected function deleteFromStorage(string $path): void
+    protected function deleteFromStorage(string $path, string $label = ''): void
     {
-        // If the value is a full URL, extract just the path portion
+        $original = $path;
+
+        // 1. If it's a full URL (http:// or https://), extract only the path portion.
+        //    'https://lacabook.com/storage/book_files/abc.pdf' -> '/storage/book_files/abc.pdf'
         if (Str::startsWith($path, ['http://', 'https://'])) {
-            $path = parse_url($path, PHP_URL_PATH) ?? $path;
+            $path = parse_url($path, PHP_URL_PATH) ?: $path;
         }
 
-        // Normalize: remove leading slash and 'storage/' prefix
-        // so the path is relative to the 'public' disk root.
-        // Examples:
-        //   '/storage/book_files/abc.pdf'        -> 'book_files/abc.pdf'
-        //   'storage/book_images/xyz.jpg'        -> 'book_images/xyz.jpg'
-        //   'book_files/abc.pdf'                 -> 'book_files/abc.pdf'
+        // 2. Strip leading slash.   '/storage/book_files/abc.pdf' -> 'storage/book_files/abc.pdf'
         $path = ltrim($path, '/');
+
+        // 3. Strip 'storage/' prefix. 'storage/book_files/abc.pdf' -> 'book_files/abc.pdf'
         if (Str::startsWith($path, 'storage/')) {
             $path = Str::after($path, 'storage/');
         }
 
-        $disk = Storage::disk('public');
+        // 4. URL-decode in case the filename was encoded
+        $path = urldecode($path);
 
+        $disk = Storage::disk('public');
+        $absolute = storage_path('app/public/' . $path);
+
+        Log::info("[Book::deleteFiles] normalized {$label}", [
+            'original'       => $original,
+            'normalized'     => $path,
+            'disk_exists'    => $disk->exists($path),
+            'absolute_path'  => $absolute,
+            'file_exists'    => is_file($absolute),
+        ]);
+
+        // Try the disk API first
         if ($disk->exists($path)) {
             $disk->delete($path);
+            Log::info("[Book::deleteFiles] deleted via disk", ['path' => $path]);
             return;
         }
 
-        // Fallback: try deleting directly via the filesystem in case the
-        // path stored in DB doesn't match what the disk expects.
-        $absolute = storage_path('app/public/' . $path);
+        // Fallback: direct unlink
         if (is_file($absolute)) {
             @unlink($absolute);
+            Log::info("[Book::deleteFiles] deleted via unlink", ['path' => $absolute]);
+            return;
         }
+
+        Log::warning("[Book::deleteFiles] file not found", [
+            'label'    => $label,
+            'original' => $original,
+            'tried'    => $absolute,
+        ]);
     }
 
 
