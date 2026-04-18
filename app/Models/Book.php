@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\Sluggable\SlugOptions;
@@ -104,7 +103,7 @@ class Book extends Model
             }
         });
 
-        // Fires on both soft delete and force delete
+        // Delete files from storage when the book is deleted
         static::deleting(function ($book) {
             $book->deleteFiles();
         });
@@ -112,83 +111,34 @@ class Book extends Model
 
 
     /**
-     * Delete the image and file associated with the book from storage.
+     * Delete the image and file from storage.
      */
     protected function deleteFiles(): void
     {
-        Log::info('[Book::deleteFiles] called', ['book_id' => $this->id]);
-
-        // Read raw DB values, bypassing any accessors
+        // Read raw DB values (bypass accessors that might return full URLs)
         $attributes = $this->getAttributes();
 
         foreach (['image', 'file'] as $key) {
-            $raw = $attributes[$key] ?? null;
+            $path = $attributes[$key] ?? null;
 
-            Log::info("[Book::deleteFiles] {$key} raw value", ['value' => $raw]);
-
-            if (!$raw) {
+            if (!$path) {
                 continue;
             }
 
-            $this->deleteFromStorage($raw, $key);
+            // Handle any accidental URL/absolute paths, just in case
+            if (Str::startsWith($path, ['http://', 'https://'])) {
+                $path = parse_url($path, PHP_URL_PATH) ?: $path;
+            }
+            $path = ltrim($path, '/');
+            if (Str::startsWith($path, 'storage/')) {
+                $path = Str::after($path, 'storage/');
+            }
+
+            // Delete via the public disk
+            if (Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
+            }
         }
-    }
-
-
-    /**
-     * Delete a single file from storage.
-     */
-    protected function deleteFromStorage(string $path, string $label = ''): void
-    {
-        $original = $path;
-
-        // 1. If it's a full URL (http:// or https://), extract only the path portion.
-        //    'https://lacabook.com/storage/book_files/abc.pdf' -> '/storage/book_files/abc.pdf'
-        if (Str::startsWith($path, ['http://', 'https://'])) {
-            $path = parse_url($path, PHP_URL_PATH) ?: $path;
-        }
-
-        // 2. Strip leading slash.   '/storage/book_files/abc.pdf' -> 'storage/book_files/abc.pdf'
-        $path = ltrim($path, '/');
-
-        // 3. Strip 'storage/' prefix. 'storage/book_files/abc.pdf' -> 'book_files/abc.pdf'
-        if (Str::startsWith($path, 'storage/')) {
-            $path = Str::after($path, 'storage/');
-        }
-
-        // 4. URL-decode in case the filename was encoded
-        $path = urldecode($path);
-
-        $disk = Storage::disk('public');
-        $absolute = storage_path('app/public/' . $path);
-
-        Log::info("[Book::deleteFiles] normalized {$label}", [
-            'original'       => $original,
-            'normalized'     => $path,
-            'disk_exists'    => $disk->exists($path),
-            'absolute_path'  => $absolute,
-            'file_exists'    => is_file($absolute),
-        ]);
-
-        // Try the disk API first
-        if ($disk->exists($path)) {
-            $disk->delete($path);
-            Log::info("[Book::deleteFiles] deleted via disk", ['path' => $path]);
-            return;
-        }
-
-        // Fallback: direct unlink
-        if (is_file($absolute)) {
-            @unlink($absolute);
-            Log::info("[Book::deleteFiles] deleted via unlink", ['path' => $absolute]);
-            return;
-        }
-
-        Log::warning("[Book::deleteFiles] file not found", [
-            'label'    => $label,
-            'original' => $original,
-            'tried'    => $absolute,
-        ]);
     }
 
 
