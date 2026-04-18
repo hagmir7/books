@@ -1,4 +1,35 @@
 @extends('layouts.base')
+
+@push('scripts')
+
+<script type="application/ld+json">
+    {!! json_encode([
+    "@context" => "https://schema.org",
+    "@type" => "Book",
+    "name" => $book->name,
+    "url" => url('/book/'.$book->slug),
+    "image" => asset('storage/'.$book->image),
+    "description" => strip_tags(Str::limit($book->description ?? $book->body, 300)),
+    "author" => [
+        "@type" => "Person",
+        "name" => $book->author->full_name,
+    ],
+    "publisher" => [
+        "@type" => "Organization",
+        "name" => config('app.name'),
+    ],
+    "datePublished" => optional($book->created_at)->toAtomString(),
+    "aggregateRating" => [
+        "@type" => "AggregateRating",
+        "ratingValue" => $rating ?? 5,
+        "reviewCount" => $book->comments->count() ?: 2,
+    ],
+    "inLanguage" => app()->getLocale(),
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+@endpush
+
+
 @section('content')
 <section class="mt-6" data-book="{{ $book->slug }}" itemscope itemtype="http://schema.org/Book">
     <meta itemprop="url" content="/book/{{ $book->slug }}" />
