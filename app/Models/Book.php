@@ -39,6 +39,7 @@ class Book extends Model
 
     protected $dates = ['deleted_at'];
 
+
     public function next()
     {
         return static::with(['category', 'author'])->where('id', '>', $this->id)
@@ -61,6 +62,7 @@ class Book extends Model
             ->first();
     }
 
+
     public function language()
     {
         return $this->belongsTo(Language::class);
@@ -71,10 +73,12 @@ class Book extends Model
         return $this->belongsTo(Author::class);
     }
 
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(BookCategory::class, 'book_category_id');
     }
+
 
     public function comments()
     {
@@ -85,6 +89,7 @@ class Book extends Model
     {
         return $this->belongsTo(Site::class);
     }
+
 
     protected static function boot()
     {
@@ -98,21 +103,44 @@ class Book extends Model
             }
         });
 
-        static::forceDeleted(function ($book) {
+        // Delete files from storage when the book is deleted.
+        // Fires on both soft delete and force delete. If you only want
+        // files removed on force delete, wrap the call in:
+        //   if ($book->isForceDeleting()) { ... }
+        static::deleting(function ($book) {
             $book->deleteFiles();
         });
     }
 
+
+    /**
+     * Delete the image and file associated with the book from storage.
+     */
     protected function deleteFiles(): void
     {
-        if ($this->image && Storage::disk('public')->exists($this->image)) {
-            Storage::disk('public')->delete($this->image);
-        }
+        $disk = Storage::disk('public');
 
-        if ($this->file && Storage::disk('public')->exists($this->file)) {
-            Storage::disk('public')->delete($this->file);
+        foreach (['image', 'file'] as $attribute) {
+            $path = $this->{$attribute};
+
+            if (!$path) {
+                continue;
+            }
+
+            // Normalize the path: strip leading slash and '/storage/' prefix
+            // so it becomes relative to the 'public' disk root.
+            // e.g. '/storage/book_files/abc.pdf' -> 'book_files/abc.pdf'
+            $path = ltrim($path, '/');
+            if (str_starts_with($path, 'storage/')) {
+                $path = substr($path, strlen('storage/'));
+            }
+
+            if ($disk->exists($path)) {
+                $disk->delete($path);
+            }
         }
     }
+
 
     public function getSlugOptions(): SlugOptions
     {
@@ -122,6 +150,7 @@ class Book extends Model
             ->slugsShouldBeNoLongerThan(55)
             ->doNotGenerateSlugsOnUpdate();
     }
+
 
     public function getRouteKeyName()
     {
