@@ -16,7 +16,7 @@
     ],
     "publisher" => [
         "@type" => "Organization",
-        "name" => config('app.name'),
+        "name" => app('site')->domain,
     ],
     "datePublished" => optional($book->created_at)->toAtomString(),
     "aggregateRating" => [
