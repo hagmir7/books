@@ -103,10 +103,7 @@ class Book extends Model
             }
         });
 
-        // Delete files from storage when the book is deleted.
-        // Fires on both soft delete and force delete. If you only want
-        // files removed on force delete, wrap the call in:
-        //   if ($book->isForceDeleting()) { ... }
+        // Delete files from storage whenever the book is deleted.
         static::deleting(function ($book) {
             $book->deleteFiles();
         });
@@ -118,26 +115,54 @@ class Book extends Model
      */
     protected function deleteFiles(): void
     {
-        $disk = Storage::disk('public');
+        // Use getAttributes() to bypass any accessor that might transform the value
+        $attributes = $this->getAttributes();
 
-        foreach (['image', 'file'] as $attribute) {
-            $path = $this->{$attribute};
+        foreach (['image', 'file'] as $key) {
+            $raw = $attributes[$key] ?? null;
 
-            if (!$path) {
+            if (!$raw) {
                 continue;
             }
 
-            // Normalize the path: strip leading slash and '/storage/' prefix
-            // so it becomes relative to the 'public' disk root.
-            // e.g. '/storage/book_files/abc.pdf' -> 'book_files/abc.pdf'
-            $path = ltrim($path, '/');
-            if (str_starts_with($path, 'storage/')) {
-                $path = substr($path, strlen('storage/'));
-            }
+            $this->deleteFromStorage($raw);
+        }
+    }
 
-            if ($disk->exists($path)) {
-                $disk->delete($path);
-            }
+
+    /**
+     * Delete a single file from storage, handling various path formats.
+     */
+    protected function deleteFromStorage(string $path): void
+    {
+        // If the value is a full URL, extract just the path portion
+        if (Str::startsWith($path, ['http://', 'https://'])) {
+            $path = parse_url($path, PHP_URL_PATH) ?? $path;
+        }
+
+        // Normalize: remove leading slash and 'storage/' prefix
+        // so the path is relative to the 'public' disk root.
+        // Examples:
+        //   '/storage/book_files/abc.pdf'        -> 'book_files/abc.pdf'
+        //   'storage/book_images/xyz.jpg'        -> 'book_images/xyz.jpg'
+        //   'book_files/abc.pdf'                 -> 'book_files/abc.pdf'
+        $path = ltrim($path, '/');
+        if (Str::startsWith($path, 'storage/')) {
+            $path = Str::after($path, 'storage/');
+        }
+
+        $disk = Storage::disk('public');
+
+        if ($disk->exists($path)) {
+            $disk->delete($path);
+            return;
+        }
+
+        // Fallback: try deleting directly via the filesystem in case the
+        // path stored in DB doesn't match what the disk expects.
+        $absolute = storage_path('app/public/' . $path);
+        if (is_file($absolute)) {
+            @unlink($absolute);
         }
     }
 
