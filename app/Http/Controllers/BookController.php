@@ -472,6 +472,14 @@ PROMPT;
 
     private function safeJsonDecode($text): ?array
     {
+        if (is_array($text)) {
+            return $text;
+        }
+
+        if (!is_string($text)) {
+            return null;
+        }
+
         $text = preg_replace('/```json|```/', '', $text);
 
         preg_match('/\{.*\}/s', $text, $matches);
