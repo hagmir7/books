@@ -141,7 +141,8 @@ Route::get('/book-upload', function(){
 });
 
 
-Route::get('ai-generater', [BookController::class, 'updateAndPublishBooksWithSdk'])->name("ai.generater");
+// Route::get('ai-generater', [BookController::class, 'updateAndPublishBooksWithSdk'])->name("ai.generater");
+Route::get('ai-generater', [BookController::class, 'updateAndPublishBooksWithRapidApi'])->name("ai.generater");
 
 
 Route::get('/convert-book-sizes', function () {

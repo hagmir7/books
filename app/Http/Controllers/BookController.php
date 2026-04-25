@@ -7,7 +7,9 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\BookCategory;
 use App\Models\Comment;
+use App\Services\ChatGPTService;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -36,10 +38,6 @@ class BookController extends Controller
     {
         !$book->is_public && abort(403);
         !$book->verified && abort(404);
-
-        // if (app('site')->domain == 'agmir.shop') {
-        //     return view('books.redirect', compact('book'));
-        // }
 
         $book->load(['author', 'language', 'category']);
 
@@ -124,8 +122,6 @@ class BookController extends Controller
     }
 
 
-
-
     public function api_list()
     {
         return BookResource::collection(Book::where('is_public', true)->paginate(20));
@@ -159,10 +155,7 @@ class BookController extends Controller
             );
 
             $filePath = basename($book['file']);
-
-
             $imagePath = basename($book['image']);
-
 
             Book::firstOrCreate(['name' => $book['name']], [
                 'author_id' => $author->id,
@@ -187,10 +180,7 @@ class BookController extends Controller
     }
 
 
-
-
-
-    public function updateAndPublishBooksWithSdk(): \Illuminate\Http\JsonResponse
+    public function updateAndPublishBooksWithSdk(): JsonResponse
     {
         $client = OpenAI::client(config('services.openai.api_key'));
 
@@ -206,7 +196,7 @@ class BookController extends Controller
 
         foreach ($books as $book) {
             $bookName = $book->name;
-            $authorName = $book->author->name;
+            $authorName = $book->author->full_name; // Fixed: was ->name
 
             $systemPrompt = <<<SYSTEM
 أنت كاتب محتوى عربي محترف ومتخصص في وصف الكتب وتحسين محركات البحث (SEO).
@@ -305,7 +295,6 @@ PROMPT;
 
                 if ($metaLength < 140 || $metaLength > 159) {
                     Log::warning("Meta description out of range for book ID {$book->id}: {$metaLength} chars");
-                    // Don't fail — truncate or let it pass, since content is valid
                 }
 
                 $book->update([
@@ -341,7 +330,159 @@ PROMPT;
     }
 
 
-    public function cerate(){
-        return view('books.create');
+    public function updateAndPublishBooksWithRapidApi(OpenAi $chatService): JsonResponse
+    {
+        $books = Book::with('author')->where('verified', false)
+            ->latest()
+            ->where('language_id', 2)
+            ->where('file', 'like', '%pdf%')
+            ->take(10)
+            ->get();
+
+        $updated = 0;
+        $failed = 0;
+
+        foreach ($books as $book) {
+
+            $bookName = $book->name;
+            $authorName = $book->author->full_name ?? 'غير معروف'; // Fixed: was ->name
+
+            $systemPrompt = <<<SYSTEM
+أنت كاتب محتوى عربي محترف ومتخصص في وصف الكتب وتحسين محركات البحث (SEO).
+
+## مهمتك
+إنشاء وصف تفصيلي غني ووسوم وصفية لكتب عربية.
+
+## قواعد صارمة
+- أجب **فقط** بكائن JSON صالح. لا تضف أي نص قبله أو بعده.
+- لا تستخدم علامات markdown مثل ```json أو ```.
+- لا تبدأ أي نص بكلمة "اكتشف".
+- لا تكرر نفس الوصف التعريفي لكتب مختلفة.
+
+## بنية JSON المطلوبة
+{
+  "meta_description": "...",
+  "content": "...",
+  "tags": "..."
+}
+SYSTEM;
+
+            $userPrompt = <<<PROMPT
+اكتب محتوى للكتاب التالي:
+- **عنوان الكتاب**: "{$bookName}"
+- **المؤلف**: "{$authorName}"
+
+---
+
+### meta_description
+وصف تعريفي قصير بالعربية محسّن لمحركات البحث.
+- الطول: بين 140 و 159 حرفاً بالضبط (هذا شرط أساسي).
+- يجب أن يكون جذاباً ويحتوي على اسم الكتاب والمؤلف.
+- لا تبدأ بكلمة "اكتشف".
+- لا تستخدم علامات HTML.
+
+### content
+وصف تفصيلي طويل وشامل للكتاب بالعربية — وليس ملخصاً.
+- **الطول**: أكثر من 1500 حرف (كلما كان أطول وأغنى كان أفضل).
+- **التنسيق**: HTML فقط باستخدام وسوم <h2> و <h3> و <p>. لا تستخدم أي وسوم أخرى.
+- **الأسلوب**: اكتب بأسلوب أدبي جذاب ومتنوع. نوّع في طول الجمل واستخدم لغة حية.
+- **البنية المقترحة**:
+  - تقديم عن الكتاب وسياقه الأدبي والثقافي
+  - أبرز المحاور والأفكار التي يتناولها الكتاب (3-5 محاور)
+  - أسلوب المؤلف وما يميز هذا العمل
+  - لمن يُنصح بقراءة هذا الكتاب ولماذا
+- **ممنوع**: لا تستخدم كلمة "مقدمة" أو "خاتمة" كعناوين. لا تكتب ملخصاً للفصول.
+- لا تكرر نفس الفكرة في أكثر من فقرة.
+
+### tags
+من 8 إلى 12 كلمة مفتاحية عربية مرتبطة بالكتاب.
+- تشمل: اسم الكتاب، اسم المؤلف، النوع الأدبي، الموضوعات الرئيسية.
+- مفصولة بفاصلة إنجليزية (,) وليست فاصلة عربية (،).
+- مثال: "رواية عربية,اسم المؤلف,اسم الكتاب,أدب معاصر,..."
+PROMPT;
+
+            $fullPrompt = $systemPrompt . "\n\n" . $userPrompt;
+
+            try {
+                $raw = $chatService->generate($fullPrompt);
+
+                if (!$raw) {
+                    Log::error("Empty response for book ID {$book->id}");
+                    $failed++;
+                    continue;
+                }
+
+                $data = $this->safeJsonDecode($raw);
+
+                if (!$data) {
+                    Log::error("Invalid JSON for book ID {$book->id}", [
+                        'response' => Str::limit($raw, 500),
+                    ]);
+                    $failed++;
+                    continue;
+                }
+
+                $missingKeys = array_diff(['meta_description', 'content', 'tags'], array_keys($data));
+
+                if (!empty($missingKeys)) {
+                    Log::warning("Missing keys in response for book ID {$book->id}", [
+                        'missing' => $missingKeys,
+                    ]);
+                    $failed++;
+                    continue;
+                }
+
+                $contentLength = mb_strlen(strip_tags($data['content']));
+                $metaLength = mb_strlen($data['meta_description']);
+
+                if ($contentLength < 1000) {
+                    Log::warning("Content too short for book ID {$book->id}: {$contentLength}");
+                    $failed++;
+                    continue;
+                }
+
+                if ($metaLength < 140 || $metaLength > 159) {
+                    Log::warning("Meta description length issue for book ID {$book->id}: {$metaLength}");
+                }
+
+                $book->update([
+                    'description' => $data['meta_description'],
+                    'body' => $data['content'],
+                    'tags' => $data['tags'],
+                    'verified' => true,
+                    'is_public' => true,
+                ]);
+
+                $updated++;
+            } catch (\Throwable $e) {
+                Log::error("API failed for book ID {$book->id}", [
+                    'error' => $e->getMessage(),
+                ]);
+                $failed++;
+            }
+        }
+
+        return response()->json([
+            'message' => 'Books processed',
+            'updated' => $updated,
+            'failed' => $failed,
+        ]);
+    }
+
+
+    private function safeJsonDecode($text): ?array
+    {
+        $text = preg_replace('/```json|```/', '', $text);
+
+        preg_match('/\{.*\}/s', $text, $matches);
+
+        if (!isset($matches[0])) {
+            return null;
+        }
+
+        $json = $matches[0];
+        $data = json_decode($json, true);
+
+        return json_last_error() === JSON_ERROR_NONE ? $data : null;
     }
 }

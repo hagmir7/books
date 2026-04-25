@@ -35,10 +35,14 @@ return [
         ],
     ],
 
-
-
     'openai' => [
         'api_key' => env('OPENAI_API_KEY'),
+    ],
+
+
+    'rapidapi' => [
+        'key' => env('RAPIDAPI_KEY'),
+        'host' => env('RAPIDAPI_HOST'),
     ],
 
 ];
