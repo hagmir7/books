@@ -422,11 +422,14 @@ PROMPT;
                     continue;
                 }
 
+                $data = $this->normalizeKeys($data);
+
                 $missingKeys = array_diff(['meta_description', 'content', 'tags'], array_keys($data));
 
                 if (!empty($missingKeys)) {
                     Log::warning("Missing keys in response for book ID {$book->id}", [
                         'missing' => $missingKeys,
+                        'actual_keys' => array_keys($data),
                     ]);
                     $failed++;
                     continue;
@@ -469,6 +472,36 @@ PROMPT;
         ]);
     }
 
+
+
+    private function normalizeKeys(array $data): array
+    {
+        $keyMap = [
+            // snake_case variants
+            'meta_description' => 'meta_description',
+            'metadescription'  => 'meta_description',
+            'description'      => 'meta_description',
+            'meta'             => 'meta_description',
+            'content'          => 'content',
+            'body'             => 'content',
+            'text'             => 'content',
+            'tags'             => 'tags',
+            'keywords'         => 'tags',
+            'tag'              => 'tags',
+        ];
+
+        $normalized = [];
+        foreach ($data as $key => $value) {
+            $lowerKey = strtolower(trim($key));
+            $mappedKey = $keyMap[$lowerKey] ?? $lowerKey;
+            // Don't overwrite a key that was already correctly mapped
+            if (!isset($normalized[$mappedKey])) {
+                $normalized[$mappedKey] = $value;
+            }
+        }
+
+        return $normalized;
+    }
 
     private function safeJsonDecode($text): ?array
     {
