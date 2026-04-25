@@ -330,7 +330,7 @@ PROMPT;
     }
 
 
-    public function updateAndPublishBooksWithRapidApi(OpenAi $chatService): JsonResponse
+    public function updateAndPublishBooksWithRapidApi(ChatGPTService $chatService): JsonResponse
     {
         $books = Book::with('author')->where('verified', false)
             ->latest()
