@@ -422,6 +422,14 @@ PROMPT;
                     continue;
                 }
 
+                if (isset($data['message'])) {
+                    Log::error("API error response for book ID {$book->id}", [
+                        'message' => $data['message'],
+                    ]);
+                    $failed++;
+                    break; // All books will fail if the API is down/quota exceeded
+                }
+
                 $data = $this->normalizeKeys($data);
 
                 $missingKeys = array_diff(['meta_description', 'content', 'tags'], array_keys($data));
