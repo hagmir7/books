@@ -178,12 +178,12 @@
                         prose-h5:text-[1.2rem]
                         prose-h6:text-[1.1rem]
 
-                        prose-p:text-[16px] prose-p:leading-6 prose-p:text-gray-700
+                        prose-p:text-[17px] prose-p:leading-6 prose-p:text-gray-700
                         prose-p:mt-0 prose-p:mb-2
 
-                        prose-ul:text-[16px] prose-ul:text-gray-700 prose-ul:leading-6
+                        prose-ul:text-[17px] prose-ul:text-gray-700 prose-ul:leading-6
                         prose-ul:mt-1 prose-ul:mb-2 prose-ul:ps-4
-                        prose-ol:text-[16px] prose-ol:text-gray-700 prose-ol:leading-6
+                        prose-ol:text-[17px] prose-ol:text-gray-700 prose-ol:leading-6
                         prose-ol:mt-1 prose-ol:mb-2 prose-ol:ps-4
                         prose-li:my-0.5
 
@@ -209,7 +209,7 @@
                         prose-pre:rounded-lg prose-pre:px-4 prose-pre:py-3
                         prose-pre:overflow-x-auto prose-pre:my-3
                         prose-pre:text-[12px] prose-pre:leading-5
-                        [&_pre_code]:bg-transparent [&_pre_code]:border-0
+                        [&_pre_code]:bg-gray-700 [&_pre_code]:border-0
                         [&_pre_code]:p-0 [&_pre_code]:text-gray-100 [&_pre_code]:text-[14px]
 
                         prose-a:text-green-600 prose-a:underline prose-a:underline-offset-2
