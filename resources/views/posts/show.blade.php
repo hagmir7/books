@@ -172,11 +172,11 @@
 
                         prose-headings:font-bold prose-headings:text-gray-900
                         prose-headings:mt-4 prose-headings:mb-1
-                        prose-h2:text-[1rem] prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-1
-                        prose-h3:text-[0.95rem]
-                        prose-h4:text-[0.90rem]
-                        prose-h5:text-[0.85rem]
-                        prose-h6:text-[0.80rem]
+                        prose-h2:text-[1.5rem] prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-1
+                        prose-h3:text-[1.4rem]
+                        prose-h4:text-[1.3rem]
+                        prose-h5:text-[1.2rem]
+                        prose-h6:text-[1.1rem]
 
                         prose-p:text-[16px] prose-p:leading-6 prose-p:text-gray-700
                         prose-p:mt-0 prose-p:mb-2
@@ -210,7 +210,7 @@
                         prose-pre:overflow-x-auto prose-pre:my-3
                         prose-pre:text-[12px] prose-pre:leading-5
                         [&_pre_code]:bg-transparent [&_pre_code]:border-0
-                        [&_pre_code]:p-0 [&_pre_code]:text-gray-100 [&_pre_code]:text-[12px]
+                        [&_pre_code]:p-0 [&_pre_code]:text-gray-100 [&_pre_code]:text-[14px]
 
                         prose-a:text-green-600 prose-a:underline prose-a:underline-offset-2
                         hover:prose-a:text-green-700
