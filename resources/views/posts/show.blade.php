@@ -201,15 +201,15 @@
                         prose-blockquote:px-3 prose-blockquote:py-1 prose-blockquote:my-3
                         prose-blockquote:text-gray-600 prose-blockquote:not-italic
 
-                        prose-code:text-[12px] prose-code:bg-transparent
+                        prose-code:text-[16px] prose-code:bg-transparent
                         prose-code:border-0 prose-code:text-rose-600 prose-code:font-mono
                         prose-code:before:content-none prose-code:after:content-none
 
-                        prose-pre:bg-gray-950 prose-pre:text-gray-100
+                        prose-pre:bg-gray-700 prose-pre:text-gray-100
                         prose-pre:rounded-lg prose-pre:px-4 prose-pre:py-3
                         prose-pre:overflow-x-auto prose-pre:my-3
                         prose-pre:text-[12px] prose-pre:leading-5
-                        [&_pre_code]:bg-gray-700 [&_pre_code]:border-0
+                        [&_pre_code]:bg-transparent [&_pre_code]:border-0
                         [&_pre_code]:p-0 [&_pre_code]:text-gray-100 [&_pre_code]:text-[14px]
 
                         prose-a:text-green-600 prose-a:underline prose-a:underline-offset-2
