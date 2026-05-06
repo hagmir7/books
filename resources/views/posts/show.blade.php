@@ -34,6 +34,32 @@
         }
     </script>
 
+    <style>
+        /* Force code blocks LTR regardless of page direction */
+        .post-body pre,
+        .post-body pre code,
+        .post-body code {
+            direction: ltr !important;
+            unicode-bidi: isolate;
+            text-align: left;
+        }
+
+        /* Alternating table rows */
+        .post-body table tr:nth-child(even) td {
+            background-color: #f9fafb;
+        }
+
+        /* List markers */
+        .post-body ul>li::marker {
+            color: #16a34a;
+        }
+
+        .post-body ol>li::marker {
+            color: #16a34a;
+            font-weight: 600;
+        }
+    </style>
+
     <div class="container mx-auto px-4">
         <div class="flex flex-wrap">
             <div class="w-full">
@@ -145,7 +171,46 @@
                     </div>
 
                     <!-- Post Content -->
-                    <div class="prose prose-lg prose-headings:mt-0 prose-headings:font-black prose-h2:text-[23px] prose-h3:text-[19px] prose-h4:text-[17px] max-w-none mt-6 leading-relaxed text-black prose-p:text-[16px] prose-ul:text-[16px] prose-ol:text-[16px] prose-p:text-gray-700 prose-ul:text-gray-700 prose-ol:text-gray-700  prose-headings:text-black  prose-a:text-green-600 hover:prose-a:text-green-700 dark:prose-a:text-green-400 dark:hover:prose-a:text-green-300 prose-img:rounded-2xl prose-img:shadow-sm">
+                    <div class="post-body prose prose-lg max-w-none mt-6
+
+                        prose-headings:font-bold prose-headings:text-gray-900 prose-headings:mt-8 prose-headings:mb-3
+                        prose-h1:text-[1.75rem]
+                        prose-h2:text-[1.35rem] prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-2
+                        prose-h3:text-[1.15rem]
+                        prose-h4:text-[1rem]
+
+                        prose-p:text-[15px] prose-p:leading-7 prose-p:text-gray-700 prose-p:mb-4
+
+                        prose-ul:text-[15px] prose-ul:text-gray-700 prose-ul:leading-7 prose-ul:my-4 prose-ul:ps-6
+                        prose-ol:text-[15px] prose-ol:text-gray-700 prose-ol:leading-7 prose-ol:my-4 prose-ol:ps-6
+                        prose-li:mb-1.5
+
+                        prose-table:text-[14px] prose-table:w-full
+                        prose-thead:bg-gray-50
+                        prose-th:text-left prose-th:font-semibold prose-th:text-gray-800 prose-th:px-3 prose-th:py-2 prose-th:border prose-th:border-gray-200
+                        prose-td:px-3 prose-td:py-2 prose-td:border prose-td:border-gray-200 prose-td:text-gray-700
+
+                        prose-blockquote:border-l-4 prose-blockquote:border-green-500
+                        prose-blockquote:bg-green-50 prose-blockquote:rounded-r-lg
+                        prose-blockquote:px-4 prose-blockquote:py-2 prose-blockquote:my-5
+                        prose-blockquote:text-gray-600 prose-blockquote:not-italic
+
+                        prose-code:text-[13px] prose-code:bg-gray-100 prose-code:border prose-code:border-gray-200
+                        prose-code:rounded prose-code:px-1.5 prose-code:py-0.5 prose-code:text-rose-600
+                        prose-code:before:content-none prose-code:after:content-none
+
+                        prose-pre:bg-[#1a1a2e] prose-pre:text-gray-100
+                        prose-pre:rounded-xl prose-pre:p-5 prose-pre:overflow-x-auto prose-pre:my-6
+                        prose-pre:text-[13px] prose-pre:leading-6
+                        [&_pre_code]:bg-transparent [&_pre_code]:border-0 [&_pre_code]:p-0 [&_pre_code]:text-gray-100
+
+                        prose-a:text-green-600 prose-a:underline prose-a:underline-offset-2
+                        hover:prose-a:text-green-700
+                        dark:prose-a:text-green-400 dark:hover:prose-a:text-green-300
+
+                        prose-img:rounded-2xl prose-img:shadow-sm prose-img:my-4
+                        prose-strong:text-gray-900 prose-strong:font-semibold
+                        prose-hr:border-gray-200 prose-hr:my-8">
                         {!! $post->body !!}
                     </div>
 
