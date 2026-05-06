@@ -172,18 +172,18 @@
 
                         prose-headings:font-bold prose-headings:text-gray-900
                         prose-headings:mt-4 prose-headings:mb-1
-                        prose-h2:text-[0.95rem] prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-1
-                        prose-h3:text-[0.9rem]
-                        prose-h4:text-[0.85rem]
-                        prose-h5:text-[0.80rem]
-                        prose-h6:text-[0.75rem]
+                        prose-h2:text-[1rem] prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-1
+                        prose-h3:text-[0.95rem]
+                        prose-h4:text-[0.90rem]
+                        prose-h5:text-[0.85rem]
+                        prose-h6:text-[0.80rem]
 
-                        prose-p:text-[14px] prose-p:leading-6 prose-p:text-gray-700
+                        prose-p:text-[16px] prose-p:leading-6 prose-p:text-gray-700
                         prose-p:mt-0 prose-p:mb-2
 
-                        prose-ul:text-[14px] prose-ul:text-gray-700 prose-ul:leading-6
+                        prose-ul:text-[16px] prose-ul:text-gray-700 prose-ul:leading-6
                         prose-ul:mt-1 prose-ul:mb-2 prose-ul:ps-4
-                        prose-ol:text-[14px] prose-ol:text-gray-700 prose-ol:leading-6
+                        prose-ol:text-[16px] prose-ol:text-gray-700 prose-ol:leading-6
                         prose-ol:mt-1 prose-ol:mb-2 prose-ol:ps-4
                         prose-li:my-0.5
 
