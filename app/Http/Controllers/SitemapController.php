@@ -18,8 +18,6 @@ class SitemapController extends Controller
             ->add(Url::create('/blog'))
             ->add(Url::create('/contact-us'));
 
-
-
         if (app("site")->site_options['book_sitemap']) {
             $sitemap->add(Url::create('/books'));
             Book::where('is_public', true)
@@ -47,15 +45,15 @@ class SitemapController extends Controller
             $sitemap->add(Url::create('/category'));
             BookCategory::whereHas('books', function ($book) {
                 $book->where('verified', true)
-                    ->whereNull('copyright_date');
-                    // ->whereHas('language', fn($query) => $query->where('code', app()->getLocale()));
+                    ->whereNull('copyright_date')
+                    ->whereHas('language', fn($query) => $query->where('code', app()->getLocale()));
             })->each(function (BookCategory $category) use ($sitemap) {
                 $sitemap->add(Url::create("/category/{$category->slug}"));
             });
         }
 
 
-        if (app("site")->site_options['post_sitemap']) {
+        if (app("site")->site_options['blog_sitemap']) {
             $sitemap->add(Url::create('/blog'));
             Post::where('site_id', app('site')->id)->each(function (Post $post) use ($sitemap) {
                 $sitemap->add(Url::create("/blog/{$post->slug}"));
