@@ -15,23 +15,23 @@ class SitemapController extends Controller
     {
         $sitemap = Sitemap::create()
             ->add(Url::create('/'))
-            ->add(Url::create('/books'))
             ->add(Url::create('/blog'))
-            ->add(Url::create('/authors'))
             ->add(Url::create('/contact-us'));
+
+
 
         if (app("site")->site_options['book_sitemap']) {
             $sitemap->add(Url::create('/books'));
             Book::where('is_public', true)
                 ->where('verified', true)
                 ->whereNull('copyright_date')
-                // ->whereHas('language', fn($query) => $query->where('code', app()->getLocale()))
+                ->whereHas('language', fn($query) => $query->where('code', app()->getLocale()))
                 ->each(function (Book $book) use ($sitemap) {
                     $sitemap->add(Url::create("/books/{$book->slug}"));
                 });
         }
 
-        if (intval(app("site")->site_options['author_sitemap'])) {
+        if (app("site")->site_options['author_sitemap']) {
             $sitemap->add(Url::create('/authors'));
             Author::whereHas('books', function ($book) {
                 $book->where('verified', true)
