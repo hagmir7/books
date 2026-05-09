@@ -15,20 +15,14 @@ class TasksTable
     {
         return $table
             ->columns([
-                TextColumn::make('site_id')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('title')
                     ->searchable(),
                 TextColumn::make('status')
-                    ->numeric()
                     ->sortable(),
                 TextColumn::make('priority')
                     ->badge()
-                    ->numeric()
                     ->sortable(),
-                TextColumn::make('user_id')
-                    ->numeric()
+                TextColumn::make('user.name')
                     ->sortable(),
                 TextColumn::make('due_date')
                     ->date()

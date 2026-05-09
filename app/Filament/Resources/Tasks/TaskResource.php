@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Override;
 
 class TaskResource extends Resource
 {
@@ -21,6 +22,19 @@ class TaskResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'title';
+
+
+    #[Override]
+    public static function getModelLabel(): string
+    {
+        return __("Task");
+    }
+
+    #[Override]
+    public static function getPluralModelLabel(): string
+    {
+        return __("Tasks");
+    }
 
     public static function form(Schema $schema): Schema
     {

@@ -7,8 +7,11 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class TaskForm
@@ -17,31 +20,67 @@ class TaskForm
     {
         return $schema
             ->components([
-                TextInput::make('site_id')
-                    ->required()
-                    ->numeric(),
-                TextInput::make('title')
-                    ->required(),
-                Textarea::make('description')
-                    ->columnSpanFull(),
-                TextInput::make('status')
-                    ->required()
-                    ->numeric()
-                    ->default(1),
-                Select::make('priority')
-                    ->options(TaskPriorityEnum::class)
-                    ->default(2)
-                    ->required(),
-                TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
-                DatePicker::make('due_date'),
-                DateTimePicker::make('completed_at'),
-                TextInput::make('type'),
-                Textarea::make('tags')
-                    ->columnSpanFull(),
-                FileUpload::make('image')
-                    ->image(),
+
+                Grid::make(3)
+                    ->schema([
+
+                        Section::make()
+                            ->schema([
+
+                                FileUpload::make('image')
+                                    ->label(__("Image"))
+                                    ->image(),
+                                TextInput::make('status')
+                                    ->label(__("Status"))
+                                    ->required()
+                                    ->numeric()
+                                    ->default(1),
+                                Select::make('priority')
+                                    ->label(__("Priority"))
+                                    ->options(TaskPriorityEnum::class)
+                                    ->default(2)
+                                    ->required(),
+
+
+                                Select::make('type')
+                                    ->options(
+                                        [
+                                            1 => __("Blog"),
+                                            2 => __("Book")
+                                        ]
+                                    )
+                                    ->label(__("Type")),
+                            ])->columnSpan(1),
+                        Section::make()
+                            ->schema([
+
+                                TextInput::make('title')
+                                    ->label(__("Title"))
+                                    ->columnSpanFull()
+                                    ->required(),
+
+                                DatePicker::make('due_date')
+                                    ->label(__("Due date"))
+                                    ->closeOnDateSelection()
+                                    ->placeholder(now()->startOfMonth())
+                                    ->native(false),
+                                DateTimePicker::make('completed_at')
+                                    ->label(__("Completed date"))
+                                    ->closeOnDateSelection()
+                                    ->native(false),
+                                Textarea::make('description')
+                                    ->label(__("Description"))
+                                    ->columnSpanFull(),
+
+
+                                TagsInput::make('tags')
+                                    ->label(__('SEO Keywords'))
+                                    ->placeholder(__('Add keywords'))
+                                    ->separator(',')
+                                    ->splitKeys([',', 'Enter', '،'])
+                                    ->columnSpanFull(),
+                            ])->columns(2)->columnSpan(2),
+                    ])->columnSpanFull()
             ]);
     }
 }

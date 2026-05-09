@@ -53,11 +53,18 @@ class SitemapController extends Controller
         }
 
 
-        if (app("site")->site_options['blog_sitemap']) {
+        if (isset(app("site")->site_options['blog_sitemap']) && app("site")->site_options['blog_sitemap']) {
+
             $sitemap->add(Url::create('/blog'));
-            Post::where('site_id', app('site')->id)->each(function (Post $post) use ($sitemap) {
-                $sitemap->add(Url::create("/blog/{$post->slug}"));
-            });
+
+            Post::where('site_id', app('site')->id)
+                ->chunk(500, function ($posts) use ($sitemap) {
+                    foreach ($posts as $post) {
+                        $sitemap->add(
+                            Url::create("/blog/{$post->slug}")
+                        );
+                    }
+                });
         }
         return $sitemap->toResponse(request());
     }
