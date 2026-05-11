@@ -10,6 +10,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -44,16 +45,26 @@ class PageResource extends Resource
     {
         return $schema
             ->schema([
-                \Filament\Forms\Components\TextInput::make('title')
-                    ->columnSpanFull()
-                    ->label(__("Title"))
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\RichEditor::make('body')
-                    ->extraInputAttributes(['style' => 'min-height: 20rem; max-height: 50vh; overflow-y: auto;'])
-                    ->label(__('Content'))
-                    ->required()
-                    ->columnSpanFull(),
+                Section::make()
+                    ->schema([
+                        \Filament\Forms\Components\TextInput::make('title')
+                            ->label(__("Title"))
+                            ->required()
+                            ->maxLength(255),
+
+                        \Filament\Forms\Components\TextInput::make('slug')
+                            ->label('URL')
+                            ->readOnly()
+                            ->copyable()
+                            ->afterStateHydrated(function ($component, $state) {
+                                $component->state(url('/') . '/page/' . $state);
+                            }),
+                        Forms\Components\RichEditor::make('body')
+                            ->extraInputAttributes(['style' => 'min-height: 20rem; max-height: 50vh; overflow-y: auto;'])
+                            ->label(__('Content'))
+                            ->required()
+                            ->columnSpanFull(),
+                    ])->columns(2)->columnSpanFull()
 
 
             ]);
@@ -101,7 +112,7 @@ class PageResource extends Resource
     {
         return [
             'index' => Pages\ListPages::route('/'),
-            // 'create' => Pages\CreatePage::route('/create'),
+            'create' => Pages\CreatePage::route('/create'),
             // 'edit' => Pages\EditPage::route('/{record}/edit'),
         ];
     }

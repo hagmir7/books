@@ -239,5 +239,22 @@
     "Search or type a new category name...": "ابحث أو اكتب اسم تصنيف جديد...",
     "Write the full book description...": "اكتب الوصف الكامل للكتاب...",
     "Uploading image...": "جارٍ تحميل الصورة...",
-    "Uploading & analyzing PDF...": "جارٍ تحميل وتحليل ملف PDF..."
+    "Uploading & analyzing PDF...": "جارٍ تحميل وتحليل ملف PDF...",
+    "Not completed": "لم يكتمل",
+    "Unknown": "غير معروف",
+    "Generate Blog": "إنشاء مدونة",
+    "Generate Blog from Task": "إنشاء مدونة من المهمة",
+    "This will use AI to generate a full blog post from this task's data. This may take a moment.": "سيتم استخدام الذكاء الاصطناعي لإنشاء مقال مدونة كامل من بيانات هذه المهمة. قد يستغرق ذلك لحظة.",
+    "Generate": "إنشاء",
+    "Generation Failed": "فشل الإنشاء",
+    "No response received from AI service.": "لم يتم تلقي أي رد من خدمة الذكاء الاصطناعي.",
+    "AI returned invalid data. Please try again.": "أعاد الذكاء الاصطناعي بيانات غير صالحة. يرجى المحاولة مرة أخرى.",
+    "AI failed to generate the blog. Please try again.": "فشل الذكاء الاصطناعي في إنشاء المدونة. يرجى المحاولة مرة أخرى.",
+    "AI response is missing required fields: ": "استجابة الذكاء الاصطناعي تفتقر إلى الحقول المطلوبة: ",
+    "Blog Generated Successfully": "تم إنشاء المدونة بنجاح",
+    "The blog post has been created from this task.": "تم إنشاء مقال المدونة من هذه المهمة.",
+    "Something Went Wrong": "حدث خطأ ما",
+    "Pending Tasks": "المهام المعلقة",
+    "New Task": "مهمة جديدة",
+    "View All": "عرض الكل"
 }

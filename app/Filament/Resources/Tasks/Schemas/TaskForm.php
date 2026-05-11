@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Tasks\Schemas;
 
 use App\Enums\TaskPriorityEnum;
+use App\Enums\TaskStatusEnum;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
@@ -30,15 +31,17 @@ class TaskForm
                                 FileUpload::make('image')
                                     ->label(__("Image"))
                                     ->image(),
-                                TextInput::make('status')
+                                Select::make('status')
                                     ->label(__("Status"))
+                                    ->options(TaskStatusEnum::toArray())
+                                    ->native(false)
                                     ->required()
-                                    ->numeric()
                                     ->default(1),
                                 Select::make('priority')
                                     ->label(__("Priority"))
-                                    ->options(TaskPriorityEnum::class)
+                                    ->options(TaskPriorityEnum::toArray())
                                     ->default(2)
+                                    ->native(false)
                                     ->required(),
 
 
@@ -49,6 +52,7 @@ class TaskForm
                                             2 => __("Book")
                                         ]
                                     )
+                                    ->native(false)
                                     ->label(__("Type")),
                             ])->columnSpan(1),
                         Section::make()

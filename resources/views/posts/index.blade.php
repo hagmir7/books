@@ -27,7 +27,7 @@
         <!-- Posts grid -->
         <div class="mt-8">
             <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                @forelse ($posts as $post)
+                @foreach ($posts as $post)
                 <article
                     class="post bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
                     <a href="{{ route('blog.show', $post->slug) }}" class="block overflow-hidden">
@@ -47,12 +47,14 @@
                         </a>
                     </div>
                 </article>
-                @empty
-                <div class="flex justify-center w-full py-12">
+                @endforeach
+            </div>
+
+            @if (!count($posts))
+                <div class="flex justify-center w-full">
                     <img src="{{ asset('imgs/empty.png') }}" alt="No posts" class="max-w-[220px] sm:max-w-xs">
                 </div>
-                @endforelse
-            </div>
+            @endif
         </div>
 
         <!-- Pagination -->

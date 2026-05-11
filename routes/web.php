@@ -46,18 +46,23 @@ Route::get("profile", [UserController::class, 'profile']);
 
 
 Route::get('/', function () {
-    $site_options = app('site')->site_options;
 
-    if ($site_options['home_page'] == "books") {
+    $site = app('site');
+    $siteOptions = $site->site_options ?? [];
+
+    if (($siteOptions['home_page'] ?? null) === 'books') {
         return view('books.list');
     }
 
-    $posts = Post::where('site_id', app('site')->id)
-        ->where('language_id', app('site')->language_id)
+    $posts = Post::query()
+        ->where('site_id', $site->id)
+        ->where('language_id', $site->language_id)
+        ->latest()
         ->paginate(32);
+
     return view('posts.index', [
         'posts' => $posts,
-        'title' => app('site')->site_options['blog_title']
+        'title' => $siteOptions['blog_title'] ?? __('My Blog'),
     ]);
 })->name('home');
 

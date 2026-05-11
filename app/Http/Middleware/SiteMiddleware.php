@@ -17,26 +17,60 @@ class SiteMiddleware
     {
         // Skip middleware for excluded routes
         foreach ($this->except as $except) {
+
             if ($request->is($except)) {
                 return $next($request);
             }
         }
 
-        $site = app("site");
+        $site = app('site');
 
+        // Set locale
         if ($site && $site->language) {
             app()->setLocale($site->language->code);
         }
 
-        // Use request instance instead of helper
-        $currentUrl = $request->getSchemeAndHttpHost();
+        /*
+        |--------------------------------------------------------------------------
+        | Build Clean URL
+        |--------------------------------------------------------------------------
+        |
+        | Examples:
+        |
+        | https://dev.example.com      => https://example.com
+        | http://localhost:8000       => http://localhost:8000
+        | http://127.0.0.1:8000       => http://127.0.0.1:8000
+        |
+        */
 
-        // Remove "dev." safely
-        $cleanUrl = preg_replace('/^https?:\/\/dev\./', $request->getScheme() . '://', $currentUrl);
+        $scheme = $request->getScheme();
 
-        config(['app.url' => $cleanUrl]);
+        $host = $request->getHost();
 
-        // Share site globally in views
+        $port = $request->getPort();
+
+        // Remove dev. subdomain
+        $host = preg_replace('/^dev\./', '', $host);
+
+        // Detect localhost / 127.0.0.1
+        $isLocal =
+            $host === 'localhost' ||
+            $host === '127.0.0.1';
+
+        // Build URL
+        $cleanUrl = $scheme . '://' . $host;
+
+        // Add port only for local environments
+        if ($isLocal && $port) {
+            $cleanUrl .= ':' . $port;
+        }
+
+        // Set app url dynamically
+        config([
+            'app.url' => $cleanUrl,
+        ]);
+
+        // Share site globally
         View::share('site', $site);
 
         return $next($request);
