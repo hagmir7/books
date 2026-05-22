@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="w-full mt-6">
-    <div class="max-w-6xl mx-auto">
+    <div class="max-w-6xl mx-auto px-4">
         <!-- Page Title -->
         <div class="w-full mb-6">
             <h1 class="text-2xl md:text-3xl font-bold text-gray-900">{{ $page->title }}</h1>
