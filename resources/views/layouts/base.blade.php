@@ -5,34 +5,18 @@
     @php
     $options = $site->site_options ?? [];
     @endphp
-
     <meta charset="UTF-8">
-    <title>
-        {{ isset($title) ? Str::limit($title, 160) : $site->name }}
-    </title>
-
-    <meta name="description"
-        content="{{ isset($description) ? Str::limit($description, 160) : Str::limit($site->description, 160) }}">
-
+    <title> {{ isset($title) ? Str::limit($title, 160) : $site->name }}</title>
+    <meta name="description" content="{{ isset($description) ? Str::limit($description, 160) : Str::limit($site->description, 160) }}">
     <meta name="keywords" content="{{ isset($tags) ? $tags : ($site->keywords ?? '') }}">
-
     <link rel="icon" type="image/png" href="{{ asset('storage/' . $site->icon) }}" />
-
-    <meta itemprop="image"
-        content="{{ isset($image) ? asset('storage/' . $image) : asset('storage/' . $site->image) }}">
-
+    <meta itemprop="image" content="{{ isset($image) ? asset('storage/' . $image) : asset('storage/' . $site->image) }}">
     <link rel="canonical" href="{{ request()->fullUrl() }}" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
     @yield('head')
-
     @livewireStyles
-
     @if (app()->getLocale() == 'ar')
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
 
@@ -110,13 +94,9 @@
         <span x-text="message"></span>
     </div>
 
-    <header class="header bg-white shadow-sm relative" x-data="{ mobileOpen: false, searchOpen: false }"
-        @keydown.escape.window="mobileOpen = false; searchOpen = false">
-
+    <header class="header bg-white shadow-sm relative" x-data="{ mobileOpen: false, searchOpen: false }"  @keydown.escape.window="mobileOpen = false; searchOpen = false">
         <div class="px-4">
-
             <div class="flex items-center justify-between gap-4 py-2 sm:py-4">
-
                 {{-- Logo --}}
                 <div class="flex-shrink-0">
                     <a href="/" class="block" :aria-label="$el?.querySelector('img')?.alt || '{{ $site->name }}'">
@@ -125,12 +105,9 @@
                             class="h-8 sm:h10 lg:h-12 object-contain">
                     </a>
                 </div>
-
                 {{-- Desktop Nav --}}
                 <nav class="hidden lg:flex lg:flex-1 lg:justify-center" aria-label="Primary">
-
                     <ul class="flex items-center gap-6 text-sm font-medium primary-menu">
-
                         @if (($options['books_url'] ?? false))
                         <li>
                             <a href="/books" class="hover:text-primary transition-colors">
@@ -206,6 +183,8 @@
                     </div>
                     @endif
 
+
+
                     {{-- Auth --}}
                     <div class="flex items-center gap-2">
 
@@ -224,42 +203,32 @@
                         @if (($options['login_url'] ?? false))
                         <a href="{{ route('auth.login') }}"
                             class="sm:inline-flex items-center gap-2 font-medium px-3 py-2.5 rounded-xl border border-gray-200">
-
                             <span>
                                 {{ __('Join us') }}
                             </span>
-
                         </a>
                         @endif
                         @endguest
 
                     </div>
 
+
+                    @if (($options['books_search'] ?? false))
                     {{-- Mobile Search Toggle --}}
-                    <button @click="searchOpen = !searchOpen"
-                        class="md:hidden items-center gap-2 font-medium px-3 py-2.5 rounded-xl border border-gray-200">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2">
-
+                    <button @click="searchOpen = !searchOpen" class="md:hidden items-center gap-2 font-medium px-3 py-2.5 rounded-xl border border-gray-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="11" cy="11" r="7"></circle>
-
                             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg>
-
                     </button>
+                    @endif
 
                     {{-- Mobile Menu Toggle --}}
-                    <button @click="mobileOpen = !mobileOpen"
-                        class="md:hidden items-center gap-2 font-medium px-3 py-2.5 rounded-xl border border-gray-200">
-
+                    <button @click="mobileOpen = !mobileOpen" class="md:hidden items-center gap-2 font-medium px-3 py-2.5 rounded-xl border border-gray-200">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
-
                             <path d="M4 6h16M4 12h16M4 18h16"></path>
-
                         </svg>
-
                     </button>
 
                 </div>
@@ -267,11 +236,8 @@
 
             {{-- Mobile Menu --}}
             <div id="mobile-menu" class="lg:hidden" x-show="mobileOpen" x-cloak>
-
                 <div class="bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden absolute w-11/12 z-50">
-
                     <nav>
-
                         <ul class="flex flex-col text-base py-2">
 
                             @if (($options['books_url'] ?? false))
@@ -330,35 +296,20 @@
             {{-- Mobile Search --}}
             @if (($options['books_search'] ?? false))
             <div class="lg:hidden absolute left-4 right-4 top-full mt-2 z-50" x-show="searchOpen" x-cloak>
-
                 <div class="bg-white rounded-lg shadow-xl border border-gray-100 p-4">
-
                     <form action="/books" method="GET">
-
                         <div class="flex gap-2">
-
-                            <input name="search" type="search" placeholder="{{ __('Search') }}..."
-                                class="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg">
-
+                            <input name="search" type="search" placeholder="{{ __('Search') }}..." class="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg">
                             <button type="submit" class="px-5 py-2.5 bg-primary rounded-lg">
-
                                 {{ __('Search') }}
-
                             </button>
-
                         </div>
-
                     </form>
-
                 </div>
-
             </div>
             @endif
-
         </div>
-
     </header>
-
     @yield('content')
 
     <x-footer />
@@ -370,13 +321,8 @@
     </div>
 
     <div id="fb-root"></div>
-
     @livewireScriptConfig
-
     @yield('footer')
-
     @stack('scripts')
-
 </body>
-
 </html>
