@@ -58,7 +58,7 @@
         </div>
 
         <!-- Pagination -->
-        <div class="mt-6 pb-8 flex justify-center">
+        <div class="mt-6 pb-8 flex justify-center gap-2">
             {{ $posts->links('pagination::tailwind') }}
         </div>
     </div>
