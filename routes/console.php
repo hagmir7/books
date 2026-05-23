@@ -14,6 +14,6 @@ Artisan::command('inspire', function () {
 
 Schedule::command('app:sync-data')
     ->everyMinute()
-    ->runInBackground()        // runs as a separate process, won't block other tasks
-    ->withoutOverlapping()     // skip if previous run is still going
+    ->runInBackground()
+    ->withoutOverlapping()
     ->appendOutputTo(storage_path('logs/sync.log'));
