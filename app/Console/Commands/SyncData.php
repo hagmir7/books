@@ -37,7 +37,10 @@ class SyncData extends Command
             Log::info('SyncData: loaded scrap.json', ['start' => $start, 'end' => $end]);
 
             // ── 2. Send the request ──────────────────────────────────────────
-            $response = Http::timeout(30)
+            $response = Http::timeout(60)
+                ->withOptions([
+                    'verify' => false, // disable SSL check (for testing only)
+                ])
                 ->get('https://api.facepy.com/en/aseeralkotb', [
                     'start' => $start,
                     'end'   => $end,
