@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources\Reports\Tables;
 
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
 
 class ReportsTable
 {
@@ -28,14 +30,11 @@ class ReportsTable
                     ->label(__("Readed at"))
                     ->dateTime()
                     ->sortable(),
-
-
                 TextColumn::make('created_at')
                     ->label(__("Created at"))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-
             ])
             ->filters([
                 //
@@ -46,6 +45,17 @@ class ReportsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    BulkAction::make('mark_as_read')
+                        ->label(__("Mark as read"))
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->action(function (Collection $records): void {
+                            $records->each(
+                                fn($record) => $record->update(['readed_at' => now()])
+                            );
+                        })
+                        ->deselectRecordsAfterCompletion(),
                     DeleteBulkAction::make(),
                 ]),
             ]);

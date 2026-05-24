@@ -3,20 +3,20 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ContactResource\Pages;
-use App\Filament\Resources\ContactResource\RelationManagers;
 use App\Models\Contact;
+use Filament\Actions\BulkAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\Collection;
+
 class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
-
 
     protected static string | \UnitEnum | null $navigationGroup = 'Contact';
 
@@ -39,7 +39,6 @@ class ContactResource extends Resource
         return __("Messages");
     }
 
-
     public static function form(Schema $schema): Schema
     {
         return $schema
@@ -56,7 +55,7 @@ class ContactResource extends Resource
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\DatePicker::make('readed_at')
-                    ->label(__("Created at"))
+                    ->label(__("Readed at"))
                     ->required(),
             ]);
     }
@@ -88,17 +87,26 @@ class ContactResource extends Resource
                 \Filament\Actions\EditAction::make(),
             ])
             ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    BulkAction::make('mark_as_read')
+                        ->label(__("Mark as read"))
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->action(function (Collection $records): void {
+                            $records->each(
+                                fn($record) => $record->update(['readed_at' => now()])
+                            );
+                        })
+                        ->deselectRecordsAfterCompletion(),
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
