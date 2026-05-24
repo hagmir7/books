@@ -27,6 +27,12 @@ class ContactResource extends Resource
         return __("Message");
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) parent::getEloquentQuery()
+            ->whereNull('readed_at')
+            ->count();
+    }
 
     public static function getPluralLabel(): ?string
     {

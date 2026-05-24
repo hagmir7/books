@@ -39,7 +39,7 @@ class SyncData extends Command
             // ── 2. Send the request ──────────────────────────────────────────
             $response = Http::timeout(60)
                 ->withOptions([
-                    'verify' => false, // disable SSL check (for testing only)
+                    'verify' => false,
                 ])
                 ->get('https://api.facepy.com/en/aseeralkotb', [
                     'start' => $start,

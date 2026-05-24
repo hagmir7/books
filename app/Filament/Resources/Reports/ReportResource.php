@@ -51,6 +51,13 @@ class ReportResource extends Resource
         return ReportsTable::configure($table);
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) parent::getEloquentQuery()
+            ->whereNull('readed_at')
+            ->count();
+    }
+
     public static function getRelations(): array
     {
         return [

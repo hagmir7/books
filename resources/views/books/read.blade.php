@@ -27,7 +27,7 @@
     {!! app("site")->ads !!}
 
     <!-- Header -->
-    <header class="pdf-reader__header">
+    <header class="pdf-reader__header border-t border-gray-400">
         <div class="pdf-reader__header-inner">
             <h1 class="pdf-reader__title" title="{{ $book->name }}">
                 {{ str_replace(':attr', $book->name, app('site')->site_options['read_book_title']) }}
@@ -191,8 +191,8 @@
             <div class="shortcut"><kbd>−</kbd><span>{{ __('Zoom out') }}</span></div>
             <div class="shortcut"><kbd>R</kbd><span>{{ __('Rotate') }}</span></div>
             <div class="shortcut"><kbd>F</kbd><span>{{ __('Fit to width') }}</span></div>
-            <div class="shortcut"><kbd>Home</kbd><span>{{ __('First page') }}</span></div>
-            <div class="shortcut"><kbd>End</kbd><span>{{ __('Last page') }}</span></div>
+            <div class="shortcut"><kbd>Home</kbd><span>{{ __('First Page') }}</span></div>
+            <div class="shortcut"><kbd>End</kbd><span>{{ __('Last Page') }}</span></div>
             <div class="shortcut"><kbd>?</kbd><span>{{ __('Toggle shortcuts') }}</span></div>
         </div>
     </aside>

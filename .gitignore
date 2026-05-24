@@ -6,6 +6,7 @@
 /public/sitemap.xml
 /storage/*.key
 /vendor
+scrap.json
 .env
 .env.backup
 .env.production

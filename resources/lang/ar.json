@@ -191,10 +191,8 @@
     "Welcome back — enter your details to continue.": "مرحبًا بعودتك — أدخل بياناتك للمتابعة.",
     "Join us — it's quick and easy.": "انضم إلينا — الأمر سريع وسهل.",
     "Create an account": "إنشاء حساب",
-    "Previous page": "الصفحة السابقة",
     "Next page": "الصفحة التالية",
     "Zoom in": "تكبير",
-    "Zoom out": "تصغير",
     "Download PDF": "تنزيل PDF",
     "Rotate": "تدوير",
     "Page - / -": "صفحة - / -",
@@ -257,5 +255,16 @@
     "Pending Tasks": "المهام المعلقة",
     "New Task": "مهمة جديدة",
     "View All": "عرض الكل",
-    "Create New Task": "إنشاء مهمة جديدة"
+    "Create New Task": "إنشاء مهمة جديدة",
+    "Loading PDF...": "جارٍ تحميل ملف PDF...",
+    "Failed to load PDF": "فشل تحميل ملف PDF",
+    "Retry": "إعادة المحاولة",
+    "PDF page content": "محتوى صفحة PDF",
+    "Swipe to change pages": "اسحب لتغيير الصفحات",
+    "PDF Controls": "أدوات التحكم في ملف PDF",
+    "Zoom level": "مستوى التكبير",
+    "Fit to width": "ملاءمة العرض",
+    "Rotate page": "تدوير الصفحة",
+    "Toggle shortcuts": "تفعيل/تعطيل الاختصارات",
+    "First Page": "الصفحة الأولى"
 }
