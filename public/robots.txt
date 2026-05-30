@@ -1,5 +1,9 @@
 User-agent: *
-Disallow: /storage/book_file/*
-Disallow: /admin
+Allow: /
+Disallow: /livewire/
+Disallow: /admin/
+Disallow: /profile/
 Disallow: /storage/book_files/
+Disallow: /storage/book_file/*
 
+Sitemap: https://kitaboka.com/sitemap.xml
