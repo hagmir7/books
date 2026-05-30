@@ -79,6 +79,7 @@
     SITEWIDE JSON-LD (WebSite + SearchAction)
     Article pages add their own via @push('scripts')
     ══════════════════════════════════════════════ --}}
+    @if(request()->is('/'))
     <script type="application/ld+json">
         {
         "@context": "https://schema.org",
@@ -106,6 +107,7 @@
         }
     }
     </script>
+    @endif
 
     {{-- ══════════════════════════════════════════════
     PERFORMANCE: font preconnect before any @import
