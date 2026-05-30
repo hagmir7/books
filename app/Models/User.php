@@ -60,6 +60,14 @@ class User extends Authenticatable implements HasName, FilamentUser
         ];
     }
 
+    public function isAdmin(): bool
+    {
+        if (config('app.env') === 'local') {
+            return true;
+        }
+        return $this->roles()->exists();
+    }
+
 
 
 
