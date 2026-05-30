@@ -37,7 +37,7 @@ class PostController extends Controller
 
         return view('posts.index', [
             'posts' => $posts,
-            'title' => __("Book News and Literary Delights")
+            'title' => app('site')->name
         ]);
     }
 
