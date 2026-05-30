@@ -8,9 +8,9 @@
                     <img src="{{ asset('storage/' . $site->logo) }}" alt="{{ $site->name }}" width="160" height="64"
                         loading="eager" fetchpriority="high" decoding="async" class="h-16 w-auto object-contain">
                 </a>
-                <p class="mt-3 text-center text-xl font-semibold text-gray-800" aria-label="{{ $site->name }}">
+                <h1 class="mt-3 text-center text-xl font-semibold text-gray-800" aria-label="{{ $site->name }}">
                     {{ $site->name }}
-                </p>
+                </h1>
             </div>
 
             {{-- ── Search Box ───────────────────────────────────── --}}
@@ -34,7 +34,7 @@
                                     <input id="post-search-input" type="search" autocomplete="off" spellcheck="false"
                                         role="combobox" aria-autocomplete="list" aria-controls="search-results-dropdown"
                                         aria-expanded="{{ $search && $posts->isNotEmpty() ? 'true' : 'false' }}"
-                                        placeholder="{{ app('site')?->site_options['search_label'] ?? __('Search...') }}"
+                                        placeholder="{{ app('site')?->site_options['search_label'] ?? (__('Search') . "...") }}"
                                         wire:model.live.debounce.500ms="search" @focus="focused = true"
                                         @blur="setTimeout(() => focused = false, 200)" class="w-full py-2 text-base rounded-lg border-0
                                                focus:outline-none focus:ring-2 focus:ring-primary
