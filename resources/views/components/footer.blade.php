@@ -4,9 +4,7 @@ $options = $site->site_options ?? [];
 
 <footer class="bg-gray-50 border-t border-gray-200 mt-10" itemscope itemtype="https://schema.org/WPFooter"
     aria-label="{{ __('Site footer') }}">
-
     <div class="container mx-auto px-4 py-8">
-
         {{-- ── Logo ──────────────────────────────────────────── --}}
         <div class="flex justify-center mb-6">
             <a href="/" aria-label="{{ $site->name }} — {{ __('Home') }}">
@@ -15,7 +13,7 @@ $options = $site->site_options ?? [];
                     class="h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity">
             </a>
         </div>
-
+        <x-social />
         {{-- ── Footer Navigation ──────────────────────────────── --}}
         <nav aria-label="{{ __('Footer navigation') }}">
             <ul class="flex flex-wrap justify-center gap-x-6 gap-y-3 mb-6
@@ -83,7 +81,7 @@ $options = $site->site_options ?? [];
                    opacity-0 invisible pointer-events-none
                    hover:opacity-90 hover:scale-110
                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+        <svg xmlns="http://www.w3.org/2000/svg" class="text-red-600" width="20" height="20" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M12 5l0 14" />
@@ -91,7 +89,6 @@ $options = $site->site_options ?? [];
             <path d="M6 11l6 -6" />
         </svg>
     </button>
-
 </footer>
 
 {{-- ── Back to Top: styles + script ──────────────────────────────── --}}

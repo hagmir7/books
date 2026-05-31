@@ -48,4 +48,11 @@ class Site extends Model
     public function posts(){
         return $this->hasMany(Post::class);
     }
+
+    public function socials()
+    {
+        return $this->belongsToMany(Social::class, 'site_social')
+            ->withPivot(['url'])
+            ->withTimestamps();
+    }
 }

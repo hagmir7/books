@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-
 <head>
     @php
     $options = $site->site_options ?? [];
     $isAr = app()->getLocale() === 'ar';
     $locale = $isAr ? 'ar_MA' : 'en_US';
-
     // Resolve per-page values (set via @section or view()->share())
     $metaTitle = isset($title) ? Str::limit(strip_tags($title), 60) : Str::limit($site->name, 60);
     $metaDescription = isset($description) ? Str::limit(strip_tags($description), 155) : Str::limit($site->description
@@ -15,18 +13,15 @@
     $metaImage = isset($image) ? asset('storage/' . $image) : asset('storage/' . $site->image);
     $metaUrl = request()->url(); // canonical without query string
     @endphp
-
     {{-- ══════════════════════════════════════════════
     CHARSET & VIEWPORT — must be first
     ══════════════════════════════════════════════ --}}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     {{-- ══════════════════════════════════════════════
     TITLE — 50-60 chars ideal
     ══════════════════════════════════════════════ --}}
     <title>{{ $metaTitle }}</title>
-
     {{-- ══════════════════════════════════════════════
     CORE META
     ══════════════════════════════════════════════ --}}
@@ -37,11 +32,9 @@
     <meta name="author" content="{{ $site->name }}">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     {{-- Theme colors --}}
     <meta name="theme-color" content="{{ $site->theme_color ?? '#ff3131' }}">
     <meta name="msapplication-TileColor" content="{{ $site->theme_color ?? '#304466' }}">
-
     {{-- ══════════════════════════════════════════════
     CANONICAL & HREFLANG
     ══════════════════════════════════════════════ --}}
@@ -68,13 +61,11 @@
     <meta name="twitter:description" content="{{ $metaDescription }}">
     <meta name="twitter:image" content="{{ $metaImage }}">
     @stack('meta')
-
     {{-- ══════════════════════════════════════════════
     FAVICON
     ══════════════════════════════════════════════ --}}
     <link rel="icon" type="image/png" href="{{ asset('storage/' . $site->icon) }}">
     <link rel="apple-touch-icon" href="{{ asset('storage/' . $site->icon) }}">
-
     {{-- ══════════════════════════════════════════════
     SITEWIDE JSON-LD (WebSite + SearchAction)
     Article pages add their own via @push('scripts')
@@ -108,19 +99,16 @@
     }
     </script>
     @endif
-
     {{-- ══════════════════════════════════════════════
     PERFORMANCE: font preconnect before any @import
     ══════════════════════════════════════════════ --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     {{-- ══════════════════════════════════════════════
     ASSETS
     ══════════════════════════════════════════════ --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
-
     {{-- ══════════════════════════════════════════════
     FONTS & BASE STYLES
     ══════════════════════════════════════════════ --}}
@@ -153,7 +141,6 @@
         body {
             font-family: "Raleway", sans-serif;
         }
-
         p {
             font-size: 17px !important;
             font-weight: 600 !important;
@@ -166,12 +153,10 @@
         }
     </style>
     @endif
-
     {{-- ══════════════════════════════════════════════
     SITE ADMIN: custom header code (analytics etc.)
     ══════════════════════════════════════════════ --}}
     {!! $site->header ?? '' !!}
-
     {{-- ══════════════════════════════════════════════
     GLOBAL UTILITY STYLES
     ══════════════════════════════════════════════ --}}
@@ -180,33 +165,26 @@
             width: 100% !important;
             height: auto !important;
         }
-
         .attachment__caption {
             display: none !important;
         }
     </style>
-
-    {{-- ══════════════════════════════════════════════
+    {{-- ═════════════════════════════════════════════
     PER-PAGE STYLES (child views: @push('styles'))
     ══════════════════════════════════════════════ --}}
     @stack('styles')
-
     {{-- Google Site Verification --}}
     @if($site->google_verification ?? false)
     <meta name="google-site-verification" content="{{ $site->google_verification }}">
     @endif
-
     {{-- Google AdSense --}}
     @if($site->adsense_client ?? false)
     <script async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $site->adsense_client }}"
-        crossorigin="anonymous"></script>
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $site->adsense_client }}" crossorigin="anonymous"></script>
     @endif
-
 </head>
 
 <body class="bg-gray-50">
-
     {{-- ── Success Toast ──────────────────────────────────── --}}
     <div x-data="{ show: false, message: '' }"
         x-on:notify.window="message = $event.detail.message; show = true; setTimeout(() => show = false, 3000);"
