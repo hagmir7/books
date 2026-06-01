@@ -2,7 +2,7 @@
 $options = $site->site_options ?? [];
 @endphp
 
-<footer class="bg-gray-50 border-t border-gray-200 mt-10" itemscope itemtype="https://schema.org/WPFooter"
+<footer class="bg-gray-50 mt-10" itemscope itemtype="https://schema.org/WPFooter"
     aria-label="{{ __('Site footer') }}">
     <div class="container mx-auto px-4 py-8">
         {{-- ── Logo ──────────────────────────────────────────── --}}
@@ -81,8 +81,9 @@ $options = $site->site_options ?? [];
                    opacity-0 invisible pointer-events-none
                    hover:opacity-90 hover:scale-110
                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="text-red-600" width="20" height="20" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" class="text-red-600" width="20" height="20" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+            aria-hidden="true">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M12 5l0 14" />
             <path d="M18 11l-6 -6" />

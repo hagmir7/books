@@ -397,6 +397,12 @@
         @yield('content')
     </main>
 
+    <div class="">
+        @livewire('newsletter')
+    </div>
+
+
+
     {{-- ── Footer ──────────────────────────────────────── --}}
     <x-footer />
 
