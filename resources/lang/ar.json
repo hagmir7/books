@@ -303,5 +303,16 @@
     "Always": "دائمًا",
     "By subscribing you agree to our": "بالاشتراك فإنك توافق على",
     "privacy policy": "سياسة الخصوصية",
-    "Unsubscribe any time.": "يمكنك إلغاء الاشتراك في أي وقت."
+    "Unsubscribe any time.": "يمكنك إلغاء الاشتراك في أي وقت.",
+    "Logs": "سجلات",
+    "Laravel Log Viewer": "عارض سجلات لارافيل",
+    "Refresh": "تحديث",
+    "Copy": "نسخ",
+    "Copied!": "تم النسخ!",
+    "Clear Logs": "مسح السجلات",
+    "Are you sure you want to clear all logs?": "هل أنت متأكد أنك تريد مسح جميع السجلات؟",
+    "No log file found at: storage/logs/laravel.log": "لم يتم العثور على ملف السجلات في: storage/logs/laravel.log",
+    "⚠️ No log file found.": "⚠️ لم يتم العثور على ملف السجلات.",
+    "✅ Logs cleared successfully.": "✅ تم مسح السجلات بنجاح.",
+    "🔄 Logs refreshed.": "🔄 تم تحديث السجلات."
 }

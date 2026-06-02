@@ -13,14 +13,29 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Override;
+use UnitEnum;
 
 class SubscriberResource extends Resource
 {
     protected static ?string $model = Subscriber::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAtSymbol;
 
     protected static ?string $recordTitleAttribute = 'email';
+
+
+    protected static string | UnitEnum | null $navigationGroup = 'More';
+
+    public static function getModelLabel(): string
+    {
+        return __("Subscriber");
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __("Subscribers");
+    }
 
     public static function form(Schema $schema): Schema
     {

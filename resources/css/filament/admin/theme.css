@@ -1,2 +1,16 @@
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
-@import 'tailwindcss';
+@import "tailwindcss";
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+
+
+
+/* @import 'tailwindcss'; */
+
+@source '../../../../resources/views/**/*';
+
+/* @theme {
+    --color-primary-500: #7c3aed;
+    --color-primary-600: #6d28d9;
+} */
+

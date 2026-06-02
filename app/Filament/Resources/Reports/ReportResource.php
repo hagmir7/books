@@ -23,7 +23,7 @@ class ReportResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedExclamationCircle;
 
 
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static ?string $recordTitleAttribute = 'full_name';
 
     public static function getModelLabel(): string
     {
