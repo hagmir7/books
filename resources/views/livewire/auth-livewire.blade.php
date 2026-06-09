@@ -1,219 +1,271 @@
-<!-- Requires: Tailwind CSS + Alpine.js (for small toggles). Livewire is untouched. -->
-<div class="w-full flex justify-center items-center py-10">
-    <div class="bg-white rounded-lg shadow-sm max-w-lg w-full max-h-[90vh] overflow-y-auto" @click.stop
-        x-data="{ showPassword: false }" role="dialog" aria-modal="true" aria-labelledby="authTitle">
-        <!-- Header -->
-        <div class="bg-gradient-to-r from-white to-primary/5 border-b px-6 py-4 rounded-t-lg">
-            <div class="flex justify-center items-center gap-4">
-                <div>
-                    <img width="100px" height="50px" src="{{ asset('storage/'.$site->logo) }}" alt="{{ __('Site logo') }}"
-                        class="object-contain text-center w-full h-11">
-                    <div>
-                        <h2 id="authTitle" class="text-lg font-semibold text-gray-800 text-center flex justify-center">
-                            <span x-show="$wire.isRegister" x-cloak>{{ __('Create an account') }}</span>
-                            <span x-show="! $wire.isRegister" x-cloak>{{ __('Sign in to your account') }}</span>
-                        </h2>
+<div class="min-h-screen flex items-center justify-center px-4">
+<div class="bg-white rounded-lg w-full max-w-3xl shadow-sm max-h-[90vh] overflow-y-auto" @click.stop
+    x-data="{ showPassword: false, showConfirmPassword: false }" role="dialog" aria-modal="true"
+    aria-labelledby="authTitle">
+    {{-- Header --}}
+    <div class="border-b px-6 py-4 rounded-t-lg">
+        <div class="flex flex-col items-center gap-3">
+            <img width="100px" height="50px" src="{{ asset('storage/'.$site->logo) }}" alt="{{ __('Site logo') }}"
+                class="object-contain h-11">
 
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="px-6 pb-6">
-            <div class="card-body mt-4">
-
-                <!-- Top-level validation/errors -->
-                @if (session()->has('error'))
-                <div role="alert" class="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded mb-4">
-                    {{ session('error') }}
-                </div>
-                @endif
-
-                <!-- REGISTER -->
-                @if ($isRegister)
-                <form wire:submit.prevent="register" class="space-y-4" novalidate>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div>
-                            <label for="first_name" class="block text-sm font-medium text-gray-700 mb-1">{{ __("First name")
-                                }}</label>
-                            <input id="first_name" type="text" wire:model.defer="first_name"
-                                class="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                aria-invalid="{{ $errors->has('first_name') ? 'true' : 'false' }}"
-                                autocomplete="given-name">
-                            @error('first_name') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
-                        </div>
-
-                        <div>
-                            <label for="last_name" class="block text-sm font-medium text-gray-700 mb-1">{{ __("Last name")
-                                }}</label>
-                            <input id="last_name" type="text" wire:model.defer="last_name"
-                                class="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                aria-invalid="{{ $errors->has('last_name') ? 'true' : 'false' }}"
-                                autocomplete="family-name">
-                            @error('last_name') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">{{ __("Email") }}</label>
-                        <input id="email" type="email" wire:model.defer="email"
-                            class="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                            aria-invalid="{{ $errors->has('email') ? 'true' : 'false' }}" autocomplete="email">
-                        @error('email') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">{{ __("Password")
-                            }}</label>
-                        <div class="relative">
-                            <input :type="showPassword ? 'text' : 'password'" id="password" wire:model.defer="password"
-                                class="block w-full px-3 py-2 border border-gray-300 rounded-md pr-10 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                aria-invalid="{{ $errors->has('password') ? 'true' : 'false' }}"
-                                autocomplete="new-password">
-                            <button type="button" @click="showPassword = !showPassword"
-                                class="absolute inset-y-0 right-2 flex items-center px-2"
-                                :aria-label="showPassword ? 'Hide password' : 'Show password'">
-                                <svg x-show="!showPassword" class="cursor-pointer icon icon-tabler icons-tabler-outline icon-tabler-eye-closed"
-                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M21 9c-2.4 2.667 -5.4 4 -9 4c-3.6 0 -6.6 -1.333 -9 -4" />
-                                    <path d="M3 15l2.5 -3.8" />
-                                    <path d="M21 14.976l-2.492 -3.776" />
-                                    <path d="M9 17l.5 -4" />
-                                    <path d="M15 17l-.5 -4" />
-                                </svg>
-
-                                <svg x-show="showPassword" class="cursor-pointer icon icon-tabler icons-tabler-outline icon-tabler-eye"
-                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                                    <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-                                </svg>
-                            </button>
-                        </div>
-                        @error('password') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">{{
-                            __("Confirm Password") }}</label>
-                        <input id="password_confirmation" :type="showPassword ? 'text' : 'password'"
-                            wire:model.defer="password_confirmation"
-                            class="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                            aria-invalid="{{ $errors->has('password_confirmation') ? 'true' : 'false' }}"
-                            autocomplete="new-password">
-                        @error('password_confirmation') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-wait"
-                            class="bg-primary py-2 px-4 rounded-md hover:bg-primary/90 transition shadow w-full flex justify-center">
-                            <span>{{ __("Register") }}</span>
-                        </button>
-                    </div>
-
-                </form>
-
-                <div class="mt-3 text-center text-sm text-gray-600">
-                    {{ __("Already have an account?") }}
-                    <button class="text-primary font-medium ml-1 cursor-pointer hover:underline" type="button" wire:click="toggleMode">{{ __("Login")  }}</button>
-                </div>
-
-                @else
-
-                <!-- LOGIN -->
-                <form wire:submit="login" class="space-y-4">
-
-                    <div>
-                        <label for="email-login" class="block text-sm font-medium text-gray-700 mb-1">{{ __("Email")
-                            }}</label>
-                        <input id="email-login" type="email" wire:model.defer="email"
-                            class="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                            aria-invalid="{{ $errors->has('email') ? 'true' : 'false' }}" autocomplete="email">
-                        @error('email') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label for="password-login" class="block text-sm font-medium text-gray-700 mb-1">{{ __("Password")}}</label>
-                        <div class="relative">
-                            <input id="password-login" :type="showPassword ? 'text' : 'password'" wire:model.defer="password"
-                                class="block w-full px-3 py-2 border border-gray-300 rounded-md pr-10 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                aria-invalid="{{ $errors->has('password') ? 'true' : 'false' }}" autocomplete="current-password">
-                            <button type="button" @click="showPassword = !showPassword"
-                                class="absolute inset-y-0 right-2 flex items-center px-2"
-                                :aria-label="showPassword ? 'Hide password' : 'Show password'">
-
-                                <svg x-show="!showPassword"
-                                    class="cursor-pointer icon icon-tabler icons-tabler-outline icon-tabler-eye-closed"
-                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M21 9c-2.4 2.667 -5.4 4 -9 4c-3.6 0 -6.6 -1.333 -9 -4" />
-                                    <path d="M3 15l2.5 -3.8" />
-                                    <path d="M21 14.976l-2.492 -3.776" />
-                                    <path d="M9 17l.5 -4" />
-                                    <path d="M15 17l-.5 -4" />
-                                </svg>
-
-                                <svg x-show="showPassword" class="cursor-pointer icon icon-tabler icons-tabler-outline icon-tabler-eye"
-                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                                    <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-                                </svg>
-                            </button>
-                        </div>
-                        @error('password') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div class="flex items-center justify-between gap-3">
-                        <label class="flex items-center text-sm text-gray-700 select-none gap-2">
-                            <input type="checkbox" name="rememberMe" wire:model="remember" id="rememberMe"
-                                class="h-4 w-4 rounded border-gray-300 focus:ring-primary" />
-                            <span class="ml-2">{{ __("Remember me") }}</span>
-                        </label>
-
-                        <button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-wait"
-                            class="bg-primary py-2 px-4 rounded-md hover:bg-primary/90 transition shadow">
-                            {{ __("Login") }}
-                        </button>
-                    </div>
-
-                    <div class="text-center text-sm text-gray-600">
-                        {{ __("Do not have an account?") }}
-                        <button class="text-primary font-medium ml-1 cursor-pointer hover:underline " type="button" wire:click="toggleMode">{{ __("Sign Up")}}</button>
-                    </div>
-
-                </form>
-                @endif
-
-                <!-- Optional: social login area (uncomment / connect to backend if available) -->
-                <div class="mt-5">
-                    <div class="flex items-center">
-                        <div class="flex-1 h-px bg-gray-200"></div>
-                        <div class="px-3 text-xs text-gray-400">{{ __("Or continue with") }}</div>
-                        <div class="flex-1 h-px bg-gray-200"></div>
-                    </div>
-
-                    <div class="mt-3 gap-3">
-                        <button type="button" class="flex items-center w-full justify-center gap-2 border border-gray-200 py-2 rounded-md hover:shadow-sm transition">
-                            <!-- Google icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon icon-tabler icons-tabler-outline icon-tabler-brand-google">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M20.945 11a9 9 0 1 1 -3.284 -5.997l-2.655 2.392a5.5 5.5 0 1 0 2.119 6.605h-4.125v-3h7.945z" />
-                            </svg>
-                            <span class="text-sm">Google</span>
-                        </button>
-                    </div>
-                </div>
-
+            {{-- Tab switcher --}}
+            <div class="flex w-full border border-gray-200 rounded-lg overflow-hidden text-sm font-medium">
+                <button type="button" class="flex-1 py-2 transition cursor-pointer" :class="$wire.isRegister
+                                ? 'bg-white text-gray-600 hover:bg-gray-50'
+                                : 'bg-(--color-primary) text-white'" wire:click="$set('isRegister', false)">
+                    {{ __('Sign in') }}
+                </button>
+                <button type="button" class="flex-1 py-2 transition cursor-pointer" :class="$wire.isRegister
+                                ? 'bg-(--color-primary) text-white'
+                                : 'bg-white text-gray-600 hover:bg-gray-50'" wire:click="$set('isRegister', true)">
+                    {{ __('Create account') }}
+                </button>
             </div>
         </div>
     </div>
+
+    <div class="px-6 pb-6">
+        <div class="mt-4">
+
+            {{-- Top-level errors --}}
+            @if (session()->has('error'))
+            <div role="alert" class="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded mb-4 text-sm">
+                {{ session('error') }}
+            </div>
+            @endif
+
+            {{-- ── REGISTER ── --}}
+            @if ($isRegister)
+            <form wire:submit.prevent="register" class="space-y-4" novalidate>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                        <label for="first_name" class="block text-sm font-medium text-gray-700 mb-1">{{ __('First name') }}</label>
+                        <input id="first_name" type="text" wire:model.defer="first_name" autocomplete="given-name"
+                            class="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm
+                                           focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-transparent"
+                            aria-invalid="{{ $errors->has('first_name') ? 'true' : 'false' }}">
+                        @error('first_name') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
+                        <label for="last_name" class="block text-sm font-medium text-gray-700 mb-1">{{ __('Last name') }}</label>
+                        <input id="last_name" type="text" wire:model.defer="last_name" autocomplete="family-name"
+                            class="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm
+                                           focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-transparent" aria-invalid="{{ $errors->has('last_name') ? 'true' : 'false' }}">
+                        @error('last_name') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                    </div>
+                </div>
+
+                <div>
+                    <label for="reg_email" class="block text-sm font-medium text-gray-700 mb-1">{{ __('Email')
+                        }}</label>
+                    <input id="reg_email" type="email" wire:model.defer="email" autocomplete="email"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm
+                                       focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-transparent" aria-invalid="{{ $errors->has('email') ? 'true' : 'false' }}">
+                    @error('email') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label for="reg_password" class="block text-sm font-medium text-gray-700 mb-1">{{ __('Password')
+                        }}</label>
+                    <div class="relative">
+                        <input id="reg_password" :type="showPassword ? 'text' : 'password'" wire:model.defer="password"
+                            autocomplete="new-password"
+                            class="block w-full px-3 py-2 border border-gray-300 rounded-md pr-10 text-sm
+                                           focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-transparent"
+                            aria-invalid="{{ $errors->has('password') ? 'true' : 'false' }}">
+                        <button type="button" @click="showPassword = !showPassword"
+                            class="absolute inset-y-0 right-2 flex items-center px-2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                            :aria-label="showPassword ? '{{ __('Hide password') }}' : '{{ __('Show password') }}'">
+                            <svg x-show="!showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M21 9c-2.4 2.667 -5.4 4 -9 4c-3.6 0 -6.6 -1.333 -9 -4" />
+                                <path d="M3 15l2.5 -3.8" />
+                                <path d="M21 14.976l-2.492 -3.776" />
+                                <path d="M9 17l.5 -4" />
+                                <path d="M15 17l-.5 -4" />
+                            </svg>
+                            <svg x-show="showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path
+                                    d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                            </svg>
+                        </button>
+                    </div>
+                    @error('password') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">{{
+                        __('Confirm password') }}</label>
+                    <div class="relative">
+                        <input id="password_confirmation" :type="showConfirmPassword ? 'text' : 'password'"
+                            wire:model.defer="password_confirmation" autocomplete="new-password"
+                            class="block w-full px-3 py-2 border border-gray-300 rounded-md pr-10 text-sm
+                                           focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-transparent"
+                            aria-invalid="{{ $errors->has('password_confirmation') ? 'true' : 'false' }}">
+                        <button type="button" @click="showConfirmPassword = !showConfirmPassword"
+                            class="absolute inset-y-0 right-2 flex items-center px-2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                            :aria-label="showConfirmPassword ? '{{ __('Hide password') }}' : '{{ __('Show password') }}'">
+                            <svg x-show="!showConfirmPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M21 9c-2.4 2.667 -5.4 4 -9 4c-3.6 0 -6.6 -1.333 -9 -4" />
+                                <path d="M3 15l2.5 -3.8" />
+                                <path d="M21 14.976l-2.492 -3.776" />
+                                <path d="M9 17l.5 -4" />
+                                <path d="M15 17l-.5 -4" />
+                            </svg>
+                            <svg x-show="showConfirmPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path
+                                    d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                            </svg>
+                        </button>
+                    </div>
+                    @error('password_confirmation') <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-wait"
+                    class="bg-(--color-primary) text-white py-2 px-4 rounded-md
+                                   hover:bg-(--color-primary)/90 transition shadow w-full text-sm font-medium cursor-pointer">
+                    {{ __('Create account') }}
+                </button>
+
+            </form>
+
+            @else
+
+            {{-- ── LOGIN ── --}}
+            <form wire:submit="login" class="space-y-4" novalidate>
+
+                <div>
+                    <label for="login_email" class="block text-sm font-medium text-gray-700 mb-1">{{ __('Email')
+                        }}</label>
+                    <input id="login_email" type="email" wire:model.defer="email" autocomplete="email"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm
+                                       focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-transparent" aria-invalid="{{ $errors->has('email') ? 'true' : 'false' }}">
+                    @error('email') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label for="login_password" class="block text-sm font-medium text-gray-700 mb-1">{{
+                        __('Password') }}</label>
+                    <div class="relative">
+                        <input id="login_password" :type="showPassword ? 'text' : 'password'"
+                            wire:model.defer="password" autocomplete="current-password"
+                            class="block w-full px-3 py-2 border border-gray-300 rounded-md pr-10 text-sm
+                                           focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-transparent"
+                            aria-invalid="{{ $errors->has('password') ? 'true' : 'false' }}">
+                        <button type="button" @click="showPassword = !showPassword"
+                            class="absolute inset-y-0 right-2 flex items-center px-2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                            :aria-label="showPassword ? '{{ __('Hide password') }}' : '{{ __('Show password') }}'">
+                            <svg x-show="!showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M21 9c-2.4 2.667 -5.4 4 -9 4c-3.6 0 -6.6 -1.333 -9 -4" />
+                                <path d="M3 15l2.5 -3.8" />
+                                <path d="M21 14.976l-2.492 -3.776" />
+                                <path d="M9 17l.5 -4" />
+                                <path d="M15 17l-.5 -4" />
+                            </svg>
+                            <svg x-show="showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path
+                                    d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                            </svg>
+                        </button>
+                    </div>
+                    @error('password') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="flex items-center justify-between gap-3">
+                    <label class="flex items-center gap-2 text-sm text-gray-600 select-none cursor-pointer">
+                        <input type="checkbox" wire:model="remember" id="rememberMe"
+                            class="size-4 rounded border-gray-300 accent-(--color-primary)">
+                        {{ __('Remember me') }}
+                    </label>
+                    <button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-wait"
+                        class="bg-(--color-primary) text-white py-2 px-5 rounded-md
+                                       hover:bg-(--color-primary)/90 transition shadow text-sm font-medium cursor-pointer">
+                        {{ __('Sign in') }}
+                    </button>
+                </div>
+
+            </form>
+            @endif
+
+            {{-- ── Social login (shared by both panels) ── --}}
+            <div class="mt-5">
+                <div class="flex items-center gap-3">
+                    <div class="flex-1 h-px bg-gray-200"></div>
+                    <span class="text-xs text-gray-400">{{ __('Or continue with') }}</span>
+                    <div class="flex-1 h-px bg-gray-200"></div>
+                </div>
+
+                <div class="mt-3 flex  gap-2">
+
+                    {{-- Google --}}
+                    <a href="{{ route('google.login') }}" class="flex items-center justify-center gap-2.5 w-full border border-gray-200 py-2 rounded-md
+                                       hover:bg-gray-50 transition text-sm text-gray-700">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                fill="#4285F4" />
+                            <path
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                fill="#34A853" />
+                            <path
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+                                fill="#FBBC05" />
+                            <path
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                fill="#EA4335" />
+                        </svg>
+                        Google
+                    </a>
+
+                    {{-- Facebook --}}
+                    <a href="{{ route('facebook.login') }}" class="flex items-center justify-center gap-2.5 w-full border border-gray-200 py-2 rounded-md
+                                       hover:bg-gray-50 transition text-sm text-gray-700">
+                        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                                d="M12 0C5.373 0 0 5.373 0 12c0 5.989 4.388 10.952 10.125 11.854V15.47H7.078V12h3.047V9.356c0-3.007 1.792-4.669 4.533-4.669 1.313 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874V12h3.328l-.532 3.47h-2.796v8.385C19.612 22.952 24 17.989 24 12c0-6.627-5.373-12-12-12z"
+                                fill="#1877F2" />
+                        </svg>
+                        Facebook
+                    </a>
+
+                    {{-- GitHub --}}
+                    <a href="{{ route('github.login') }}" class="flex items-center justify-center gap-2.5 w-full border border-gray-200 py-2 rounded-md
+                                       hover:bg-gray-50 transition text-sm text-gray-700">
+                        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" class="text-gray-800">
+                            <path
+                                d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"
+                                fill="currentColor" />
+                        </svg>
+                        GitHub
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 </div>

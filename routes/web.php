@@ -13,11 +13,13 @@ use App\Models\Book;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\GithubAuthController;
+use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\Auth\FacebookAuthController;
 
 
 
 
-// Route::get('/sitemap', [SitemapController::class, 'index']);
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
@@ -39,6 +41,24 @@ Route::controller(UserController::class)->prefix('auth')->group(function () {
     Route::get('login', 'login')->name("auth.login");
     Route::get('logout', 'logout')->name("logout");
     Route::get('logout', 'logout')->name("auth.password");
+
+
+    Route::get('github', [GithubAuthController::class, 'redirect'])
+        ->name('github.login');
+
+    Route::get('github/callback', [GithubAuthController::class, 'callback']);
+
+    Route::get('facebook', [FacebookAuthController::class, 'redirect'])
+        ->name('facebook.login');
+
+    Route::get('facebook/callback', [FacebookAuthController::class, 'callback']);
+
+
+
+    Route::get('google', [GoogleAuthController::class, 'redirect'])
+        ->name('google.login');
+
+    Route::get('google/callback', [GoogleAuthController::class, 'callback']);
 });
 
 

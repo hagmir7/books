@@ -314,5 +314,12 @@
     "No log file found at: storage/logs/laravel.log": "لم يتم العثور على ملف السجلات في: storage/logs/laravel.log",
     "⚠️ No log file found.": "⚠️ لم يتم العثور على ملف السجلات.",
     "✅ Logs cleared successfully.": "✅ تم مسح السجلات بنجاح.",
-    "🔄 Logs refreshed.": "🔄 تم تحديث السجلات."
+    "🔄 Logs refreshed.": "🔄 تم تحديث السجلات.",
+    "Site logo": "شعار الموقع",
+    "Sign in": "تسجيل الدخول",
+    "Create account": "إنشاء حساب",
+
+    "Confirm password": "تأكيد كلمة المرور",
+    "Hide password": "إخفاء كلمة المرور",
+    "Show password": "إظهار كلمة المرور"
 }

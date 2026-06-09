@@ -76,7 +76,7 @@ $options = $site->site_options ?? [];
     <button id="back-to-top" type="button" aria-label="{{ __('Back to top') }}" aria-hidden="true"
         class="fixed bottom-6
                    end-6
-                   bg-primary text-white p-3 rounded-full shadow-lg
+                 text-white p-3 rounded-full shadow-lg
                    transition-all duration-300
                    opacity-0 invisible pointer-events-none
                    hover:opacity-90 hover:scale-110

@@ -24,23 +24,48 @@ class AppServiceProvider extends ServiceProvider
 
         Model::preventLazyLoading(! app()->isProduction());
 
-        // Default site (safe fallback for CLI / queue)
         $site = null;
 
         if (app()->runningInConsole()) {
-            $site = Site::first(); // fallback for artisan/queue
+            $site = Site::first();
         } else {
             $host = request()->getHost();
             $domain = str_replace('www.', '', $host);
-
             $site = Site::where('domain', $domain)->first();
         }
 
-        // fallback protection
         if (!$site) {
             $site = Site::first();
         }
 
         app()->instance('site', $site);
+
+        $siteOptions = $site->site_options ?? [];
+
+        if (isset($siteOptions['GITHUB_CLIENT_ID'], $siteOptions['GITHUB_CLIENT_SECRET'])) {
+            config([
+                'services.github.client_id'     => $siteOptions['GITHUB_CLIENT_ID'],
+                'services.github.client_secret' => $siteOptions['GITHUB_CLIENT_SECRET'],
+                'services.github.redirect'      => rtrim(config('app.url'), '/') . '/auth/github/callback',
+            ]);
+        }
+
+        if (isset($siteOptions['GOOGLE_CLIENT_ID'], $siteOptions['GOOGLE_CLIENT_SECRET'])) {
+            config([
+                'services.google.client_id'     => $siteOptions['GOOGLE_CLIENT_ID'],
+                'services.google.client_secret' => $siteOptions['GOOGLE_CLIENT_SECRET'],
+                'services.google.redirect'      => url('/auth/google/callback'),
+            ]);
+        }
+
+        if (isset($siteOptions['FACEBOOK_CLIENT_ID'], $siteOptions['FACEBOOK_CLIENT_SECRET'])) {
+            config([
+                'services.facebook.client_id'     => $siteOptions['FACEBOOK_CLIENT_ID'],
+                'services.facebook.client_secret' => $siteOptions['FACEBOOK_CLIENT_SECRET'],
+                'services.facebook.redirect'      => url('/auth/facebook/callback'),
+            ]);
+        }
+
+
     }
 }
