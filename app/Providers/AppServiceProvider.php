@@ -46,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
             config([
                 'services.github.client_id'     => $siteOptions['GITHUB_CLIENT_ID'],
                 'services.github.client_secret' => $siteOptions['GITHUB_CLIENT_SECRET'],
-                'services.github.redirect'      => rtrim(config('app.url'), '/') . '/auth/github/callback',
+                'services.github.redirect'      => url('/auth/github/callback'),
             ]);
         }
 
