@@ -22,7 +22,7 @@ class GoogleAuthController extends Controller
             $googleUser = Socialite::driver('google')->stateless()->user();
 
             if (empty($googleUser->email)) {
-                return redirect()->route('login')
+                return redirect('/login')
                     ->withErrors(__('No email returned from Google account.'));
             }
 
@@ -47,7 +47,7 @@ class GoogleAuthController extends Controller
         } catch (\Exception $e) {
             Log::error('Google OAuth Error', ['message' => $e->getMessage()]);
 
-            return redirect()->route('login')
+            return redirect('/login')
                 ->withErrors(__('Google authentication failed.'));
         }
     }
@@ -72,7 +72,7 @@ class GoogleAuthController extends Controller
         $parts = array_filter(explode(' ', trim((string) $name)));
 
         if (count($parts) < 2) {
-            return [$name, null];
+            return [$name, ''];
         }
 
         $firstName = array_shift($parts);
