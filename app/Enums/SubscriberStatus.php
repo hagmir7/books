@@ -2,6 +2,9 @@
 
 namespace App\Enums;
 
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
+
 enum SubscriberStatus: int implements HasLabel, HasColor
 {
     case PENDING = 1;
@@ -14,7 +17,7 @@ enum SubscriberStatus: int implements HasLabel, HasColor
         return match ($this) {
             self::PENDING => __("Pending"),
             self::SUBSCRIBED => __("Subscribed"),
-            self::UNSUBSCRIBED => __("Unsubscribed "),
+            self::UNSUBSCRIBED => __("Unsubscribed"),
         };
     }
 
@@ -23,7 +26,7 @@ enum SubscriberStatus: int implements HasLabel, HasColor
         return [
             1 => __("Pending"),
             2 => __("Subscribed"),
-            3 => __("Unsubscribed "),
+            3 => __("Unsubscribed"),
         ];
     }
 

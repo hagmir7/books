@@ -318,8 +318,9 @@
     "Site logo": "شعار الموقع",
     "Sign in": "تسجيل الدخول",
     "Create account": "إنشاء حساب",
-
     "Confirm password": "تأكيد كلمة المرور",
     "Hide password": "إخفاء كلمة المرور",
-    "Show password": "إظهار كلمة المرور"
+    "Show password": "إظهار كلمة المرور",
+    "Subscribed": "مشترك",
+    "Unsubscribed": "غير مشترك"
 }

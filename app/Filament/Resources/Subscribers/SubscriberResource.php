@@ -58,8 +58,8 @@ class SubscriberResource extends Resource
     {
         return [
             'index' => ListSubscribers::route('/'),
-            'create' => CreateSubscriber::route('/create'),
-            'edit' => EditSubscriber::route('/{record}/edit'),
+            // 'create' => CreateSubscriber::route('/create'),
+            // 'edit' => EditSubscriber::route('/{record}/edit'),
         ];
     }
 }

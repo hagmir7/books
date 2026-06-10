@@ -9,7 +9,7 @@ class Subscriber extends Model
     protected $fillable = ['site_id', 'language_id', 'full_name', 'email', 'status'];
 
 
-    public function langauge()
+    public function language()
     {
         return $this->belongsTo(Language::class);
     }
