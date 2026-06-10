@@ -12,6 +12,7 @@ use Laravel\Socialite\Facades\Socialite;
 class FacebookAuthController extends Controller
 {
 
+
     public function redirect()
     {
         return Socialite::driver('facebook')
@@ -66,5 +67,19 @@ class FacebookAuthController extends Controller
             'avatar'      => $facebookUser->avatar,
             'password'    => bcrypt(Str::random(24)),
         ];
+    }
+
+    private function parseName(?string $name): array
+    {
+        $parts = array_filter(explode(' ', trim((string) $name)));
+
+        if (count($parts) < 2) {
+            return [$name, null];
+        }
+
+        $firstName = array_shift($parts);
+        $lastName  = implode(' ', $parts);
+
+        return [$firstName, $lastName];
     }
 }
