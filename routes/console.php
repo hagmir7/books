@@ -13,7 +13,7 @@ Artisan::command('inspire', function () {
 
 
 Schedule::command('app:sync-data')
-    ->everyMinute()
+    ->everyTwoMinutes()
     ->runInBackground()
     ->withoutOverlapping()
     ->appendOutputTo(storage_path('logs/sync.log'));

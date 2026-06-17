@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 class SyncData extends Command
 {
     protected $signature   = 'app:sync-data';
-    protected $description = 'Runs every minute in the background';
+    protected $description = 'Runs every 2 minutes in the background';
 
     public function handle(): void
     {
@@ -37,7 +37,7 @@ class SyncData extends Command
             Log::info('SyncData: loaded scrap.json', ['start' => $start, 'end' => $end]);
 
             // ── 2. Send the request ──────────────────────────────────────────
-            $response = Http::timeout(60)
+            $response = Http::timeout(120)
                 ->withOptions([
                     'verify' => false,
                 ])
