@@ -43,9 +43,14 @@ class AuthorController extends Controller
     {
         !$author->verified && abort(404);
 
-        if (!$author->description) {
-            $this->generate($author);
-        }
+        // if (!$author->description) {
+        //     try {
+        //         $this->generate($author);
+        //     } catch (\Throwable $th) {
+        //         //throw $th;
+        //     }
+
+        // }
 
         $books = $author->books()
             ->with(['category', 'author'])
