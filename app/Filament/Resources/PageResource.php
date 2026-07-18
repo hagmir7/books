@@ -55,10 +55,13 @@ class PageResource extends Resource
                         \Filament\Forms\Components\TextInput::make('slug')
                             ->label('URL')
                             ->readOnly()
-                            ->copyable()
-                            ->afterStateHydrated(function ($component, $state) {
-                                $component->state(url('/') . '/page/' . $state);
-                            }),
+                            ->copyable(),
+
+                        \Filament\Forms\Components\Textarea::make('description')
+                            ->label(__("Description"))
+                            ->required()
+                            ->maxLength(255),
+
                         Forms\Components\RichEditor::make('body')
                             ->extraInputAttributes(['style' => 'min-height: 20rem; max-height: 50vh; overflow-y: auto;'])
                             ->label(__('Content'))

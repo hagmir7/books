@@ -11,7 +11,7 @@ class Page extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'body', 'slug', 'language_id', 'site_id'];
+    protected $fillable = ['title', 'body', 'slug', 'language_id', 'site_id', 'description'];
 
 
     protected static function boot()
