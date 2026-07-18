@@ -55,11 +55,12 @@ class PageResource extends Resource
                         \Filament\Forms\Components\TextInput::make('slug')
                             ->label('URL')
                             ->readOnly()
-                            ->columnSpanFull()
+
                             ->copyable(),
 
                         \Filament\Forms\Components\Textarea::make('description')
                             ->label(__("Description"))
+                            ->columnSpanFull()
                             ->required()
                             ->maxLength(255),
 
