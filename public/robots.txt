@@ -6,4 +6,3 @@ Disallow: /profile/
 Disallow: /storage/book_files/
 Disallow: /storage/book_file/*
 
-Sitemap: https://kitaboka.com/sitemap.xml
