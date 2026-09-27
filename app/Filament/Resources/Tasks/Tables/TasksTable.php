@@ -129,6 +129,8 @@ class TasksTable
                             'site_id'     => $site->id,
                         ]);
 
+                        $record->update(['status' => TaskStatusEnum::COMPLETED, 'completed_at' => now(),]);
+
                         Notification::make()
                             ->title(__("Blog Generated Successfully"))
                             ->body(__("The blog post has been created from this task."))

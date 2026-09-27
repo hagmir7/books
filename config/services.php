@@ -39,6 +39,10 @@ return [
         'api_key' => env('OPENAI_API_KEY'),
     ],
 
+    'deepseek' => [
+        'api_key' => env('DEEPSEEK_API_KEY'),
+    ],
+
 
     'rapidapi' => [
         'key' => env('RAPIDAPI_KEY'),
