@@ -28,15 +28,17 @@ class ListTasks extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make(__("All"))
-                ->icon('heroicon-m-queue-list')
-                ->badge(fn() => $this->getModel()::where('site_id', app('site')->id)->where('user_id', auth()->id())->count()),
 
             'pending' => Tab::make(__("Pending"))
                 ->icon(TaskStatusEnum::PENDING->getIcon())
                 ->badgeColor(TaskStatusEnum::PENDING->getColor())
                 ->badge(fn() => $this->getModel()::where('site_id', app('site')->id)->where('user_id', auth()->id())->where('status', TaskStatusEnum::PENDING)->count())
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('status', TaskStatusEnum::PENDING)),
+
+            'all' => Tab::make(__("All"))
+                ->icon('heroicon-m-queue-list')
+                ->badge(fn() => $this->getModel()::where('site_id', app('site')->id)->where('user_id', auth()->id())->count()),
+
 
             'in_progress' => Tab::make(__("In Progress"))
                 ->icon(TaskStatusEnum::IN_PROGRESS->getIcon())
