@@ -42,7 +42,7 @@ class TaskResource extends Resource
     #[Override]
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('site_id', app("site")->site_id);
+        return parent::getEloquentQuery()->where('site_id', app('site')->id);
     }
 
     public static function form(Schema $schema): Schema
