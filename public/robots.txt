@@ -1,6 +1,0 @@
-Disallow: /livewire/
-Disallow: /admin/
-Disallow: /profile/
-Disallow: /storage/book_files/
-Disallow: /storage/book_file/*
-

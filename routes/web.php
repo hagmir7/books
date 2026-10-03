@@ -24,6 +24,24 @@ use App\Http\Controllers\Auth\FacebookAuthController;
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 
+Route::get('/robots.txt', function () {
+    $content = implode("\n", [
+        'User-agent: *',
+        'Disallow: /livewire/',
+        'Disallow: /admin/',
+        'Disallow: /profile/',
+        'Disallow: /storage/book_files/',
+        'Disallow: /storage/book_file/',
+        '',
+        'Sitemap: ' . url('/sitemap.xml'),
+    ]);
+
+    return response($content, 200)->header('Content-Type', 'text/plain');
+});
+
+
+
+
 Route::get('/livewire/update', function () {
     return redirect()->back();
 });
