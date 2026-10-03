@@ -105,34 +105,33 @@ $options = $site->site_options ?? [];
 
 <script>
     (function () {
-    const btn       = document.getElementById('back-to-top');
-    const threshold = 300;
-    if (!btn) return;
+        const btn = document.getElementById('back-to-top');
+        if (!btn) return;
 
-    // Toggle visibility
-    const onScroll = () => {
-        const visible = window.scrollY > threshold;
-        btn.classList.toggle('is-visible', visible);
-        btn.setAttribute('aria-hidden', String(!visible));
-    };
+        const threshold = 300;
 
-    // Throttle scroll handler for performance
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(() => { onScroll(); ticking = false; });
-            ticking = true;
-        }
-    }, { passive: true });
+        // Invisible marker placed `threshold` px from the top of the page.
+        // When it scrolls out of view above the viewport, show the button.
+        const sentinel = document.createElement('div');
+        sentinel.setAttribute('aria-hidden', 'true');
+        sentinel.style.cssText =
+            'position:absolute;top:' + threshold + 'px;left:0;width:1px;height:1px;pointer-events:none;';
+        document.body.appendChild(sentinel);
 
-    // Scroll to top
-    btn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        // Return focus to top of page for keyboard/screen reader users
-        document.querySelector('main, header, body').focus({ preventScroll: true });
-    });
+        const observer = new IntersectionObserver(([entry]) => {
+            const visible = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+            btn.classList.toggle('is-visible', visible);
+            btn.setAttribute('aria-hidden', String(!visible));
+        });
+        observer.observe(sentinel);
 
-    // Run once on load in case page is already scrolled (e.g. back navigation)
-    onScroll();
-})();
+        // Scroll to top and move focus for keyboard/screen reader users
+        btn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            const target = document.querySelector('main') || document.body;
+            if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+            target.focus({ preventScroll: true });
+        });
+    })();
 </script>

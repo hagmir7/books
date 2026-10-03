@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+
 <head>
     @php
     $options = $site->site_options ?? [];
     $isAr = app()->getLocale() === 'ar';
     $locale = $isAr ? 'ar_MA' : 'en_US';
     $metaTitle = isset($title) ? Str::limit(strip_tags($title), 60) : Str::limit($site->name, 60);
-    $metaDescription = isset($description) ? Str::limit(strip_tags($description), 155) : Str::limit($site->description ?? '', 155);
+    $metaDescription = isset($description) ? Str::limit(strip_tags($description), 155) : Str::limit($site->description
+    ?? '', 155);
     $metaKeywords = isset($tags) ? $tags : ($site->keywords ?? '');
     $metaImage = isset($image) ? asset('storage/' . $image) : asset('storage/' . $site->image);
     $metaUrl = request()->url();
@@ -78,27 +80,20 @@
     </script>
     @endif
     {{-- ══════════════════════════════════════════════
-    PERFORMANCE: font preconnect before any @import
-    ══════════════════════════════════════════════ --}}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    {{-- ══════════════════════════════════════════════
-    ASSETS
+    ASSETS (fonts are bundled via resources/js/app.js)
     ══════════════════════════════════════════════ --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     {{-- ══════════════════════════════════════════════
-    FONTS & BASE STYLES
+    FONTS & BASE STYLES (self-hosted via Vite)
     ══════════════════════════════════════════════ --}}
     @if($isAr)
-    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
     <style>
         * {
-            font-family: "Readex Pro", serif !important;
+            font-family: "Readex Pro Variable", sans-serif !important;
             font-optical-sizing: auto;
             font-weight: 500;
             font-style: normal;
-            font-variation-settings: "HEXP" 0;
         }
 
         .home-book-list .book-list .book .book-info {
@@ -114,11 +109,11 @@
         }
     </style>
     @else
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: "Raleway", sans-serif;
         }
+
         p {
             font-size: 17px !important;
             font-weight: 600 !important;
@@ -143,6 +138,7 @@
             width: 100% !important;
             height: auto !important;
         }
+
         .attachment__caption {
             display: none !important;
         }
@@ -158,7 +154,8 @@
     {{-- Google AdSense --}}
     @if($site->adsense_client ?? false)
     <script async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $site->adsense_client }}" crossorigin="anonymous"></script>
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $site->adsense_client }}"
+        crossorigin="anonymous"></script>
     @endif
 </head>
 
@@ -378,8 +375,6 @@
     <div class="">
         @livewire('newsletter')
     </div>
-
-
 
     {{-- ── Footer ──────────────────────────────────────── --}}
     <x-footer />
