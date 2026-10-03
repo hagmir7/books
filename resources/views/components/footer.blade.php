@@ -48,6 +48,7 @@ $options = $site->site_options ?? [];
                     <a href="{{ $url->url }}" title="{{ $url->name }}" @if($url->new_tab)
                         target="_blank"
                         rel="noopener noreferrer"
+
                         @endif
                         class="hover:text-primary transition-colors">
                         {{ $url->name }}
@@ -63,7 +64,8 @@ $options = $site->site_options ?? [];
         <div class="text-center text-gray-500 text-sm border-t border-gray-200 pt-4">
             <p>
                 &copy; {{ date('Y') }}
-                <a href="/" class="font-semibold text-gray-700 hover:text-primary transition-colors">
+                <a href="/"
+                    class="font-semibold text-gray-700 underline underline-offset-2 hover:text-primary transition-colors">
                     {{ Str::upper($site->domain) }}
                 </a>.
                 {{ __('All rights reserved.') }}
