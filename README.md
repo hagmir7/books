@@ -186,5 +186,3 @@ The `.env` file can contain sensitive information such as:
 - Third-party service credentials
 
 Use `.env.example` to document the required environment variables.
-
-eful, consider giving it a ⭐ on GitHub.
